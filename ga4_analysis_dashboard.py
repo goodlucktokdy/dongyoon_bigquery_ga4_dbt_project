@@ -1786,7 +1786,7 @@ elif page == "📐 방법론 & 한계점":
             # 노드 정의 - 실제 dbt 구조 반영
             nodes = [
                 # Source Layer
-                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
+                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (3.2M rows)</i>', 
                  'color': '#4285F4', 'width': 0.85},
                 
                 # Staging Layer
@@ -1966,7 +1966,7 @@ models/
                 '영역': ['Data Source', 'Transformation', 'Analysis', 'Visualization', 'Deployment'],
                 '기술': ['BigQuery Public Dataset', 'dbt Core 1.7+', 'Python 3.10+', 'Streamlit 1.28+', 'Streamlit Cloud'],
                 '상세': [
-                    'ga4_obfuscated_sample_ecommerce (2.1M events)',
+                    'ga4_obfuscated_sample_ecommerce (3.2M events)',
                     'Staging → Intermediate → Mart 레이어 구조',
                     'pandas, numpy, scipy.stats (χ², Wilson CI)',
                     'Plotly (Funnel, Sankey, Scatter), Custom CSS',
