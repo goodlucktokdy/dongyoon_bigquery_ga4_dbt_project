@@ -1618,7 +1618,7 @@ elif page == "📋 액션 플랜":
     deep_text = "81.4% 결정마비"
     variety_text = "Variety Seeker CVR 13%"
     bags_detail = "Bags 753건, 손실 48% (이상치 제외)"
-    deep_kpi = "3-11개 수준(5.26%) 달성"
+    deep_kpi = "구매전환율 3-11개 수준(5.26%) 달성"
     
     if 'cart_abandon' in data:
         df_cart_raw = data['cart_abandon'].copy()
@@ -1651,7 +1651,7 @@ elif page == "📋 액션 플랜":
             deep_text = f"{deep_share:.1f}% 결정마비"
         if len(early_row) > 0:
             early_cvr = early_row['conversion_rate'].values[0]
-            deep_kpi = f"3-11개 수준({early_cvr:.2f}%) 달성"
+            deep_kpi = f"구매전환율 3-11개 수준({early_cvr:.2f}%) 달성"
     
     if 'browsing_style' in data:
         df_bs_act = data['browsing_style']
