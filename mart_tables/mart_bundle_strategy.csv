@@ -1,0 +1,834 @@
+product_A,price_A,tier_A,product_B,price_B,tier_B,pair_sales_count,avg_buyer_score,high_intent_ratio,bundle_strategy_type
+Google Light Pen Blue,2.962,Low,Google Light Pen Red,2.921,Low,22,5344.7,100,General Bundle
+Google Light Pen Green,2.943,Low,Google Light Pen Red,2.921,Low,21,5583.2,100,General Bundle
+Google Light Pen Blue,2.962,Low,Google Light Pen Green,2.943,Low,19,5760.6,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Flat Front Bag Grey,29.997,High,17,2093.4,100,Add-on Strategy (업셀링)
+Google Heathered Pom Beanie,14.996,Low,Google Speckled Beanie Navy,19.996,Mid,15,4238.9,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google NYC Campus Mug,11.852,Low,14,5763.6,100,General Bundle
+Google PNW Campus Mug,10.531,Low,Google Seattle Campus Mug,10.777,Low,14,5498.9,100,General Bundle
+Google Pen Bright Blue,1.998,Low,Google Pen Grass Green,1.997,Low,14,6586.6,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Land & Sea Journal Set,14.997,Low,13,14694.8,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google NYC Campus Mug,11.852,Low,13,5129.9,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Metallic Notebook Set,5.998,Low,13,3912,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google NYC Campus Mug,11.852,Low,13,4601.1,100,General Bundle
+Android Iconic Crewneck Sweatshirt,54.785,High,Google Land & Sea Journal Set,14.997,Low,12,13962.4,100,Add-on Strategy (업셀링)
+Google Clear Framed Blue Shades,4.632,Low,Google Clear Framed Yellow Shades,4.615,Low,12,4119.2,100,General Bundle
+Google Crew Combed Cotton Sock,16.989,Mid,Google Crew Socks,15.996,Low,12,2871.8,100,General Bundle
+Android Large Removable Sticker Sheet,2.999,Low,Android SM S/F18 Sticker Sheet,2.999,Low,11,4147.8,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google LA Campus Sticker,1.972,Low,11,4434.3,100,General Bundle
+Google Pen Bright Blue,1.998,Low,Google Pen Citron,1.967,Low,11,6740.8,100,General Bundle
+Android Iconic Crewneck Sweatshirt,54.785,High,Android SM S/F18 Sticker Sheet,2.999,Low,10,14904,100,Add-on Strategy (업셀링)
+Google Canteen Bottle Black,23.906,Mid,Google Magnet,7.77,Low,10,5538.3,100,General Bundle
+Google Crewneck Sweatshirt Grey,54.899,High,Google Crewneck Sweatshirt Navy,54.971,High,10,4557.2,100,Premium Set (VIP 타겟)
+Google Heathered Pom Beanie,14.996,Low,Google Speckled Beanie Grey,19.995,Mid,10,2869.8,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google Seattle Campus Mug,10.777,Low,10,5991.6,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google NYC Campus Zip Hoodie,54.226,High,10,5254.9,100,Add-on Strategy (업셀링)
+Google Pen Citron,1.967,Low,Google Pen Grass Green,1.997,Low,10,7133.9,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Mural Sticker Sheet,2.993,Low,9,5024.7,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Cambridge Campus Mug,11.932,Low,9,5099.8,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google Seattle Campus Mug,10.777,Low,9,5858.1,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Camp Mug Ivory,12.93,Low,9,2936.6,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Laptop and Cell Phone Stickers,2.999,Low,9,4831.7,100,General Bundle
+Google Crew Socks,15.996,Low,Google Crew Striped Athletic Sock,17,Mid,9,1679.5,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google PNW Campus Mug,10.531,Low,9,6700.8,100,General Bundle
+Google Pen Bright Blue,1.998,Low,Google Pen White,2,Low,9,5193.2,100,General Bundle
+Google Pen Bright Blue,1.998,Low,Google Pen Neon Coral,1.947,Low,9,7164.7,100,General Bundle
+Google Pen Bright Blue,1.998,Low,Google Pen Red,1.907,Low,9,6822.3,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google LA Campus Mug,10.551,Low,8,5259.5,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Seattle Campus Mug,10.777,Low,8,5487.8,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google KeepCup,34.233,High,8,3540.3,100,Add-on Strategy (업셀링)
+Google Black Cork Journal,11.988,Low,Google Recycled Pen Black,2,Low,8,4709.2,100,General Bundle
+Google Boulder Campus Mug,10.454,Low,Google NYC Campus Mug,11.852,Low,8,4917.5,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Land & Sea Cotton Cap,16.999,Mid,8,3353.4,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Heathered Pom Beanie,14.996,Low,8,2196.3,100,General Bundle
+Google Campus Bike Tote Navy,10.998,Low,Google Canteen Bottle Black,23.906,Mid,8,6717.5,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Recycled Pen Black,2,Low,8,6929,100,General Bundle
+Google Chicago Campus Mug,10.769,Low,Google NYC Campus Mug,11.852,Low,8,3972.9,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Pen White,2,Low,8,5739.8,100,General Bundle
+Google Crew Socks,15.996,Low,Google Mural Socks,14.96,Low,8,3796.6,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Land & Sea Cotton Cap,16.999,Mid,8,3984.3,100,General Bundle
+Google Kirkland Campus Mug,10.934,Low,Google Seattle Campus Mug,10.777,Low,8,6403.1,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Metallic Notebook Set,5.998,Low,8,3590.9,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google NYC Campus Sticker,1.994,Low,8,4212.4,100,General Bundle
+Google Navy Speckled Tee,29.997,High,Google Red Speckled Tee,29.944,High,8,2596.4,100,Premium Set (VIP 타겟)
+Google Pen Bright Blue,1.998,Low,Google Pen Lilac,1.897,Low,8,6054.5,100,General Bundle
+Google Pen Grass Green,1.997,Low,Google Pen Red,1.907,Low,8,6429.9,100,General Bundle
+Google Red Speckled Tee,29.944,High,Google Zip Hoodie F/C,59.99,High,8,1427.1,100,Premium Set (VIP 타겟)
+Google Speckled Beanie Grey,19.995,Mid,Google Speckled Beanie Navy,19.996,Mid,8,2924.6,100,Volume Builder (크로스셀링)
+YouTube Icon Tee Charcoal,21.983,Mid,YouTube Twill Sandwich Cap Black,13,Low,8,3130.2,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Emoji Sticker Pack,4.999,Low,7,4212,100,General Bundle
+Android Super Hero 3D Framed Art,39.908,High,Android Techie 3D Framed Art,39.897,High,7,3331.4,100,Premium Set (VIP 타겟)
+Google 24 oz Ring Bottle Red,6.949,Low,Google 24oz Ring Bottle Blue,6.993,Low,7,2798.6,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Chicago Campus Mug,10.769,Low,7,3609.7,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Austin Campus Tote,10.442,Low,7,4109,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Austin Campus Zip Hoodie,56.495,High,7,3015.4,100,Add-on Strategy (업셀링)
+Google Badge Heavyweight Pullover Black,57.947,High,Google Crewneck Sweatshirt Navy,54.971,High,7,3045,100,Premium Set (VIP 타겟)
+Google Boulder Campus Mug,10.454,Low,Google Cambridge Campus Mug,11.932,Low,7,5207.6,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google LA Campus Mug,10.551,Low,7,6793.9,100,General Bundle
+Google Chicago Campus Mug,10.769,Low,Google LA Campus Mug,10.551,Low,7,4128.9,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Crew Combed Cotton Sock,16.989,Mid,7,5027.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,YouTube Jotter Task Pad,2.999,Low,7,4925.4,100,General Bundle
+Google Crew Socks,15.996,Low,Google Perk Thermal Tumbler,19.848,Mid,7,3622,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Heathered Pom Beanie,14.996,Low,7,2744.1,100,Add-on Strategy (업셀링)
+Google Land & Sea Cotton Cap,16.999,Mid,Google Super G Tumbler (Red Lid),27.863,Mid,7,7672.4,100,Volume Builder (크로스셀링)
+Google Magnet,7.77,Low,Google Recycled Pen Black,2,Low,7,6724,100,General Bundle
+Google Pen Grass Green,1.997,Low,Google Pen White,2,Low,7,6079.3,100,General Bundle
+Google Pen Grass Green,1.997,Low,Google Pen Neon Coral,1.947,Low,7,8494,100,General Bundle
+Google Pen Grey,1.993,Low,Google Pen White,2,Low,7,4832.1,100,General Bundle
+Google Pen Lilac,1.897,Low,Google Pen Neon Coral,1.947,Low,7,5070.4,100,General Bundle
+Google Pen Neon Coral,1.947,Low,Google Pen White,2,Low,7,5035,100,General Bundle
+YouTube Play Mug,12.986,Low,YouTube Twill Sandwich Cap Black,13,Low,7,2966,100,General Bundle
+Android Buoy Bottle,7.869,Low,Google Heathered Pom Beanie,14.996,Low,6,6594.7,100,General Bundle
+Android Iconic Crewneck Sweatshirt,54.785,High,Super G Unisex Joggers,36.973,High,6,1182.6,100,Premium Set (VIP 타겟)
+Android Lumberjack Pin,7.148,Low,Google Black Cork Journal,11.988,Low,6,2386,100,General Bundle
+Android Lumberjack Pin,7.148,Low,Google KeepCup,34.233,High,6,2386,100,Add-on Strategy (업셀링)
+Google Austin Campus Mug,10.511,Low,Google Camp Mug Ivory,12.93,Low,6,5306.7,100,General Bundle
+Google Beekeepers Tee Mint,24.844,Mid,Google Dino Game Tee,39.628,High,6,6562.7,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google Seattle Campus Sticker,1.971,Low,6,9773.3,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Laptop and Cell Phone Stickers,2.999,Low,6,7044.7,100,General Bundle
+Google Blue YoYo,3.833,Low,Google Clear Pen 4-Pack,4.947,Low,6,7021.8,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google LA Campus Sticker,1.972,Low,6,10653,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google PNW Campus Mug,10.531,Low,6,7749.7,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Flat Front Bag Grey,29.997,High,6,4762.8,100,Add-on Strategy (업셀링)
+Google Camp Mug Gray,12.941,Low,Google Clear Pen 4-Pack,4.947,Low,6,4361,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Perk Thermal Tumbler,19.848,Mid,6,3682.7,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Heathered Pom Beanie,14.996,Low,6,2675.6,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Canteen Bottle Black,23.906,Mid,6,3389.8,100,General Bundle
+Google Campus Bike Tote Navy,10.998,Low,Google Land & Sea Cotton Cap,16.999,Mid,6,6866.3,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Super G Tumbler (Red Lid),27.863,Mid,6,7403.8,100,Volume Builder (크로스셀링)
+Google Canteen Bottle Black,23.906,Mid,Google Land & Sea Cotton Cap,16.999,Mid,6,7403.8,100,Volume Builder (크로스셀링)
+Google Clear Framed Gray Shades,4.692,Low,Google Clear Framed Yellow Shades,4.615,Low,6,5945.2,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Maze Pen,1,Low,6,4244.5,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,YouTube Play Mug,12.986,Low,6,3953.8,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Laptop and Cell Phone Stickers,2.999,Low,6,8135.5,100,General Bundle
+Google Confetti Pen White,1.993,Low,Google Pen White,2,Low,6,4552.2,100,General Bundle
+Google Crew Socks,15.996,Low,YouTube Crew Socks,15.999,Low,6,1155.8,100,General Bundle
+Google Crew Socks,15.996,Low,Womens Google Striped LS,,,6,7396.5,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Laptop and Cell Phone Stickers,2.999,Low,6,6752.2,100,Add-on Strategy (업셀링)
+Google Crewneck Sweatshirt Navy,54.971,High,Google Land & Sea Cotton Cap,16.999,Mid,6,4280.7,100,General Bundle
+Google Emoji Sticker Pack,4.999,Low,Google Mural Sticker Sheet,2.993,Low,6,4321.2,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Pen White,2,Low,6,4887.2,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Navy Speckled Tee,29.997,High,6,2528.5,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Mural Sticker Sheet,2.993,Low,6,4407.8,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Maze Pen,1,Low,6,5565.8,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Womens Google Striped LS,,,6,5740,100,General Bundle
+Google LA Campus Sticker,1.972,Low,Google NYC Campus Sticker,1.994,Low,6,7319,100,General Bundle
+Google Land & Sea Cotton Cap,16.999,Mid,Super G Unisex Joggers,36.973,High,6,4698.3,100,General Bundle
+Google Lapel Pin,7.706,Low,Google Maps Pin,6.848,Low,6,7367.2,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Zip Hoodie F/C,59.99,High,6,4620.8,100,Add-on Strategy (업셀링)
+Google Light Pen Blue,2.962,Low,Google Metallic Notebook Set,5.998,Low,6,3659.5,100,General Bundle
+Google Magnet,7.77,Low,Noogler Android Figure,15.997,Low,6,4205.3,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Perk Thermal Tumbler,19.848,Mid,6,5666,100,General Bundle
+Google Mural Mug,16.729,Mid,Google Super G Tumbler (Red Lid),27.863,Mid,6,5089.8,100,Volume Builder (크로스셀링)
+Google PNW Campus Mug,10.531,Low,Google Seattle Campus Sticker,1.971,Low,6,7151,100,General Bundle
+Google Pen Bright Blue,1.998,Low,Google Pen Grey,1.993,Low,6,8194.2,100,General Bundle
+Google Pen Citron,1.967,Low,Google Pen Red,1.907,Low,6,6560.2,100,General Bundle
+Google Pen Grass Green,1.997,Low,Google Pen Grey,1.993,Low,6,8243.8,100,General Bundle
+Google Pen White,2,Low,Maze Pen,1,Low,6,5050.2,100,General Bundle
+Google Red Speckled Tee,29.944,High,Super G Unisex Joggers,36.973,High,6,4750,100,Premium Set (VIP 타겟)
+Google Red YoYo,3.895,Low,Google Yellow YoYo,3.949,Low,6,5699.7,100,General Bundle
+Google Seattle Campus Mug,10.777,Low,Google Seattle Campus Sticker,1.971,Low,6,7535.7,100,General Bundle
+Android Iconic Crewneck Sweatshirt,54.785,High,Google Crewneck Sweatshirt Navy,54.971,High,5,7605.7,100,Premium Set (VIP 타겟)
+Android Iconic Pen,1.993,Low,Google Pen White,2,Low,5,6135.8,100,General Bundle
+Android Pocket Tee Navy,28.766,Mid,Google Red Speckled Tee,29.944,High,5,2309.2,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google PNW Campus Mug,10.531,Low,5,7602.8,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Boulder Campus Mug,10.454,Low,5,4466.4,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google Kirkland Campus Sticker,1.992,Low,5,10873.2,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google LA Campus Sticker,1.972,Low,5,11167.6,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Recycled Writing Set,4.698,Low,5,4779.2,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Red Kids Sunglasses,4.988,Low,5,4847,100,General Bundle
+Google Blue YoYo,3.833,Low,Google Red YoYo,3.895,Low,5,5659.6,100,General Bundle
+Google Bot (Multicolored),9.989,Low,Google Perk Thermal Tumbler,19.848,Mid,5,8639.8,100,General Bundle
+Google Boulder Campus Mug,10.454,Low,Google LA Campus Mug,10.551,Low,5,5184.2,100,General Bundle
+Google Boulder Campus Mug,10.454,Low,Google Seattle Campus Mug,10.777,Low,5,5831.4,100,General Bundle
+Google Boulder Campus Mug,10.454,Low,Google Chicago Campus Mug,10.769,Low,5,4707.2,100,General Bundle
+Google Boulder Campus Mug,10.454,Low,Google PNW Campus Mug,10.531,Low,5,5551.2,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google Seattle Campus Sticker,1.971,Low,5,12077,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google NYC Campus Mug,11.852,Low,5,9895.8,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google Chicago Campus Mug,10.769,Low,5,4656.4,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google Kirkland Campus Mug,10.934,Low,5,8265.6,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google Cambridge Campus Sticker,1.997,Low,5,4879.6,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Metallic Notebook Set,5.998,Low,5,4988.2,100,General Bundle
+Google Camp Mug Gray,12.941,Low,YouTube Play Mug,12.986,Low,5,4063.8,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Zip Hoodie F/C,59.99,High,5,2497.2,100,Add-on Strategy (업셀링)
+Google Camp Mug Ivory,12.93,Low,Google Crew Striped Athletic Sock,17,Mid,5,2663.6,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Crew Socks,15.996,Low,5,8137.8,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google SF Campus Tote,8.679,Low,5,2948,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Clear Pen 4-Pack,4.947,Low,5,6341.4,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Land & Sea Cotton Cap,16.999,Mid,5,3533.6,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Metallic Notebook Set,5.998,Low,5,4422.6,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Crew Combed Cotton Sock,16.989,Mid,5,3346.6,100,General Bundle
+Google Campus Bike,39.125,High,Google Magnet,7.77,Low,5,5272.8,100,Add-on Strategy (업셀링)
+Google Campus Bike Tote Navy,10.998,Low,Google Super G Tumbler (Red Lid),27.863,Mid,5,7680.6,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Metallic Notebook Set,5.998,Low,5,6211.2,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Hemp Tote,21.156,Mid,5,6807.2,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Heathered Pom Beanie,14.996,Low,5,5839,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Emoji Sticker Pack,4.999,Low,5,5100,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Pen Bright Blue,1.998,Low,5,7996.6,100,General Bundle
+Google Confetti Pen White,1.993,Low,Google Pen Grey,1.993,Low,5,3165.2,100,General Bundle
+Google Crew Combed Cotton Sock,16.989,Mid,Google Speckled Beanie Navy,19.996,Mid,5,4176,100,Volume Builder (크로스셀링)
+Google Crew Combed Cotton Sock,16.989,Mid,Noogler Android Figure,15.997,Low,5,5371.4,100,General Bundle
+Google Crew Socks,15.996,Low,Google Heathered Pom Beanie,14.996,Low,5,2153.2,100,General Bundle
+Google Crew Socks,15.996,Low,Google Crewneck Sweatshirt Navy,54.971,High,5,5013.6,100,Add-on Strategy (업셀링)
+Google Crew Striped Athletic Sock,17,Mid,Noogler Android Figure,15.997,Low,5,5265,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Leather Strap Hat Blue,16.985,Mid,5,2211,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Red Speckled Tee,29.944,High,5,4440.9,100,Premium Set (VIP 타겟)
+Google Crewneck Sweatshirt Navy,54.971,High,Google NYC Campus Mug,11.852,Low,5,2971.6,100,Add-on Strategy (업셀링)
+Google Crewneck Sweatshirt Navy,54.971,High,Google F/C Longsleeve Ash,,,5,2140.2,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Dino Game Tee,39.628,High,5,2716.1,100,Premium Set (VIP 타겟)
+Google Dino Game Tee,39.628,High,Google Red Speckled Tee,29.944,High,5,4610,100,Premium Set (VIP 타겟)
+Google F/C Longsleeve Ash,,,Google Red Speckled Tee,29.944,High,5,3980.4,100,General Bundle
+Google F/C Longsleeve Ash,,,Super G Unisex Joggers,36.973,High,5,2462,100,General Bundle
+Google Flat Front Bag Grey,29.997,High,Google Pen White,2,Low,5,4395,100,Add-on Strategy (업셀링)
+Google Heathered Pom Beanie,14.996,Low,Google Zip Hoodie F/C,59.99,High,5,2346.6,100,Add-on Strategy (업셀링)
+Google Heathered Pom Beanie,14.996,Low,Google Perk Thermal Tumbler,19.848,Mid,5,6249.4,100,General Bundle
+Google Incognito Techpack V2,85.968,High,Google Land & Sea Cotton Cap,16.999,Mid,5,4073.6,100,General Bundle
+Google Kirkland Campus Mug,10.934,Low,Google PNW Campus Mug,10.531,Low,5,8208.4,100,General Bundle
+Google Kirkland Campus Mug,10.934,Low,Google NYC Campus Mug,11.852,Low,5,8265.6,100,General Bundle
+Google Kirkland Campus Sticker,1.992,Low,Google Seattle Campus Sticker,1.971,Low,5,10873.2,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google PNW Campus Mug,10.531,Low,5,7085,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google Seattle Campus Mug,10.777,Low,5,7383.8,100,General Bundle
+Google LA Campus Sticker,1.972,Low,Google Seattle Campus Sticker,1.971,Low,5,11167.6,100,General Bundle
+Google LA Campus Sticker,1.972,Low,Google NYC Campus Mug,11.852,Low,5,7876,100,General Bundle
+Google LA Campus Zip Hoodie,54.397,High,Google NYC Campus Zip Hoodie,54.226,High,5,3349.6,100,Premium Set (VIP 타겟)
+Google Land & Sea Cotton Cap,16.999,Mid,Google Seaport Tote,59.2,High,5,2741.2,100,General Bundle
+Google Land & Sea Journal Set,14.997,Low,Google Land & Sea Mug,16.968,Mid,5,5975.6,100,General Bundle
+Google Land & Sea Mug,16.968,Mid,Google Speckled Beanie Navy,19.996,Mid,5,3420,100,Volume Builder (크로스셀링)
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Pen White,2,Low,5,4656,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Noogler Android Figure,15.997,Low,5,4465.6,100,General Bundle
+Google Large Tote White,12.997,Low,Google Perk Thermal Tumbler,19.848,Mid,5,7000.2,100,General Bundle
+Google Light Pen Blue,2.962,Low,Google Pen White,2,Low,5,4361.6,100,General Bundle
+Google Magnet,7.77,Low,Google Pen White,2,Low,5,2649.6,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Pen White,2,Low,5,3831.8,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,YouTube Jotter Task Pad,2.999,Low,5,4124.8,100,General Bundle
+Google NYC Campus Bottle,19.87,Mid,Google NYC Campus Mug,11.852,Low,5,4097.2,100,General Bundle
+Google NYC Campus Ladies Tee,23.962,Mid,Google NYC Campus Zip Hoodie,54.226,High,5,5192.9,100,General Bundle
+Google NYC Campus Sticker,1.994,Low,Google Seattle Campus Sticker,1.971,Low,5,8257.8,100,General Bundle
+Google NYC Campus Sticker,1.994,Low,Google NYC Campus Zip Hoodie,54.226,High,5,4912,100,Add-on Strategy (업셀링)
+Google PNW Campus Lapel Pin,5.667,Low,Google PNW Campus Mug,10.531,Low,5,8931.2,100,General Bundle
+Google PNW Campus Mug,10.531,Low,Google Sunnyvale Campus Mug,10.676,Low,5,3237.8,100,General Bundle
+Google PNW Campus Mug,10.531,Low,Google PNW Campus Zip Hoodie,50.775,High,5,5322.5,100,Add-on Strategy (업셀링)
+Google Pen Bright Blue,1.998,Low,Google Perk Thermal Tumbler,19.848,Mid,5,7154.2,100,General Bundle
+Google Pen Citron,1.967,Low,Google Pen Neon Coral,1.947,Low,5,9391.6,100,General Bundle
+Google Pen Grass Green,1.997,Low,Google Pen Lilac,1.897,Low,5,6478.6,100,General Bundle
+Google Pen Lilac,1.897,Low,Google Pen White,2,Low,5,5139.8,100,General Bundle
+Google Pen Lilac,1.897,Low,Google Pen Red,1.907,Low,5,6366.8,100,General Bundle
+Google Pen Neon Coral,1.947,Low,Google Pen Red,1.907,Low,5,7291.6,100,General Bundle
+Google Pen Red,1.907,Low,Google Pen White,2,Low,5,5546.4,100,General Bundle
+Google Toddler FC Zip Hoodie,34.96,High,Google Zip Hoodie F/C,59.99,High,5,3002,100,Premium Set (VIP 타겟)
+Google Zip Hoodie F/C,59.99,High,Noogler Android Figure,15.997,Low,5,4828.4,100,Add-on Strategy (업셀링)
+YouTube Icon Tee Charcoal,21.983,Mid,YouTube Jotter Task Pad,2.999,Low,5,2737.8,100,General Bundle
+#IamRemarkable Ladies T-Shirt,11.997,Low,Google Red Speckled Tee,29.944,High,4,5281.8,100,Add-on Strategy (업셀링)
+Android Buoy Bottle,7.869,Low,Android Iconic Hat Black,15.904,Low,4,4290.5,100,General Bundle
+Android Iconic Socks,17,Mid,Google Crew Socks,15.996,Low,4,2958,100,General Bundle
+Android Large Removable Sticker Sheet,2.999,Low,Google Emoji Sticker Pack,4.999,Low,4,2239.8,100,General Bundle
+Android Pocket Onesie Navy,22,Mid,Google Infant Hero Onesie Grey,20.842,Mid,4,1094.8,100,Volume Builder (크로스셀링)
+Android Pocket Tee Green,28.082,Mid,Android Pocket Tee Navy,28.766,Mid,4,2162.3,100,Volume Builder (크로스셀링)
+Android Pocket Toddler Tee Navy,22.998,Mid,Google Toddler FC Zip Hoodie,34.96,High,4,4966,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Clear Pen 4-Pack,4.947,Low,4,6650,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Noogler Android Figure,15.997,Low,4,3673.3,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Laptop and Cell Phone Stickers,2.999,Low,4,4675.3,100,General Bundle
+Google 24oz Ring Bottle Blue,6.993,Low,Google Perk Thermal Tumbler,19.848,Mid,4,4464.5,100,General Bundle
+Google Austin Campus Lapel Pin,5.174,Low,Google Austin Campus Mug,10.511,Low,4,3011.5,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Kirkland Campus Mug,10.934,Low,4,8126.8,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google NYC Campus Sticker,1.994,Low,4,5508,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google LA Campus Sticker,1.972,Low,4,7930,100,General Bundle
+Google Austin Campus Tote,10.442,Low,Google Austin Campus Zip Hoodie,56.495,High,4,4560.5,100,Add-on Strategy (업셀링)
+Google Badge Heavyweight Pullover Black,57.947,High,Google Heathered Pom Beanie,14.996,Low,4,4348,100,Add-on Strategy (업셀링)
+Google Badge Heavyweight Pullover Black,57.947,High,Google Camp Mug Ivory,12.93,Low,4,2848.3,100,Add-on Strategy (업셀링)
+Google Badge Heavyweight Pullover Black,57.947,High,Google Land & Sea Cotton Cap,16.999,Mid,4,3493,100,General Bundle
+Google Badge Heavyweight Pullover Black,57.947,High,Google NYC Campus Zip Hoodie,54.226,High,4,5046.2,100,Premium Set (VIP 타겟)
+Google Beekeepers Tee Mint,24.844,Mid,Google Heathered Pom Beanie,14.996,Low,4,2517,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google Boulder Campus Sticker,1.97,Low,4,12891,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google NYC Campus Sticker,1.994,Low,4,9821.5,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Pen White,2,Low,4,5040.8,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Bot (Multicolored),9.989,Low,4,6564.8,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Yellow YoYo,3.949,Low,4,5727.5,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Laptop and Cell Phone Stickers,2.999,Low,4,8576,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Maze Pen,1,Low,4,5888.8,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Clear Framed Blue Shades,4.632,Low,4,3795,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Red YoYo,3.895,Low,4,5380.8,100,General Bundle
+Google Bot,9.662,Low,Noogler Android Figure,15.997,Low,4,4359.8,100,General Bundle
+Google Boulder Campus Mug,10.454,Low,Google Kirkland Campus Mug,10.934,Low,4,6194,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google Kirkland Campus Sticker,1.992,Low,4,12891,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google NYC Campus Sticker,1.994,Low,4,10229.5,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google Cambridge Campus Sticker,1.997,Low,4,10829.8,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google Cambridge Campus Mug,11.932,Low,4,10893.3,100,General Bundle
+Google Cambridge Campus Sticker,1.997,Low,Google NYC Campus Sticker,1.994,Low,4,10737.5,100,General Bundle
+Google Cambridge Campus Sticker,1.997,Low,Google LA Campus Sticker,1.972,Low,4,10829.8,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Seaport Tote,59.2,High,4,5932.8,100,Add-on Strategy (업셀링)
+Google Camp Mug Gray,12.941,Low,Google Packable Bag Black,19.859,Mid,4,6941.5,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Glass Bottle,22.998,Mid,4,3232.5,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google F/C Longsleeve Ash,,,4,2122.7,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Cloud Pen,2.986,Low,4,4852.3,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Mouse Pad Navy,5,Low,4,3135,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Large Tote White,12.997,Low,4,6630,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Red Speckled Tee,29.944,High,4,4640.8,100,Add-on Strategy (업셀링)
+Google Camp Mug Ivory,12.93,Low,Google Glass Bottle,22.998,Mid,4,3290.3,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Perk Thermal Tumbler,19.848,Mid,4,4345.3,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Mural Mug,16.729,Mid,4,2072.8,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google NYC Campus Mug,11.852,Low,4,3064.3,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Speckled Beanie Navy,19.996,Mid,4,6282,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Zip Hoodie F/C,59.99,High,4,3352.8,100,Add-on Strategy (업셀링)
+Google Camp Mug Ivory,12.93,Low,Maze Pen,1,Low,4,5073.5,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Magnet,7.77,Low,4,2713.5,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Noogler Android Figure,15.997,Low,4,3050.5,100,General Bundle
+Google Campus Bike,39.125,High,YouTube Twill Sandwich Cap Black,13,Low,4,3443.5,100,Add-on Strategy (업셀링)
+Google Campus Bike,39.125,High,Google Toddler FC Zip Hoodie,34.96,High,4,4589.5,100,Premium Set (VIP 타겟)
+Google Campus Bike Tote Navy,10.998,Low,Google Heathered Pom Beanie,14.996,Low,4,5811.3,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,YouTube Jotter Task Pad,2.999,Low,4,2209.5,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Keychain,7.633,Low,4,1292,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google LoveHandle Black,9.994,Low,4,2151.3,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google LA Campus Mug,10.551,Low,4,6695.3,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Speckled Beanie Navy,19.996,Mid,4,6958.3,100,Volume Builder (크로스셀링)
+Google Canteen Bottle Black,23.906,Mid,Google Light Pen Green,2.943,Low,4,6818,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Light Pen Blue,2.962,Low,4,6975,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Heathered Pom Beanie,14.996,Low,4,4912.3,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Flat Front Bag Grey,29.997,High,4,3646,100,General Bundle
+Google Chicago Campus Bottle,18.604,Mid,Google Chicago Campus Mug,10.769,Low,4,3099.3,100,General Bundle
+Google Chicago Campus Mug,10.769,Low,Google PNW Campus Mug,10.531,Low,4,4718.3,100,General Bundle
+Google Chrome Dinosaur Collectible,29.333,High,Noogler Android Figure,15.997,Low,4,2560.5,100,Add-on Strategy (업셀링)
+Google Clear Framed Blue Shades,4.632,Low,Google Sunglasses,3.974,Low,4,3329.8,100,General Bundle
+Google Clear Framed Blue Shades,4.632,Low,Google Clear Framed Gray Shades,4.692,Low,4,6606.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Mural Sticker Sheet,2.993,Low,4,6619.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Tee Yellow,21.977,Mid,4,4688.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Pride Sticker,1,Low,4,3013.5,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Utility Bag Grey,9.973,Low,4,2350,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Speckled Beanie Navy,19.996,Mid,4,7249.8,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Perk Thermal Tumbler,19.848,Mid,4,6445,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Crew Socks,15.996,Low,4,5985.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Pen White,2,Low,4,4674,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Perk Thermal Tumbler,19.848,Mid,4,7845.5,100,General Bundle
+Google Cloud Pen,2.986,Low,Maze Pen,1,Low,4,5247.5,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Pen Grass Green,1.997,Low,4,8993.5,100,General Bundle
+Google Crew Combed Cotton Sock,16.989,Mid,Google Heathered Pom Beanie,14.996,Low,4,3474.5,100,General Bundle
+Google Crew Combed Cotton Sock,16.989,Mid,Google Perk Thermal Tumbler,19.848,Mid,4,8987,100,Volume Builder (크로스셀링)
+Google Crew Combed Cotton Sock,16.989,Mid,Google Crew Striped Athletic Sock,17,Mid,4,1700.8,100,Volume Builder (크로스셀링)
+Google Crew Socks,15.996,Low,Google Speckled Beanie Navy,19.996,Mid,4,6132,100,General Bundle
+Google Crew Socks,15.996,Low,Google Metallic Notebook Set,5.998,Low,4,4032.8,100,General Bundle
+Google Crew Striped Athletic Sock,17,Mid,Google Heathered Pom Beanie,14.996,Low,4,4777.4,100,General Bundle
+Google Crew Striped Athletic Sock,17,Mid,Google NYC Campus Sticker,1.994,Low,4,3379.8,100,General Bundle
+Google Crew Striped Athletic Sock,17,Mid,Google NYC Campus Mug,11.852,Low,4,2839,100,General Bundle
+Google Crewneck Sweatshirt Green,54.908,High,Google Crewneck Sweatshirt Navy,54.971,High,4,3536.3,100,Premium Set (VIP 타겟)
+Google Crewneck Sweatshirt Navy,54.971,High,Google Magnet,7.77,Low,4,6354.3,100,Add-on Strategy (업셀링)
+Google Crewneck Sweatshirt Navy,54.971,High,Google Packable Bag Black,19.859,Mid,4,6525,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Zip Hoodie F/C,59.99,High,4,1292.8,100,Premium Set (VIP 타겟)
+Google Crewneck Sweatshirt Navy,54.971,High,Google Mouse Pad Navy,5,Low,4,5057,100,Add-on Strategy (업셀링)
+Google Cup Cap Tumbler Grey,29.988,High,Google Zip Hoodie F/C,59.99,High,4,2037,100,Premium Set (VIP 타겟)
+Google Decal,1,Low,Google Laptop and Cell Phone Stickers,2.999,Low,4,2855,100,General Bundle
+Google Emoji Magnet Set,9.662,Low,Keyboard DOT Sticker,2,Low,4,4962.8,100,General Bundle
+Google Emoji Magnet Set,9.662,Low,Google Mural Sticky Note Pad,19.436,Mid,4,4350,100,General Bundle
+Google Emoji Sticker Pack,4.999,Low,Google Perk Thermal Tumbler,19.848,Mid,4,8694.5,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Heathered Pom Beanie,14.996,Low,4,2139.8,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Men's Tech Fleece Grey,88.985,High,4,4603,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Seattle Campus Mug,10.777,Low,4,3821.3,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Zip Hoodie F/C,59.99,High,4,1671.3,100,General Bundle
+Google Felt Refillable Journal,22.299,Mid,Google Light Pen Blue,2.962,Low,4,7950.8,100,General Bundle
+Google Felt Refillable Journal,22.299,Mid,Google Laptop and Cell Phone Stickers,2.999,Low,4,3510.5,100,General Bundle
+Google Flat Front Bag Grey,29.997,High,Google Thermal Tumbler Navy,17.912,Mid,4,2779,100,General Bundle
+Google Glass Bottle,22.998,Mid,Google Large Tote White,12.997,Low,4,8285.8,100,General Bundle
+Google Glass Bottle,22.998,Mid,Google Perk Thermal Tumbler,19.848,Mid,4,7466.3,100,Volume Builder (크로스셀링)
+Google Glass Bottle,22.998,Mid,Google Metallic Notebook Set,5.998,Low,4,3606.5,100,General Bundle
+Google Heather Green Speckled Tee,29.93,High,Google Red Speckled Tee,29.944,High,4,2895.8,100,Premium Set (VIP 타겟)
+Google Heathered Pom Beanie,14.996,Low,Google Seattle Campus Mug,10.777,Low,4,6326.3,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Sunglasses,3.974,Low,4,5295,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Laptop and Cell Phone Stickers,2.999,Low,4,5283.5,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Red Speckled Tee,29.944,High,4,4833.3,100,Add-on Strategy (업셀링)
+Google Heathered Pom Beanie,14.996,Low,Google Metallic Notebook Set,5.998,Low,4,6646.3,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,YouTube Twill Sandwich Cap Black,13,Low,4,3994.3,100,General Bundle
+Google Hemp Tote,21.156,Mid,Google Recycled Writing Set,4.698,Low,4,4394,100,General Bundle
+Google Hemp Tote,21.156,Mid,Google Metallic Notebook Set,5.998,Low,4,3290.5,100,General Bundle
+Google Keychain,7.633,Low,Google Magnet,7.77,Low,4,3706.8,100,General Bundle
+Google Kirkland Campus Mug,10.934,Low,Google Seattle Campus Sticker,1.971,Low,4,10132,100,General Bundle
+Google Kirkland Campus Sticker,1.992,Low,Google LA Campus Sticker,1.972,Low,4,12891,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google NYC Campus Sticker,1.994,Low,4,4725.5,100,General Bundle
+Google Land & Sea Cotton Cap,16.999,Mid,Google Land & Sea French Terry Sweatshirt,54.857,High,4,1370.7,100,General Bundle
+Google Land & Sea Journal Set,14.997,Low,Google Land & Sea Tote Bag,19.987,Mid,4,5732.8,100,General Bundle
+Google Land & Sea Mug,16.968,Mid,Google Land & Sea Tote Bag,19.987,Mid,4,5880.8,100,Volume Builder (크로스셀링)
+Google Land & Sea Nalgene Water Bottle,24.972,Mid,Super G Unisex Joggers,36.973,High,4,3592.3,100,General Bundle
+Google Lapel Pin,7.706,Low,Google Laptop and Cell Phone Stickers,2.999,Low,4,4197,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Recycled Pen Black,2,Low,4,4145.3,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Perk Thermal Tumbler,19.848,Mid,4,7184.8,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Red Speckled Tee,29.944,High,4,3705.8,100,Add-on Strategy (업셀링)
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Seattle Campus Sticker,1.971,Low,4,6668,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Pride Sticker,1,Low,4,1616.8,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Magnet,7.77,Low,4,5900,100,General Bundle
+Google Large Tote White,12.997,Low,Google Metallic Notebook Set,5.998,Low,4,6032.5,100,General Bundle
+Google Leather Strap Hat Blue,16.985,Mid,Google Navy Speckled Tee,29.997,High,4,1622.5,100,General Bundle
+Google Light Pen Blue,2.962,Low,Maze Pen,1,Low,4,5764.8,100,General Bundle
+Google Light Pen Blue,2.962,Low,Google Pen Bright Blue,1.998,Low,4,6568.5,100,General Bundle
+Google Light Pen Green,2.943,Low,Google Pen Citron,1.967,Low,4,8463.8,100,General Bundle
+Google Light Pen Green,2.943,Low,Maze Pen,1,Low,4,4086,100,General Bundle
+Google Light Pen Red,2.921,Low,Google Metallic Notebook Set,5.998,Low,4,4049,100,General Bundle
+Google Light Pen Red,2.921,Low,Maze Pen,1,Low,4,5764.8,100,General Bundle
+Google Magnet,7.77,Low,Keyboard DOT Sticker,2,Low,4,2887.5,100,General Bundle
+Google Men's Tech Fleece Grey,88.985,High,Google Women's Grid Zip-Up,62.975,High,4,2943.1,100,Premium Set (VIP 타겟)
+Google Mesh Bag Blue,6,Low,Google Metallic Notebook Set,5.998,Low,4,3240.3,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Pride Sticker,1,Low,4,3388.3,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Utility Bag Grey,9.973,Low,4,4273,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Maze Pen,1,Low,4,6872.5,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Recycled Writing Set,4.698,Low,4,4774,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Pen Bright Blue,1.998,Low,4,6383,100,General Bundle
+Google NYC Campus Ladies Tee,23.962,Mid,Google NYC Campus Sticker,1.994,Low,4,7178,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google Sunnyvale Campus Mug,10.676,Low,4,3825.8,100,General Bundle
+Google Navy Speckled Tee,29.997,High,Google Zip Hoodie F/C,59.99,High,4,2043.5,100,Premium Set (VIP 타겟)
+Google PNW Campus Lapel Pin,5.667,Low,Google Seattle Campus Mug,10.777,Low,4,10463.5,100,General Bundle
+Google PNW Campus Lapel Pin,5.667,Low,Google Seattle Campus Sticker,1.971,Low,4,9517,100,General Bundle
+Google Pen Citron,1.967,Low,Google Perk Thermal Tumbler,19.848,Mid,4,7627.3,100,General Bundle
+Google Pen Citron,1.967,Low,Google Pen Lilac,1.897,Low,4,5868.8,100,General Bundle
+Google Pen Citron,1.967,Low,Google Pen Grey,1.993,Low,4,9346.3,100,General Bundle
+Google Pen Grass Green,1.997,Low,Google Perk Thermal Tumbler,19.848,Mid,4,8240.3,100,General Bundle
+Google Pen White,2,Low,Google Youth Badge Tee Olive,23.655,Mid,4,5609.3,100,General Bundle
+Google Pen White,2,Low,Google Recycled Pen Black,2,Low,4,6177,100,General Bundle
+Google Pen White,2,Low,Google Sustainable Pencil Pouch,12.507,Low,4,4166,100,General Bundle
+Google Perk Thermal Tumbler,19.848,Mid,Google Speckled Beanie Navy,19.996,Mid,4,4338.8,100,Volume Builder (크로스셀링)
+Google Perk Thermal Tumbler,19.848,Mid,Google Red Speckled Tee,29.944,High,4,3432,100,General Bundle
+Google Perk Thermal Tumbler,19.848,Mid,Maze Pen,1,Low,4,5353.3,100,General Bundle
+Google Premium Sunglasses,18.662,Mid,Super G Unisex Joggers,36.973,High,4,4164.8,100,General Bundle
+Google Recycled Pen Black,2,Low,Google Super G Tumbler (Red Lid),27.863,Mid,4,1671.5,100,General Bundle
+Google Red Speckled Tee,29.944,High,YouTube Icon Tee Grey,21.99,Mid,4,1782.8,100,General Bundle
+Google Red Speckled Tee,29.944,High,Google Speckled Beanie Navy,19.996,Mid,4,5414.8,100,General Bundle
+Google Red Speckled Tee,29.944,High,Womens Google Striped LS,,,4,4589,100,General Bundle
+Google Red Speckled Tee,29.944,High,Google Women's Microfleece Jacket Black,74.989,High,4,4150,100,Premium Set (VIP 타겟)
+Google Seattle Campus Lapel Pin,5.457,Low,Google Seattle Campus Sticker,1.971,Low,4,7532.5,100,General Bundle
+Google Speckled Beanie Navy,19.996,Mid,Google Super G Tumbler (Red Lid),27.863,Mid,4,9274,100,Volume Builder (크로스셀링)
+Google Sunglasses,3.974,Low,Google Yellow YoYo,3.949,Low,4,4534.9,100,General Bundle
+Google Tee Red,19.061,Mid,Google Tee Yellow,21.977,Mid,4,9384.5,100,Volume Builder (크로스셀링)
+Google Toddler FC Zip Hoodie,34.96,High,Google Women's Grid Zip-Up,62.975,High,4,4530.3,100,Premium Set (VIP 타겟)
+Google Women's Microfleece Jacket Black,74.989,High,Google Zip Hoodie F/C,59.99,High,4,2654.5,100,Premium Set (VIP 타겟)
+Google Zip Hoodie F/C,59.99,High,Super G Unisex Joggers,36.973,High,4,2252.6,100,Premium Set (VIP 타겟)
+Maze Pen,1,Low,Noogler Android Figure,15.997,Low,4,3991,100,General Bundle
+YouTube Crew Socks,15.999,Low,YouTube Transmission Journal Red,15.997,Low,4,1456.3,100,General Bundle
+YouTube Jotter Task Pad,2.999,Low,YouTube Play Mug,12.986,Low,4,3046.5,100,General Bundle
+#IamRemarkable Journal,7.994,Low,Google Pen White,2,Low,3,4983,100,General Bundle
+#IamRemarkable Journal,7.994,Low,Google Mural Sticker Sheet,2.993,Low,3,4773.3,100,General Bundle
+#IamRemarkable Journal,7.994,Low,Google Mural Sticky Note Pad,19.436,Mid,3,6325.7,100,General Bundle
+#IamRemarkable Journal,7.994,Low,Google Clear Pen 4-Pack,4.947,Low,3,5014.3,100,General Bundle
+#IamRemarkable Journal,7.994,Low,Google Light Pen Blue,2.962,Low,3,6229,100,General Bundle
+#IamRemarkable Lapel Pin,2.979,Low,Google Lapel Pin,7.706,Low,3,6434,100,General Bundle
+#IamRemarkable Lapel Pin,2.979,Low,Google Laptop and Cell Phone Stickers,2.999,Low,3,4516.3,100,General Bundle
+#IamRemarkable Lapel Pin,2.979,Low,Google NYC Campus Lapel Pin,5.984,Low,3,10609.3,100,General Bundle
+#IamRemarkable Unisex Hoodie,31.932,High,Google Soft Modal Scarf,44.025,High,3,4954.7,100,Premium Set (VIP 타겟)
+#IamRemarkable Unisex T-Shirt,11.988,Low,Google Red Speckled Tee,29.944,High,3,2496,100,Add-on Strategy (업셀링)
+#IamRemarkable Unisex T-Shirt,11.988,Low,Google Crewneck Sweatshirt Navy,54.971,High,3,987,100,Add-on Strategy (업셀링)
+#IamRemarkable Water Bottle,14.998,Low,Google Clear Pen 4-Pack,4.947,Low,3,6158.3,100,General Bundle
+#IamRemarkable Water Bottle,14.998,Low,Android Buoy Bottle,7.869,Low,3,8991.3,100,General Bundle
+Android Buoy Bottle,7.869,Low,Google Hemp Tote,21.156,Mid,3,8748.3,100,General Bundle
+Android Buoy Bottle,7.869,Low,Android SM S/F18 Sticker Sheet,2.999,Low,3,10417.3,100,General Bundle
+Android Buoy Bottle,7.869,Low,Google Clear Pen 4-Pack,4.947,Low,3,8209.7,100,General Bundle
+Android Buoy Bottle,7.869,Low,Android Large Removable Sticker Sheet,2.999,Low,3,7475,100,General Bundle
+Android Buoy Bottle,7.869,Low,Google Metallic Notebook Set,5.998,Low,3,4507,100,General Bundle
+Android Iconic Beanie,9.999,Low,Noogler Android Figure,15.997,Low,3,3223.3,100,General Bundle
+Android Iconic Beanie,9.999,Low,Google Light Pen Green,2.943,Low,3,5361,100,General Bundle
+Android Iconic Beanie,9.999,Low,Google Light Pen Red,2.921,Low,3,5361,100,General Bundle
+Android Iconic Crewneck Sweatshirt,54.785,High,Keyboard DOT Sticker,2,Low,3,6246.3,100,Add-on Strategy (업셀링)
+Android Iconic Crewneck Sweatshirt,54.785,High,Noogler Android Figure,15.997,Low,3,4981,100,Add-on Strategy (업셀링)
+Android Iconic Mug Gray,16.998,Mid,Google Sunnyvale Campus Mug,10.676,Low,3,2352,100,General Bundle
+Android Iconic Mug Gray,16.998,Mid,Google Mural Mug,16.729,Mid,3,6540.7,100,Volume Builder (크로스셀링)
+Android Iconic Pen,1.993,Low,Google Light Pen Red,2.921,Low,3,3999.7,100,General Bundle
+Android Iconic Pen,1.993,Low,Google Pen Grass Green,1.997,Low,3,7392.3,100,General Bundle
+Android Iconic Pen,1.993,Low,Google Pen Grey,1.993,Low,3,7392.3,100,General Bundle
+Android Iconic Pen,1.993,Low,Google Pen Red,1.907,Low,3,4835,100,General Bundle
+Android Iconic Pen,1.993,Low,Google Cloud Pen,2.986,Low,3,7912.3,100,General Bundle
+Android Iconic Socks,17,Mid,Google Crew Striped Athletic Sock,17,Mid,3,1844.3,100,Volume Builder (크로스셀링)
+Android Iconic Socks,17,Mid,Google Crew Combed Cotton Sock,16.989,Mid,3,3741,100,Volume Builder (크로스셀링)
+Android Iconic Socks,17,Mid,Android SM S/F18 Sticker Sheet,2.999,Low,3,5271,100,General Bundle
+Android Large Removable Sticker Sheet,2.999,Low,Google NYC Campus Zip Hoodie,54.226,High,3,3278.7,100,Add-on Strategy (업셀링)
+Android Large Removable Sticker Sheet,2.999,Low,Google Mural Sticker Sheet,2.993,Low,3,2872,100,General Bundle
+Android Large Removable Sticker Sheet,2.999,Low,Stan and Friends Youth Tee Green,23.304,Mid,3,5856.7,100,General Bundle
+Android Large Removable Sticker Sheet,2.999,Low,Google Cork Base Tumbler,27.983,Mid,3,2963.3,100,General Bundle
+Android Lumberjack Pin,7.148,Low,Noogler Android Figure,15.997,Low,3,1742.7,100,General Bundle
+Android Lumberjack Pin,7.148,Low,Google PNW Campus Mug,10.531,Low,3,4417.3,100,General Bundle
+Android Lumberjack Pin,7.148,Low,Google Maps Pin,6.848,Low,3,7452.7,100,General Bundle
+Android Pocket Onesie Navy,22,Mid,Google Heathered Pom Beanie,14.996,Low,3,3631.5,100,General Bundle
+Android Pocket Onesie Navy,22,Mid,Google Red Speckled Tee,29.944,High,3,4098,100,General Bundle
+Android Pocket Tee Green,28.082,Mid,Google Red Speckled Tee,29.944,High,3,3691,100,General Bundle
+Android Pocket Tee Navy,28.766,Mid,Google Crewneck Sweatshirt Navy,54.971,High,3,1885.3,100,General Bundle
+Android Pocket Toddler Tee Navy,22.998,Mid,Google Toddler Hero Tee Black,23.774,Mid,3,6031,100,Volume Builder (크로스셀링)
+Android Pocket Toddler Tee Navy,22.998,Mid,Google Large Standard Journal Grey,15.994,Low,3,4792.3,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Womens Google Striped LS,,,3,5993,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Light Pen Red,2.921,Low,3,7402,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google NYC Campus Sticker,1.994,Low,3,3386,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Crewneck Sweatshirt Navy,54.971,High,3,11901.7,100,Add-on Strategy (업셀링)
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Women's Grid Zip-Up,62.975,High,3,4735.3,100,Add-on Strategy (업셀링)
+Android SM S/F18 Sticker Sheet,2.999,Low,Google Emoji Magnet Set,9.662,Low,3,5104,100,General Bundle
+Android SM S/F18 Sticker Sheet,2.999,Low,Keyboard DOT Sticker,2,Low,3,4627.3,100,General Bundle
+Android Super Hero 3D Framed Art,39.908,High,Daddy Works at Google Book,19.395,Mid,3,5994.7,100,General Bundle
+Android Techie 3D Framed Art,39.897,High,Noogler Android Figure,15.997,Low,3,5849.3,100,Add-on Strategy (업셀링)
+Daddy Works at Google Book,19.395,Mid,YouTube Twill Sandwich Cap Black,13,Low,3,6034,100,General Bundle
+Daddy Works at Google Book,19.395,Mid,Google Sunglasses,3.974,Low,3,5702,100,General Bundle
+Flamingo and Friends Tee Blue,27.38,Mid,Google Heathered Pom Beanie,14.996,Low,3,5527,100,General Bundle
+Google 16 oz Tumbler Blue,12.865,Low,Google Perk Thermal Tumbler,19.848,Mid,3,6743,100,General Bundle
+Google 24 oz Ring Bottle Red,6.949,Low,Google Red Speckled Tee,29.944,High,3,3136.3,100,Add-on Strategy (업셀링)
+Google 24oz Ring Bottle Blue,6.993,Low,Google Red Speckled Tee,29.944,High,3,4473,100,Add-on Strategy (업셀링)
+Google 24oz Ring Bottle Blue,6.993,Low,Google Mesh Bag Blue,6,Low,3,5459.7,100,General Bundle
+Google 24oz Ring Bottle Blue,6.993,Low,Google Navy Speckled Tee,29.997,High,3,3731.7,100,Add-on Strategy (업셀링)
+Google Aluminum Bottle Red,7.982,Low,Google Blue Kids Sunglasses,4.987,Low,3,7334.7,100,General Bundle
+Google ApPeel Journal Red,18.975,Mid,Google Large Standard Journal Grey,15.994,Low,3,2288,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Sunnyvale Campus Mug,10.676,Low,3,2167,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google PNW Campus Unisex Tee,21.634,Mid,3,6735.3,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Land & Sea Cotton Cap,16.999,Mid,3,3568.7,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Crew Striped Athletic Sock,17,Mid,3,3283.7,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Crew Socks,15.996,Low,3,7092,100,General Bundle
+Google Austin Campus Mug,10.511,Low,Google Pride Sticker,1,Low,3,2019.3,100,General Bundle
+Google Austin Campus Tote,10.442,Low,Google Camp Mug Ivory,12.93,Low,3,3328.7,100,General Bundle
+Google Austin Campus Tote,10.442,Low,Google NYC Campus Mug,11.852,Low,3,8527,100,General Bundle
+Google Austin Campus Unisex Tee,22.727,Mid,Google Austin Campus Zip Hoodie,56.495,High,3,1421.3,100,General Bundle
+Google Badge Heavyweight Pullover Black,57.947,High,Super G Unisex Joggers,36.973,High,3,3982.5,100,Premium Set (VIP 타겟)
+Google Badge Heavyweight Pullover Black,57.947,High,Google Camp Mug Gray,12.941,Low,3,1727,100,Add-on Strategy (업셀링)
+Google Badge Heavyweight Pullover Black,57.947,High,Google Sunglasses,3.974,Low,3,7250,100,Add-on Strategy (업셀링)
+Google Badge Heavyweight Pullover Black,57.947,High,Google NYC Campus Mug,11.852,Low,3,5173.7,100,Add-on Strategy (업셀링)
+Google Beekeepers Tee Mint,24.844,Mid,Google Red Speckled Tee,29.944,High,3,6257.3,100,General Bundle
+Google Beekeepers Tee Mint,24.844,Mid,Google Mural Socks,14.96,Low,3,12791.3,100,General Bundle
+Google Beekeepers Toddler Tee Pink,23.008,Mid,Google Mural Sticker Sheet,2.993,Low,3,1437,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google Cambridge Campus Sticker,1.997,Low,3,11670.7,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google PNW Campus Mug,10.531,Low,3,9749,100,General Bundle
+Google Bellevue Campus Sticker,1.988,Low,Google PNW Campus Lapel Pin,5.667,Low,3,9749,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Seattle Campus Sticker,1.971,Low,3,11868,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Heathered Pom Beanie,14.996,Low,3,6144.3,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Hemp Tote,21.156,Mid,3,7185.7,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Land & Sea Journal Set,14.997,Low,3,6296.3,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Speckled Beanie Navy,19.996,Mid,3,11400.3,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Mural Sticker Sheet,2.993,Low,3,5466.7,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Mural Sticky Note Pad,19.436,Mid,3,5764.7,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Cloud Pen,2.986,Low,3,5829,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Speckled Beanie Grey,19.995,Mid,3,8722.3,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Crewneck Sweatshirt Navy,54.971,High,3,6955,100,Add-on Strategy (업셀링)
+Google Black Cork Journal,11.988,Low,Google Cork Journal,8.788,Low,3,2275.7,100,General Bundle
+Google Black Cork Journal,11.988,Low,Google Flat Front Bag Grey,29.997,High,3,5494.3,100,Add-on Strategy (업셀링)
+Google Blue Kids Sunglasses,4.987,Low,Google Mural Sticker Sheet,2.993,Low,3,5357.3,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Youth Hero Tee Grey,23.976,Mid,3,8865.3,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Sunglasses,3.974,Low,3,6048.3,100,General Bundle
+Google Blue Kids Sunglasses,4.987,Low,Google Emoji Sticker Pack,4.999,Low,3,2647.7,100,General Bundle
+Google Blue Stojo Cup,24.969,Mid,Google Mural Mug,16.729,Mid,3,4343.3,100,Volume Builder (크로스셀링)
+Google Blue Stojo Cup,24.969,Mid,Google Heathered Pom Beanie,14.996,Low,3,3535,100,General Bundle
+Google Blue YoYo,3.833,Low,Google Emoji Magnet Set,9.662,Low,3,8887,100,General Bundle
+Google Blue YoYo,3.833,Low,Google Laptop and Cell Phone Stickers,2.999,Low,3,8102.7,100,General Bundle
+Google Blue YoYo,3.833,Low,Google Yellow YoYo,3.949,Low,3,3215.3,100,General Bundle
+Google Bot (Multicolored),9.989,Low,Google Yellow YoYo,3.949,Low,3,6450.3,100,General Bundle
+Google Bot (Multicolored),9.989,Low,Google SF Campus Tote,8.679,Low,3,5675,100,General Bundle
+Google Bot (Multicolored),9.989,Low,Google Red YoYo,3.895,Low,3,5988,100,General Bundle
+Google Boulder Campus Lapel Pin,5.349,Low,Google NYC Campus Lapel Pin,5.984,Low,3,6731.3,100,General Bundle
+Google Boulder Campus Lapel Pin,5.349,Low,Google SF Campus Lapel Pin,5.102,Low,3,6374,100,General Bundle
+Google Boulder Campus Lapel Pin,5.349,Low,Google Boulder Campus Sticker,1.97,Low,3,8844.3,100,General Bundle
+Google Boulder Campus Mug,10.454,Low,Google Boulder Campus Sticker,1.97,Low,3,6839,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google PNW Campus Lapel Pin,5.667,Low,3,11755.3,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google Seattle Campus Mug,10.777,Low,3,11755.3,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google Kirkland Campus Mug,10.934,Low,3,11755.3,100,General Bundle
+Google Boulder Campus Sticker,1.97,Low,Google PNW Campus Mug,10.531,Low,3,11755.3,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google Sunnyvale Campus Mug,10.676,Low,3,3353.3,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google PNW Campus Unisex Tee,21.634,Mid,3,9153.7,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google PNW Campus Lapel Pin,5.667,Low,3,11755.3,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google LA Campus Sticker,1.972,Low,3,11584,100,General Bundle
+Google Cambridge Campus Mug,11.932,Low,Google Seattle Campus Sticker,1.971,Low,3,11755.3,100,General Bundle
+Google Cambridge Campus Sticker,1.997,Low,Google Kirkland Campus Sticker,1.992,Low,3,11670.7,100,General Bundle
+Google Cambridge Campus Sticker,1.997,Low,Google Seattle Campus Sticker,1.971,Low,3,11670.7,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Large Tote White,12.997,Low,3,6673.7,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Red Speckled Tee,29.944,High,3,6975.3,100,Add-on Strategy (업셀링)
+Google Camp Mug Gray,12.941,Low,Google Navy Speckled Tee,29.997,High,3,4613,100,Add-on Strategy (업셀링)
+Google Camp Mug Gray,12.941,Low,Google Speckled Beanie Navy,19.996,Mid,3,3464.7,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Pen Grey,1.993,Low,3,4745,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Pen White,2,Low,3,4820,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Hemp Tote,21.156,Mid,3,1677.7,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Crew Socks,15.996,Low,3,1109.2,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Light Pen Red,2.921,Low,3,2875.3,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Canteen Bottle Black,23.906,Mid,3,4146.7,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Crew Striped Athletic Sock,17,Mid,3,1839.3,100,General Bundle
+Google Camp Mug Gray,12.941,Low,Google Mesh Bag Blue,6,Low,3,3684,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google F/C Longsleeve Ash,,,3,7703.7,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Super G Tumbler (Red Lid),27.863,Mid,3,7131.7,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Land & Sea Mug,16.968,Mid,3,2593.7,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Seattle Campus Mug,10.777,Low,3,2584.3,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Crewneck Sweatshirt Navy,54.971,High,3,5518.7,100,Add-on Strategy (업셀링)
+Google Camp Mug Ivory,12.93,Low,Google Laptop and Cell Phone Stickers,2.999,Low,3,5122,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Woodtop Bottle Black,29.978,High,3,4331.7,100,Add-on Strategy (업셀링)
+Google Camp Mug Ivory,12.93,Low,Google Mouse Pad Navy,5,Low,3,1158,100,General Bundle
+Google Camp Mug Ivory,12.93,Low,Google Speckled Beanie Grey,19.995,Mid,3,5912,100,General Bundle
+Google Campus Bike,39.125,High,Google Laptop and Cell Phone Stickers,2.999,Low,3,8320.7,100,Add-on Strategy (업셀링)
+Google Campus Bike,39.125,High,Google NYC Campus Zip Hoodie,54.226,High,3,4236.7,100,Premium Set (VIP 타겟)
+Google Campus Bike,39.125,High,Noogler Android Figure,15.997,Low,3,8631,100,Add-on Strategy (업셀링)
+Google Campus Bike,39.125,High,Google Campus Bike Tote Navy,10.998,Low,3,5330.7,100,Add-on Strategy (업셀링)
+Google Campus Bike,39.125,High,Google Crewneck Sweatshirt Navy,54.971,High,3,7676.7,100,Premium Set (VIP 타겟)
+Google Campus Bike,39.125,High,Google Campus Bike Bottle,26.997,Mid,3,4460.7,100,General Bundle
+Google Campus Bike,39.125,High,Google Emoji Magnet Set,9.662,Low,3,2929.3,100,Add-on Strategy (업셀링)
+Google Campus Bike,39.125,High,Keyboard DOT Sticker,2,Low,3,4243.3,100,Add-on Strategy (업셀링)
+Google Campus Bike Bottle,26.997,Mid,Google Campus Bike Eco Tee Navy,24.991,Mid,3,5269.3,100,Volume Builder (크로스셀링)
+Google Campus Bike Carry Pouch,7.999,Low,Google NYC Campus Mug,11.852,Low,3,6241.7,100,General Bundle
+Google Campus Bike Grid Task Pad,12.99,Low,Google Pen Red,1.907,Low,3,5622.7,100,General Bundle
+Google Campus Bike Mini Backpack,39.64,High,Google Mural Sticker Sheet,2.993,Low,3,3342,100,Add-on Strategy (업셀링)
+Google Campus Bike Mini Backpack,39.64,High,Google Heathered Pom Beanie,14.996,Low,3,2796.7,100,Add-on Strategy (업셀링)
+Google Campus Bike Tote Navy,10.998,Low,Google Large Tote White,12.997,Low,3,2097,100,General Bundle
+Google Campus Bike Tote Navy,10.998,Low,Google KeepCup,34.233,High,3,4151,100,Add-on Strategy (업셀링)
+Google Campus Bike Tote Navy,10.998,Low,Google Mural Mug,16.729,Mid,3,5129.3,100,General Bundle
+Google Campus Bike Tote Navy,10.998,Low,Google Speckled Beanie Navy,19.996,Mid,3,7615.7,100,General Bundle
+Google Campus Bike Tote Navy,10.998,Low,Google Land & Sea Tote Bag,19.987,Mid,3,4068,100,General Bundle
+Google Campus Bike Tote Navy,10.998,Low,Google NYC Campus Mug,11.852,Low,3,5344,100,General Bundle
+Google Campus Bike Tote Navy,10.998,Low,Google Seattle Campus Mug,10.777,Low,3,5149,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Clear Pen 4-Pack,4.947,Low,3,3634.3,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Thermal Tumbler Navy,17.912,Mid,3,2766,100,Volume Builder (크로스셀링)
+Google Canteen Bottle Black,23.906,Mid,Google Crewneck Sweatshirt Navy,54.971,High,3,5458.3,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Zip Hoodie F/C,59.99,High,3,2526.2,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Light Pen Red,2.921,Low,3,5303,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Utility Bag Grey,9.973,Low,3,3107,100,General Bundle
+Google Canteen Bottle Black,23.906,Mid,Google Mural Mug,16.729,Mid,3,5653,100,Volume Builder (크로스셀링)
+Google Canteen Bottle Black,23.906,Mid,Google Premium Sunglasses,18.662,Mid,3,5178,100,Volume Builder (크로스셀링)
+Google Canteen Bottle Black,23.906,Mid,Google Crew Combed Cotton Sock,16.989,Mid,3,2864.3,100,Volume Builder (크로스셀링)
+Google Chicago Campus Mug,10.769,Low,Google Seattle Campus Mug,10.777,Low,3,5328.7,100,General Bundle
+Google Chicago Campus Mug,10.769,Low,Google Chicago Campus Zip Hoodie,55.633,High,3,2754.7,100,Add-on Strategy (업셀링)
+Google Clear Framed Blue Shades,4.632,Low,Google Mural Sticker Sheet,2.993,Low,3,5279.7,100,General Bundle
+Google Clear Framed Blue Shades,4.632,Low,Google Seattle Campus Mug,10.777,Low,3,6913,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Light Pen Green,2.943,Low,3,3694.7,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Youth Badge Tee Olive,23.655,Mid,3,8322,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Sunglasses,3.974,Low,3,2922.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Recycled Writing Set,4.698,Low,3,3512.7,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Toddler Hero Tee Black,23.774,Mid,3,6484.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Magnet,7.77,Low,3,7804.7,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Noogler Android Figure,15.997,Low,3,7369,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Mouse Pad Navy,5,Low,3,4223.7,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google SF Campus Tote,8.679,Low,3,3623.7,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Mural Socks,14.96,Low,3,5634,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Speckled Beanie Grey,19.995,Mid,3,9128.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Toddler FC Tee Charcoal,24.994,Mid,3,4158.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Confetti Slim Task Pad,5.965,Low,3,5019.7,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Crewneck Sweatshirt Navy,54.971,High,3,6533.7,100,Add-on Strategy (업셀링)
+Google Clear Pen 4-Pack,4.947,Low,Google Confetti Pen White,1.993,Low,3,3600.3,100,General Bundle
+Google Clear Pen 4-Pack,4.947,Low,Google Confetti Task Pad,10.539,Low,3,5842.7,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Large Standard Journal Grey,15.994,Low,3,5366.7,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Magnet,7.77,Low,3,5353.3,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Pen Neon Coral,1.947,Low,3,6222.7,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Zip Hoodie F/C,59.99,High,3,4708.3,100,Add-on Strategy (업셀링)
+Google Cloud Pen,2.986,Low,Noogler Android Figure,15.997,Low,3,5483,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Light Pen Red,2.921,Low,3,4381,100,General Bundle
+Google Cloud Pen,2.986,Low,Google Pen Grey,1.993,Low,3,10237.3,100,General Bundle
+Google Confetti Pen White,1.993,Low,Google Pen Bright Blue,1.998,Low,3,3918.7,100,General Bundle
+Google Confetti Slim Task Pad,5.965,Low,Google Confetti Task Pad,10.539,Low,3,7210,100,General Bundle
+Google Confetti Task Pad,10.539,Low,Google Pen White,2,Low,3,3912.3,100,General Bundle
+Google Confetti Task Pad,10.539,Low,Google Crew Striped Athletic Sock,17,Mid,3,5843.3,100,General Bundle
+Google Cork Card Holder,23.118,Mid,Google Crew Combed Cotton Sock,16.989,Mid,3,5451.7,100,Volume Builder (크로스셀링)
+Google Cork Key Ring,8.962,Low,Google Crewneck Sweatshirt Navy,54.971,High,3,4898,100,Add-on Strategy (업셀링)
+Google Cork Key Ring,8.962,Low,Google SF Campus Tote,8.679,Low,3,5463.3,100,General Bundle
+Google Crew Combed Cotton Sock,16.989,Mid,Google Red Speckled Tee,29.944,High,3,4265,100,General Bundle
+Google Crew Combed Cotton Sock,16.989,Mid,Google Mural Socks,14.96,Low,3,3166.7,100,General Bundle
+Google Crew Combed Cotton Sock,16.989,Mid,Google Glass Bottle,22.998,Mid,3,8396,100,Volume Builder (크로스셀링)
+Google Crew Combed Cotton Sock,16.989,Mid,Google Sunglasses,3.974,Low,3,3015.1,100,General Bundle
+Google Crew Socks,15.996,Low,YouTube Transmission Journal Red,15.997,Low,3,1399.7,100,General Bundle
+Google Crew Socks,15.996,Low,Google Zip Hoodie F/C,59.99,High,3,2111.3,100,Add-on Strategy (업셀링)
+Google Crew Socks,15.996,Low,Google NYC Campus Sticker,1.994,Low,3,5311,100,General Bundle
+Google Crew Socks,15.996,Low,Google NYC Campus Mug,11.852,Low,3,5456,100,General Bundle
+Google Crew Socks,15.996,Low,Google Land & Sea Cotton Cap,16.999,Mid,3,2769.7,100,General Bundle
+Google Crew Striped Athletic Sock,17,Mid,Google Land & Sea Cotton Cap,16.999,Mid,3,4932.3,100,Volume Builder (크로스셀링)
+Google Crew Striped Athletic Sock,17,Mid,Google F/C Longsleeve Ash,,,3,1850,100,General Bundle
+Google Crew Striped Athletic Sock,17,Mid,Google Super G Tumbler (Red Lid),27.863,Mid,3,5614.7,100,Volume Builder (크로스셀링)
+Google Crew Striped Athletic Sock,17,Mid,Google NYC Campus Zip Hoodie,54.226,High,3,3949,100,General Bundle
+Google Crewneck Sweatshirt Green,54.908,High,Google Land & Sea Cotton Cap,16.999,Mid,3,2906.3,100,General Bundle
+Google Crewneck Sweatshirt Green,54.908,High,Womens Google Striped LS,,,3,3041.8,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Thermal Tumbler Navy,17.912,Mid,3,5992.7,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google LA Campus Mug,10.551,Low,3,2203,100,Add-on Strategy (업셀링)
+Google Crewneck Sweatshirt Navy,54.971,High,Google Speckled Beanie Navy,19.996,Mid,3,4721,100,General Bundle
+Google Crewneck Sweatshirt Navy,54.971,High,Google Women's Microfleece Jacket Black,74.989,High,3,13048.3,100,Premium Set (VIP 타겟)
+Google Crewneck Sweatshirt Navy,54.971,High,Google Large Tote White,12.997,Low,3,2449,100,Add-on Strategy (업셀링)
+Google Crewneck Sweatshirt Navy,54.971,High,YouTube Icon Tee Charcoal,21.983,Mid,3,3271.8,100,General Bundle
+Google Cup Cap Tumbler Grey,29.988,High,Google Red Speckled Tee,29.944,High,3,1291.3,100,Premium Set (VIP 타겟)
+Google Dino Game Tee,39.628,High,Womens Google Striped LS,,,3,4071.8,100,General Bundle
+Google Dino Game Tee,39.628,High,Google Zip Hoodie F/C,59.99,High,3,4781,100,Premium Set (VIP 타겟)
+Google Emoji Magnet Set,9.662,Low,YouTube Twill Sandwich Cap Black,13,Low,3,4834,100,General Bundle
+Google Emoji Magnet Set,9.662,Low,Google Magnet,7.77,Low,3,1645.7,100,General Bundle
+Google Emoji Magnet Set,9.662,Low,Noogler Android Figure,15.997,Low,3,3278.7,100,General Bundle
+Google Emoji Magnet Set,9.662,Low,Google Emoji Sticker Pack,4.999,Low,3,4968.7,100,General Bundle
+Google Emoji Sticker Pack,4.999,Low,Google Laptop and Cell Phone Stickers,2.999,Low,3,8062.3,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Glass Bottle,22.998,Mid,3,6851,100,General Bundle
+Google F/C Longsleeve Ash,,,Google F/C Longsleeve Charcoal,,,3,2558.8,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Speckled Beanie Grey,19.995,Mid,3,6270,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Metallic Notebook Set,5.998,Low,3,3902,100,General Bundle
+Google F/C Longsleeve Ash,,,Google Light Pen Blue,2.962,Low,3,4755.7,100,General Bundle
+Google F/C Longsleeve Charcoal,,,Google Pen White,2,Low,3,3396.7,100,General Bundle
+Google Felt Refillable Journal,22.299,Mid,Google Utility Bag Grey,9.973,Low,3,4720.3,100,General Bundle
+Google Flat Front Bag Grey,29.997,High,YouTube Twill Sandwich Cap Black,13,Low,3,3132.7,100,Add-on Strategy (업셀링)
+Google Flat Front Bag Grey,29.997,High,YouTube Play Mug,12.986,Low,3,1874,100,Add-on Strategy (업셀링)
+Google Flat Front Bag Grey,29.997,High,Google Land & Sea Cotton Cap,16.999,Mid,3,6550,100,General Bundle
+Google Flat Front Bag Grey,29.997,High,Google Woodtop Bottle Black,29.978,High,3,5362.7,100,Premium Set (VIP 타겟)
+Google Glass Bottle,22.998,Mid,Google Land & Sea Nalgene Water Bottle,24.972,Mid,3,4857.7,100,Volume Builder (크로스셀링)
+Google Heather Green Speckled Tee,29.93,High,Google Navy Speckled Tee,29.997,High,3,1927,100,Premium Set (VIP 타겟)
+Google Heather Green Speckled Tee,29.93,High,Womens Google Striped LS,,,3,3355.7,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google PNW Campus Tote,10.442,Low,3,5487.3,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Utility Bag Grey,9.973,Low,3,1837.7,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Stan and Friends Youth Tee Green,23.304,Mid,3,7869.7,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Youth Hero Tee Grey,23.976,Mid,3,6005.3,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Seaport Tote,59.2,High,3,2209.7,100,Add-on Strategy (업셀링)
+Google Heathered Pom Beanie,14.996,Low,Google Packable Bag Black,19.859,Mid,3,3537.7,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,YouTube Icon Tee Charcoal,21.983,Mid,3,4859.7,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Land & Sea Mug,16.968,Mid,3,4831.3,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Super G Unisex Joggers,36.973,High,3,2735,100,Add-on Strategy (업셀링)
+Google Heathered Pom Beanie,14.996,Low,Google Land & Sea Tote Bag,19.987,Mid,3,7947.3,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Women's Grid Zip-Up,62.975,High,3,5057.7,100,Add-on Strategy (업셀링)
+Google Heathered Pom Beanie,14.996,Low,Noogler Android Figure,15.997,Low,3,2525,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google NYC Campus Mug,11.852,Low,3,4999.7,100,General Bundle
+Google Heathered Pom Beanie,14.996,Low,Google Large Tote White,12.997,Low,3,5602,100,General Bundle
+Google Hemp Tote,21.156,Mid,Google KeepCup,34.233,High,3,7590.7,100,General Bundle
+Google Hemp Tote,21.156,Mid,Google Keychain,7.633,Low,3,4588.3,100,General Bundle
+Google Hemp Tote,21.156,Mid,Google Mesh Bag Blue,6,Low,3,4052.3,100,General Bundle
+Google Incognito Dopp Kit V2,46.9,High,Google Incognito Techpack V2,85.968,High,3,6105,100,Premium Set (VIP 타겟)
+Google Infant Hero Tee Olive,24.881,Mid,Google NYC Campus Ladies Tee,23.962,Mid,3,4074.3,100,Volume Builder (크로스셀링)
+Google Infant Hero Tee Olive,24.881,Mid,Google Zip Hoodie F/C,59.99,High,3,2354.7,100,General Bundle
+Google Infant Hero Tee Olive,24.881,Mid,Google Red Speckled Tee,29.944,High,3,1141.8,100,General Bundle
+Google Keychain,7.633,Low,Google LoveHandle Black,9.994,Low,3,3684.3,100,General Bundle
+Google Keychain,7.633,Low,Google Red YoYo,3.895,Low,3,2526,100,General Bundle
+Google Keychain,7.633,Low,Google Red Speckled Tee,29.944,High,3,4942.3,100,Add-on Strategy (업셀링)
+Google Kirkland Campus Mug,10.934,Low,Google LA Campus Mug,10.551,Low,3,9968.3,100,General Bundle
+Google Kirkland Campus Mug,10.934,Low,Google Kirkland Campus Unisex Tee,20.06,Mid,3,7348.8,100,General Bundle
+Google Kirkland Campus Mug,10.934,Low,Google PNW Campus Lapel Pin,5.667,Low,3,11755.3,100,General Bundle
+Google Kirkland Campus Sticker,1.992,Low,Google NYC Campus Sticker,1.994,Low,3,11670.7,100,General Bundle
+Google Kirkland Campus Sticker,1.992,Low,Google PNW Campus Lapel Pin,5.667,Low,3,9749,100,General Bundle
+Google Kirkland Campus Sticker,1.992,Low,Google PNW Campus Mug,10.531,Low,3,9749,100,General Bundle
+Google Kirkland Campus Unisex Tee,20.06,Mid,Google Seattle Campus Sticker,1.971,Low,3,9514.5,100,General Bundle
+Google Kirkland Campus Unisex Tee,20.06,Mid,Google Seattle Campus Mug,10.777,Low,3,7348.8,100,General Bundle
+Google Kirkland Campus Unisex Tee,20.06,Mid,Google PNW Campus Zip Hoodie,50.775,High,3,5003.5,100,General Bundle
+Google LA Campus Lapel Pin,5.326,Low,Google NYC Campus Lapel Pin,5.984,Low,3,4658.3,100,General Bundle
+Google LA Campus Lapel Pin,5.326,Low,Google LA Campus Sticker,1.972,Low,3,4905,100,General Bundle
+Google LA Campus Lapel Pin,5.326,Low,Google LA Campus Mug,10.551,Low,3,4905,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google Sunnyvale Campus Mug,10.676,Low,3,2366.7,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google Speckled Beanie Navy,19.996,Mid,3,6539.3,100,General Bundle
+Google LA Campus Mug,10.551,Low,Google LA Campus Tote,8.972,Low,3,2221,100,General Bundle
+Google LA Campus Sticker,1.972,Low,Google NYC Campus Ladies Tee,23.962,Mid,3,6730,100,General Bundle
+Google LA Campus Sticker,1.972,Low,YouTube Twill Sandwich Cap Black,13,Low,3,3747.7,100,General Bundle
+Google LA Campus Sticker,1.972,Low,Google LA Campus Unisex Tee,21.442,Mid,3,3542.3,100,General Bundle
+Google LA Campus Sticker,1.972,Low,Google LA Campus Tote,8.972,Low,3,2171.3,100,General Bundle
+Google LA Campus Sticker,1.972,Low,Google Pride Sticker,1,Low,3,2239.3,100,General Bundle
+Google LA Campus Unisex Tee,21.442,Mid,Google SF Campus Zip Hoodie,53.879,High,3,2173.3,100,General Bundle
+Google LA Campus Zip Hoodie,54.397,High,YouTube Twill Sandwich Cap Black,13,Low,3,3931.7,100,Add-on Strategy (업셀링)
+Google Land & Sea Cotton Cap,16.999,Mid,Google Toddler FC Zip Hoodie,34.96,High,3,2639.7,100,General Bundle
+Google Land & Sea Cotton Cap,16.999,Mid,Google NYC Campus Mug,11.852,Low,3,4398,100,General Bundle
+Google Land & Sea Cotton Cap,16.999,Mid,YouTube Twill Sandwich Cap Black,13,Low,3,5521.3,100,General Bundle
+Google Land & Sea Cotton Cap,16.999,Mid,Google Men's Tech Fleece Grey,88.985,High,3,2681.8,100,General Bundle
+Google Land & Sea Cotton Cap,16.999,Mid,Supernatural Paper Backpack,57.626,High,3,1164,100,General Bundle
+Google Land & Sea Cotton Cap,16.999,Mid,YouTube Leather Strap Hat Black,16.921,Mid,3,1596,100,Volume Builder (크로스셀링)
+Google Land & Sea Cotton Cap,16.999,Mid,Google Mural Mug,16.729,Mid,3,7531.7,100,Volume Builder (크로스셀링)
+Google Land & Sea Cotton Cap,16.999,Mid,Google Premium Sunglasses,18.662,Mid,3,5956.3,100,Volume Builder (크로스셀링)
+Google Land & Sea Cotton Cap,16.999,Mid,Google Speckled Beanie Navy,19.996,Mid,3,7615.7,100,Volume Builder (크로스셀링)
+Google Land & Sea Cotton Cap,16.999,Mid,Google Thermal Tumbler Navy,17.912,Mid,3,4757,100,Volume Builder (크로스셀링)
+Google Land & Sea Mug,16.968,Mid,Google Seattle Campus Mug,10.777,Low,3,3779,100,General Bundle
+Google Land & Sea Tech Taco,3.999,Low,Google Small Cable Organizer Blue,2.999,Low,3,3152.7,100,General Bundle
+Google Lapel Pin,7.706,Low,Google NYC Campus Lapel Pin,5.984,Low,3,8567.3,100,General Bundle
+Google Lapel Pin,7.706,Low,YouTube Iconic Play Pin,7.996,Low,3,3564.3,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Youth Badge Tee Olive,23.655,Mid,3,7407,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,YouTube Twill Sandwich Cap Black,13,Low,3,4298.3,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Mural Sticker Sheet,2.993,Low,3,5541,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Google Youth Hero Tee Grey,23.976,Mid,3,8117.3,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,YouTube Play Mug,12.986,Low,3,2489.7,100,General Bundle
+Google Laptop and Cell Phone Stickers,2.999,Low,Keyboard DOT Sticker,2,Low,3,2742.7,100,General Bundle
+Google Large Standard Journal Grey,15.994,Low,Google Light Pen Blue,2.962,Low,3,2696.7,100,General Bundle
+Google Large Tote White,12.997,Low,Womens Google Striped LS,,,3,2574.3,100,General Bundle
+Google Leather Strap Hat Blue,16.985,Mid,YouTube Leather Strap Hat Black,16.921,Mid,3,1461.3,100,Volume Builder (크로스셀링)
+Google Leather Strap Hat Blue,16.985,Mid,Google Sunglasses,3.974,Low,3,2314.1,100,General Bundle
+Google Light Pen Blue,2.962,Low,Google Utility Bag Grey,9.973,Low,3,4413.3,100,General Bundle
+Google Light Pen Blue,2.962,Low,Google Pen Citron,1.967,Low,3,9277.3,100,General Bundle
+Google Light Pen Blue,2.962,Low,Keyboard DOT Sticker,2,Low,3,4862.7,100,General Bundle
+Google Light Pen Blue,2.962,Low,Google PNW Campus Mug,10.531,Low,3,8331.3,100,General Bundle
+Google Light Pen Green,2.943,Low,Google Zip Hoodie F/C,59.99,High,3,2288.7,100,Add-on Strategy (업셀링)
+Google Light Pen Green,2.943,Low,Google Metallic Notebook Set,5.998,Low,3,4939.3,100,General Bundle
+Google Light Pen Green,2.943,Low,Google Seattle Campus Mug,10.777,Low,3,8223.3,100,General Bundle
+Google Light Pen Green,2.943,Low,Google PNW Campus Mug,10.531,Low,3,8331.3,100,General Bundle
+Google Light Pen Green,2.943,Low,Google Mural Sticky Note Pad,19.436,Mid,3,5601.3,100,General Bundle
+Google Light Pen Red,2.921,Low,Google NYC Campus Mug,11.852,Low,3,7904,100,General Bundle
+Google Light Pen Red,2.921,Low,Google Zip Hoodie F/C,59.99,High,3,2288.7,100,Add-on Strategy (업셀링)
+Google Light Pen Red,2.921,Low,Google Pen White,2,Low,3,4940.7,100,General Bundle
+Google Light Pen Red,2.921,Low,Google Pen Bright Blue,1.998,Low,3,5872,100,General Bundle
+Google Light Pen Red,2.921,Low,Google Mouse Pad Navy,5,Low,3,3903.3,100,General Bundle
+Google Magnet,7.77,Low,Google Toddler Hero Tee Black,23.774,Mid,3,5720.7,100,General Bundle
+Google Magnet,7.77,Low,Google Red Kids Sunglasses,4.988,Low,3,5720.7,100,General Bundle
+Google Men's Puff Jacket Black,114.48,High,Google Woodtop Bottle Black,29.978,High,3,3384.3,100,Premium Set (VIP 타겟)
+Google Men's Tech Fleece Grey,88.985,High,Google Men's Tech Fleece Vest Charcoal,77.891,High,3,4807.7,100,Premium Set (VIP 타겟)
+Google Men's Tech Fleece Grey,88.985,High,Google Perk Thermal Tumbler,19.848,Mid,3,5930.8,100,General Bundle
+Google Men's Tech Fleece Grey,88.985,High,Google Toddler FC Zip Hoodie,34.96,High,3,3490.6,100,Premium Set (VIP 타겟)
+Google Metallic Notebook Set,5.998,Low,YouTube Twill Sandwich Cap Black,13,Low,3,5338.7,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Thermal Tumbler Navy,17.912,Mid,3,2308,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Youth Badge Tee Olive,23.655,Mid,3,3863.3,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Navy Speckled Tee,29.997,High,3,5038.3,100,Add-on Strategy (업셀링)
+Google Metallic Notebook Set,5.998,Low,Google Pen Red,1.907,Low,3,8012.7,100,General Bundle
+Google Metallic Notebook Set,5.998,Low,Google Pen Grass Green,1.997,Low,3,8007,100,General Bundle
+Google Mountain View Campus Ladies Tee,24.197,Mid,Google Red Speckled Tee,29.944,High,3,5851.5,100,General Bundle
+Google Mountain View Campus Ladies Tee,24.197,Mid,Google NYC Campus Sticker,1.994,Low,3,4831.3,100,General Bundle
+Google Mouse Pad Navy,5,Low,YouTube Twill Sandwich Cap Black,13,Low,3,3611.7,100,General Bundle
+Google Mural Mug,16.729,Mid,Super G Unisex Joggers,36.973,High,3,4268.3,100,General Bundle
+Google Mural Notebook,23.184,Mid,Google Mural Socks,14.96,Low,3,2337,100,General Bundle
+Google Mural Socks,14.96,Low,YouTube Crew Socks,15.999,Low,3,1399.7,100,General Bundle
+Google Mural Socks,14.96,Low,Google Women's Grid Zip-Up,62.975,High,3,1557.7,100,Add-on Strategy (업셀링)
+Google Mural Socks,14.96,Low,YouTube Transmission Journal Red,15.997,Low,3,1399.7,100,General Bundle
+Google Mural Socks,14.96,Low,Womens Google Striped LS,,,3,7657.7,100,General Bundle
+Google Mural Sticker Sheet,2.993,Low,Google Recycled Writing Set,4.698,Low,3,3095.7,100,General Bundle
+Google Mural Sticker Sheet,2.993,Low,Google Mural Sticky Note Pad,19.436,Mid,3,5095.3,100,General Bundle
+Google Mural Sticker Sheet,2.993,Low,Maze Pen,1,Low,3,5931.3,100,General Bundle
+Google Mural Sticker Sheet,2.993,Low,Google Utility Bag Grey,9.973,Low,3,3012,100,General Bundle
+Google Mural Sticker Sheet,2.993,Low,Noogler Android Figure,15.997,Low,3,3055.3,100,General Bundle
+Google Mural Sticker Sheet,2.993,Low,Google NYC Campus Sticker,1.994,Low,3,5526.3,100,General Bundle
+Google Mural Sticker Sheet,2.993,Low,Google Women's Grid Zip-Up,62.975,High,3,4735.3,100,Add-on Strategy (업셀링)
+Google NYC Campus Bottle,19.87,Mid,Google NYC Campus Sticker,1.994,Low,3,3157,100,General Bundle
+Google NYC Campus Bottle,19.87,Mid,Google NYC Campus Zip Hoodie,54.226,High,3,8009.8,100,General Bundle
+Google NYC Campus Ladies Tee,23.962,Mid,Google Red Speckled Tee,29.944,High,3,4470.3,100,General Bundle
+Google NYC Campus Ladies Tee,23.962,Mid,Google NYC Campus Mug,11.852,Low,3,4054.7,100,General Bundle
+Google NYC Campus Lapel Pin,5.984,Low,Google SF Campus Lapel Pin,5.102,Low,3,3967,100,General Bundle
+Google NYC Campus Lapel Pin,5.984,Low,Google NYC Campus Mug,11.852,Low,3,4307.7,100,General Bundle
+Google NYC Campus Lapel Pin,5.984,Low,Google NYC Campus Sticker,1.994,Low,3,4530.3,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google PNW Campus Unisex Tee,21.634,Mid,3,9153.7,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google PNW Campus Lapel Pin,5.667,Low,3,11755.3,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google Seattle Campus Sticker,1.971,Low,3,11755.3,100,General Bundle
+Google NYC Campus Mug,11.852,Low,Google PNW Campus Zip Hoodie,50.775,High,3,8206.3,100,Add-on Strategy (업셀링)
+Google NYC Campus Sticker,1.994,Low,Google PNW Campus Mug,10.531,Low,3,5790.7,100,General Bundle
+Google NYC Campus Zip Hoodie,54.226,High,Google Toddler FC Zip Hoodie,34.96,High,3,3923,100,Premium Set (VIP 타겟)
+Google NYC Campus Zip Hoodie,54.226,High,Google Sherpa Zip Hoodie Charcoal,68.523,High,3,4150.3,100,Premium Set (VIP 타겟)
+Google Navy Speckled Tee,29.997,High,YouTube Icon Tee Grey,21.99,Mid,3,1646.3,100,General Bundle
+Google Navy Speckled Tee,29.997,High,Google Youth Hero Tee Grey,23.976,Mid,3,3916.8,100,General Bundle
+Google Navy Speckled Tee,29.997,High,Google Pen White,2,Low,3,6227,100,Add-on Strategy (업셀링)
+Google PNW Campus Bottle,19.082,Mid,Google Seattle Campus Mug,10.777,Low,3,9304.7,100,General Bundle
+Google PNW Campus Mug,10.531,Low,Google Pen Citron,1.967,Low,3,11079.7,100,General Bundle
+Google PNW Campus Tote,10.442,Low,Google Seattle Campus Mug,10.777,Low,3,5443,100,General Bundle
+Google PNW Campus Unisex Tee,21.634,Mid,Google Seattle Campus Mug,10.777,Low,3,7127.3,100,General Bundle
+Google PNW Campus Zip Hoodie,50.775,High,Google Seattle Campus Mug,10.777,Low,3,8732.7,100,Add-on Strategy (업셀링)
+Google Packable Bag Black,19.859,Mid,Google Seaport Tote,59.2,High,3,8068,100,General Bundle
+Google Pen Bright Blue,1.998,Low,Maze Pen,1,Low,3,7256.7,100,General Bundle
+Google Pen Citron,1.967,Low,Maze Pen,1,Low,3,6108,100,General Bundle
+Google Pen Citron,1.967,Low,Womens Google Striped LS,,,3,9227,100,General Bundle
+Google Pen Citron,1.967,Low,Google Pen White,2,Low,3,6648,100,General Bundle
+Google Pen Grass Green,1.997,Low,Maze Pen,1,Low,3,7256.7,100,General Bundle
+Google Pen Grey,1.993,Low,Google Pen Neon Coral,1.947,Low,3,10237.3,100,General Bundle
+Google Pen Grey,1.993,Low,Google Pen Red,1.907,Low,3,8487.3,100,General Bundle
+Google Pen Neon Coral,1.947,Low,Maze Pen,1,Low,3,7420.7,100,General Bundle
+Google Pen Red,1.907,Low,Google Perk Thermal Tumbler,19.848,Mid,3,9233,100,General Bundle
+Google Pen White,2,Low,Google Youth Hero Tee Grey,23.976,Mid,3,6959,100,General Bundle
+Google Perk Thermal Tumbler,19.848,Mid,Google Zip Hoodie F/C,59.99,High,3,4808.4,100,General Bundle
+Google Perk Thermal Tumbler,19.848,Mid,Google Woodtop Bottle Black,29.978,High,3,5106,100,General Bundle
+Google Recycled Pen Black,2,Low,Google Recycled Pen Green,2,Low,3,5367,100,General Bundle
+Google Recycled Writing Set,4.698,Low,Noogler Android Figure,15.997,Low,3,3991,100,General Bundle
+Google Red Kids Sunglasses,4.988,Low,Google Toddler Hero Tee Black,23.774,Mid,3,5720.7,100,General Bundle
+Google Red Speckled Tee,29.944,High,Unisex Google Pocket Tee Grey,,,3,3425,100,General Bundle
+Google Red Speckled Tee,29.944,High,Google Thermal Tumbler Navy,17.912,Mid,3,7917.7,100,General Bundle
+Google Red Speckled Tee,29.944,High,YouTube Icon Tee Charcoal,21.983,Mid,3,2902,100,General Bundle
+Google Red YoYo,3.895,Low,Google Sunglasses,3.974,Low,3,3435.7,100,General Bundle
+Google Seattle Campus Mug,10.777,Low,Google Sunnyvale Campus Mug,10.676,Low,3,2585.3,100,General Bundle
+Google Small Cable Organizer Blue,2.999,Low,Keyboard DOT Sticker,2,Low,3,2994,100,General Bundle
+Google Soft Modal Scarf,44.025,High,Google Zip Hoodie F/C,59.99,High,3,1922.3,100,Premium Set (VIP 타겟)
+Google Sunglasses,3.974,Low,Keyboard DOT Sticker,2,Low,3,3193.2,100,General Bundle
+Google Sunglasses,3.974,Low,YouTube Twill Sandwich Cap Black,13,Low,3,4663,100,General Bundle
+Google Sunnyvale Campus Zip Hoodie,51.461,High,Google Utility BackPack,119.961,High,3,1383.3,100,Premium Set (VIP 타겟)
+Google Tee Green,21.981,Mid,Google Tee Yellow,21.977,Mid,3,9117,100,Volume Builder (크로스셀링)
+Google Tee Grey,19.225,Mid,Google Tee Yellow,21.977,Mid,3,7994.3,100,Volume Builder (크로스셀링)
+Google Toddler FC Zip Hoodie,34.96,High,Mommy Works at Google Book,19.47,Mid,3,2778.3,100,General Bundle
+Google Utility Bag Grey,9.973,Low,Super G Unisex Joggers,36.973,High,3,2781.3,100,Add-on Strategy (업셀링)
+Google Women's Grid Zip-Up,62.975,High,Google Woodtop Bottle Black,29.978,High,3,3526,100,Premium Set (VIP 타겟)
+Google Women's Grid Zip-Up,62.975,High,Google Zip Hoodie F/C,59.99,High,3,3194.3,100,Premium Set (VIP 타겟)
+Google Youth Hero Tee Grey,23.976,Mid,Google Youth Hero Tee Maroon,23.892,Mid,3,6684,100,Volume Builder (크로스셀링)
+Google Zip Hoodie F/C,59.99,High,YouTube Icon Tee Grey,21.99,Mid,3,2146,100,General Bundle
+Google Zip Hoodie F/C,59.99,High,Keyboard DOT Sticker,2,Low,3,2046.7,100,Add-on Strategy (업셀링)
+Keyboard DOT Sticker,2,Low,Noogler Android Figure,15.997,Low,3,2681.3,100,General Bundle
+Maze Pen,1,Low,Womens Google Striped LS,,,3,4428.7,100,General Bundle
+Stan and Friends Toddler Tee Green,20.876,Mid,Stan and Friends Youth Tee Green,23.304,Mid,3,3860,100,Volume Builder (크로스셀링)
+YouTube Crew Socks,15.999,Low,YouTube Iconic Play Pin,7.996,Low,3,2110.3,100,General Bundle
+YouTube Icon Tee Charcoal,21.983,Mid,YouTube Play Mug,12.986,Low,3,2876,100,General Bundle
+YouTube Icon Tee Charcoal,21.983,Mid,YouTube Icon Tee Grey,21.99,Mid,3,2489,100,Volume Builder (크로스셀링)
+YouTube Icon Tee Grey,21.99,Mid,YouTube Iconic Play Pin,7.996,Low,3,1359.7,100,General Bundle
+YouTube Icon Tee Grey,21.99,Mid,YouTube Twill Sandwich Cap Black,13,Low,3,1981,100,General Bundle
+YouTube Iconic Play Pin,7.996,Low,YouTube Transmission Journal Red,15.997,Low,3,1475,100,General Bundle
+YouTube Iconic Play Pin,7.996,Low,YouTube Jotter Task Pad,2.999,Low,3,1414.3,100,General Bundle
+YouTube Jotter Task Pad,2.999,Low,YouTube Twill Sandwich Cap Black,13,Low,3,894,100,General Bundle
+YouTube Leather Strap Hat Black,16.921,Mid,YouTube Twill Sandwich Cap Black,13,Low,3,1952.3,100,General Bundle
+YouTube Leather Strap Hat Black,16.921,Mid,YouTube Play Mug,12.986,Low,3,1335.7,100,General Bundle

@@ -31,3 +31,4 @@ Thumbs.db
 # seeds 폴더의 csv는 올려야 하므로 제외하지 않음
 *.csv
 !seeds/*.csv
+!mart_tables/*.csv

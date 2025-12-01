@@ -1,0 +1,5 @@
+intensity_segment,session_count,share_percent,avg_total_views,avg_categories,conversion_rate
+1. Light Seeker (24개 이하),4707,36,17.8,2.2,3.93
+2. Moderate Seeker (25-36개),1922,14.7,33.4,2.6,5.67
+3. Heavy Seeker (37-84개),3214,24.6,60.9,3.5,12.04
+4. Super Heavy Seeker (85개 이상),3248,24.8,197.1,6.4,31.53

@@ -81,7 +81,7 @@ def load_data():
     data = {}
     
     # 로컬 PC OneDrive 경로
-    BASE_PATH = r"C:\Users\동윤\OneDrive\Documents\ga_events\dongyoon_bigquery_ga4_dbt_project\mart_tables"
+    BASE_PATH = "mart_tables/"
     
     # 대체 경로들 (다른 환경 대비)
     alt_paths = [

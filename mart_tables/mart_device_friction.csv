@@ -1,0 +1,4 @@
+device_category,total_sessions,high_intent_users,high_intent_ratio,high_intent_cvr_percent,efficiency_index_vs_pc
+mobile,52900,1066556,2016.2,25.8,102
+desktop,77488,1587142,2048.2,25.4,100
+tablet,2980,53073,1781,22.7,90
