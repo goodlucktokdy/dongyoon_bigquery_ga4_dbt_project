@@ -461,7 +461,7 @@ elif page == "📊 데이터 개요":
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **총 이벤트** | 약 2.1M 이벤트 |
+        | **총 이벤트** | 약 3.2M 이벤트 |
         | **총 세션** | {total_sessions:,} 세션 |
         | **구매 세션** | {total_purchases:,} 세션 ({overall_cvr:.2f}%) |
         """)
@@ -1422,6 +1422,10 @@ GROUP BY 1
             # 액션 플랜 요약
             st.markdown("### 📋 데이터 기반 액션 플랜")
             
+            # 동적 데이터 근거 생성
+            bags_evidence = f"{bags_count:,.0f}건으로 손실 {bags_pct:.0f}% 차지 (건당 ${bags_avg_int})" if bags_count > 0 else "Bags 손실 집중"
+            apparel_evidence = f"{apparel_count:,.0f}건 이탈 (건당 ${apparel_avg_int})" if apparel_count > 0 else "Apparel 대량 이탈"
+            
             action_data = {
                 '우선순위': ['🔴 1순위', '🔴 1순위', '🟡 2순위', '🟡 2순위'],
                 '문제점': [
@@ -1431,8 +1435,8 @@ GROUP BY 1
                     '재방문 유도 부족'
                 ],
                 '데이터 근거': [
-                    f'608건으로 손실 48% 차지 (건당 $263)',
-                    f'12,011건 이탈 (건당 $11)',
+                    bags_evidence + ' (이상치 제외)',
+                    apparel_evidence,
                     '결제 완료율 데이터 필요',
                     '이탈 후 재구매 추적 필요'
                 ],
@@ -1819,7 +1823,7 @@ elif page == "📐 방법론 & 한계점":
             # 노드 정의 - 실제 dbt 구조 반영
             nodes = [
                 # Source Layer
-                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
+                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (3.2M rows)</i>', 
                  'color': '#4285F4', 'width': 0.85},
                 
                 # Staging Layer
@@ -1999,7 +2003,7 @@ models/
                 '영역': ['Data Source', 'Transformation', 'Analysis', 'Visualization', 'Deployment'],
                 '기술': ['BigQuery Public Dataset', 'dbt Core 1.7+', 'Python 3.10+', 'Streamlit 1.28+', 'Streamlit Cloud'],
                 '상세': [
-                    'ga4_obfuscated_sample_ecommerce (2.1M events)',
+                    'ga4_obfuscated_sample_ecommerce (3.2M events)',
                     'Staging → Intermediate → Mart 레이어 구조',
                     'pandas, numpy, scipy.stats (χ², Wilson CI)',
                     'Plotly (Funnel, Sankey, Scatter), Custom CSS',
