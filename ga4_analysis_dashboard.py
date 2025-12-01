@@ -205,7 +205,6 @@ page = st.sidebar.radio(
      "📊 데이터 개요",
      "🔍 세그먼트 분석",
      "📈 전환 퍼널 분석",
-     "📱 디바이스 & 시간 분석",
      "🛒 장바구니 & 프로모션 분석",
      "🎯 액션 우선순위",
      "📐 방법론 & 한계점"]
@@ -304,14 +303,12 @@ if page == "🏠 Executive Summary":
             '가설': [
                 'H1: 다양한 탐색 유저가 전환율 높음',
                 'H2: 특정 조회 구간에서 결정 마비 발생',
-                'H3: Mobile/Tablet에서 UX 마찰 존재',
-                'H4: 구매 결정 시간 ↑ = 객단가 ↑',
-                'H5: 프로모션 CTR ≠ 실제 전환 기여',
-                'H6: 고가 상품에서 장바구니 이탈 집중'
+                'H3: 프로모션 CTR ≠ 실제 전환 기여',
+                'H4: 고가 상품에서 장바구니 이탈 집중'
             ],
-            '검증 결과': ['✅ 검증 (p<0.001)', '✅ 검증 (p<0.001)', '⚠️ 부분 검증', '✅ 검증 (r=0.89)', '✅ 검증', '✅ 검증'],
-            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Tablet만 -11% (Mobile은 +2%)", "7.7x AOV 차이", "Hidden Gem 프로모션 발견", "상위 10개 집중*"],
-            '액션': ['VIP 세그먼트 타겟팅', '비교표/쿠폰 트리거', 'Tablet 반응형 개선', 'VIP 전용 서비스', '배너 A/B 테스트', '분할결제 도입']
+            '검증 결과': ['✅ 검증 (p 값 0.001 미만)', '✅ 검증 (p 값 0.001 미만)', '✅ 검증', '✅ 검증'],
+            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Hidden Gem 프로모션 발견", "Bags 카테고리 48%"],
+            '액션': ['VIP 세그먼트 타겟팅', '비교표/쿠폰 트리거', '배너 A/B 테스트', '분할결제 도입']
         }
         
         df_hypothesis = pd.DataFrame(hypothesis_data)
@@ -358,7 +355,7 @@ if page == "🏠 Executive Summary":
         <strong>Deep Specialist</strong> (1-2개 카테고리 집중 탐색 유저) 중<br>
         <strong>81.4%</strong>가 12-24개 상품 조회 구간에서<br>
         전환율 <strong>1.88%</strong>로 급락<br><br>
-        <em>χ² = 156.3, p < 0.001</em><br>
+        <em>χ² = 156.3, p 값 0.001 미만</em><br>
         <small>→ 구간별 전환율 차이가 우연이 아님 (99.9% 신뢰)</small>
         </div>
         """, unsafe_allow_html=True)
@@ -388,7 +385,7 @@ if page == "🏠 Executive Summary":
         """, unsafe_allow_html=True)
     
     # 통계 검정 설명
-    with st.expander("📊 통계 검정 해석 (χ² = 156.3, p < 0.001)"):
+    with st.expander("📊 통계 검정 해석 (χ² = 156.3, p 값 0.001 미만)"):
         st.markdown("""
         ### χ² (카이제곱) 검정이란?
         
@@ -397,7 +394,7 @@ if page == "🏠 Executive Summary":
         | 지표 | 값 | 의미 |
         |:-----|:---|:-----|
         | **χ² = 156.3** | 검정 통계량 | 구간 간 차이가 매우 큼 (클수록 차이가 확실) |
-        | **p < 0.001** | 유의확률 | 이 차이가 우연일 확률 < 0.1% |
+        | **p 값 0.001 미만** | 유의확률 | 이 차이가 우연일 확률이 0.1% 미만 |
         
         ### 해석
         
@@ -425,8 +422,8 @@ if page == "🏠 Executive Summary":
         
         | 패턴 | 데이터 근거 | 핵심 문제 |
         |:-----|:-----------|:---------|
-        | **고가 상품 이탈** | BackPack 302건, **$251/건** | 결제 금액 부담 |
-        | **저가 대량 이탈** | Beanie **1,391건**, $14/건 | 결제 과정 마찰 |
+        | **Bags 카테고리** | 753건, 손실 **48%** 차지 | 결제 금액 부담 |
+        | **Apparel 대량 이탈** | **12,650건**, 건당 $7 | 결제 과정 마찰 |
         
         #### 2. Deep Specialist 결정 마비
         
@@ -439,43 +436,29 @@ if page == "🏠 Executive Summary":
         - CTR: **2.56%** (5개 중 최저)
         - 클릭 유저 전환율: **4.63%** (5개 중 최고)
         - → 노출만 늘리면 고품질 유저 유입 가능
-        
-        #### 4. 디바이스별 High Intent 전환 격차
-        
-        > **Why High Intent?** 전체 전환율은 트래픽 품질에 영향받음. 
-        > "살 마음이 있는 유저"만 비교해야 순수 UX 마찰 측정 가능.
-        
-        | 디바이스 | High Intent CVR | vs Desktop |
-        |:---------|:----------------|:-----------|
-        | Desktop | 25.4% | 기준 |
-        | Mobile | 25.8% | +2% |
-        | Tablet | **22.7%** | **-11%** |
         """)
     
     action_data = {
-        '우선순위': ['🥇 1순위', '🥇 1순위', '🥈 2순위', '🥈 2순위', '🥉 3순위'],
+        '우선순위': ['🥇 1순위', '🥇 1순위', '🥈 2순위', '🥈 2순위'],
         '문제점 (데이터 근거)': [
-            'Bags 카테고리 손실 집중 (608건, 손실 48%)',
+            'Bags 카테고리 손실 집중 (753건, 손실 48%)',
             'Hidden Gem 프로모션 CTR 2.6%로 최저',
             'Deep Specialist 81.4%가 결정 마비 구간',
-            'Apparel 대량 이탈 (12,011건)',
-            'Tablet High Intent CVR 22.7% (Desktop 대비 -11%)'
+            'Apparel 대량 이탈 (12,650건)'
         ],
         '구체적 액션': [
             '분할결제 3/6개월 옵션 도입',
             '배너 위치 상향 + 디자인 A/B 테스트',
             '상품 비교표 + "Best for You" 추천 제공',
-            'Guest Checkout + 원클릭 결제 도입',
-            'Tablet 전용 반응형 UI 개선'
+            'Guest Checkout + 원클릭 결제 도입'
         ],
         '성공 지표 (KPI)': [
             'Bags 카테고리 이탈률 감소',
             'A/B 테스트로 CTR 개선폭 측정',
             '3-11개 구간 수준 (5.26%) 달성',
-            'Apparel 장바구니 완료율 개선',
-            'Desktop 수준 (25.4%) 달성'
+            'Apparel 장바구니 완료율 개선'
         ],
-        '구현 난이도': ['⭐ 낮음', '⭐ 낮음', '⭐⭐ 중간', '⭐⭐ 중간', '⭐⭐⭐ 높음']
+        '구현 난이도': ['⭐ 낮음', '⭐ 낮음', '⭐⭐ 중간', '⭐⭐ 중간']
     }
     
     df_action = pd.DataFrame(action_data)
@@ -820,7 +803,7 @@ elif page == "🔍 세그먼트 분석":
                 <strong>Variety Seeker vs Deep Specialist</strong><br><br>
                 • 전환율 차이: {v_cvr:.2f}% vs {d_cvr:.2f}%<br>
                 • <strong>χ² = {chi2:.2f}</strong><br>
-                • <strong>p-value < 0.001</strong> ✅<br>
+                • <strong>p-value: 0.001 미만</strong> ✅<br>
                 • Cohen's h = {cohens_h:.3f} (중간 효과)<br><br>
                 <em>→ 통계적으로 유의미한 차이</em>
                 </div>
@@ -938,7 +921,7 @@ GROUP BY 1
             
             <strong>통계 검정 결과</strong><br>
             • χ² = 156.3<br>
-            • p < 0.001 ✅<br>
+            • p 값: 0.001 미만 ✅<br>
             • 다른 구간 대비 유의미하게 낮음
             </div>
             """, unsafe_allow_html=True)
@@ -997,7 +980,7 @@ GROUP BY 1
             
             <strong>vs Light Seeker</strong><br>
             • 전환율 차이: 8.0x<br>
-            • χ² = 892.4, p < 0.001<br>
+            • χ² = 892.4, p 값 0.001 미만<br>
             • Cohen's h = 0.72 (대형 효과)
             </div>
             """, unsafe_allow_html=True)
@@ -1190,434 +1173,6 @@ elif page == "📈 전환 퍼널 분석":
             </div>
             """, unsafe_allow_html=True)
     
-    st.markdown("---")
-    
-    # 디바이스별 퍼널
-    st.markdown("### 📱 디바이스별 퍼널 비교")
-    
-    st.info("💡 **상세 분석**: '디바이스 & 시간 분석' 페이지에서 High Intent 기준 분석을 확인하세요.")
-    
-    if 'funnel_device' in data:
-        df_device = data['funnel_device']
-        
-        # Friction Index 계산
-        desktop_cvr = df_device[df_device['device_category'] == 'desktop']['overall_cvr'].values[0]
-        
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            # 디바이스별 단계별 세션 수 (그룹 바 차트)
-            fig_device = go.Figure()
-            
-            stages = ['조회', '장바구니', '구매']
-            colors = ['#3498db', '#27ae60', '#e74c3c']
-            
-            for i, row in df_device.iterrows():
-                fig_device.add_trace(go.Bar(
-                    name=row['device_category'],
-                    x=stages,
-                    y=[row['viewed'], row['carted'], row['purchased']],
-                    text=[f"{row['viewed']:,}", f"{row['carted']:,}", f"{row['purchased']:,}"],
-                    textposition='outside'
-                ))
-            
-            fig_device.update_layout(
-                title="디바이스별 퍼널 단계 세션 수",
-                barmode='group',
-                height=600,
-                legend=dict(orientation='h', yanchor='bottom', y=1.02)
-            )
-            
-            st.plotly_chart(fig_device, use_container_width=True)
-        
-        with col2:
-            # 디바이스별 전환율 비교
-            fig_cvr = go.Figure(go.Bar(
-                x=df_device['device_category'],
-                y=df_device['overall_cvr'],
-                marker_color=['#3498db', '#27ae60', '#e74c3c'],
-                text=df_device['overall_cvr'].apply(lambda x: f'{x}%'),
-                textposition='outside'
-            ))
-            
-            fig_cvr.update_layout(
-                title="디바이스별 전체 전환율",
-                yaxis_title="전환율 (%)",
-                height=600
-            )
-            
-            st.plotly_chart(fig_cvr, use_container_width=True)
-        
-        # 디바이스 상세 테이블
-        st.dataframe(
-            df_device.style.format({
-                'sessions': '{:,.0f}',
-                'viewed': '{:,.0f}',
-                'carted': '{:,.0f}',
-                'purchased': '{:,.0f}',
-                'overall_cvr': '{:.2f}%',
-                'view_to_cart': '{:.2f}%'
-            }),
-            use_container_width=True,
-            hide_index=True
-        )
-    
-    st.markdown("---")
-    
-    # 시간대별 분석
-    st.markdown("### ⏰ 시간대별 전환율 분석")
-    
-    tab1, tab2 = st.tabs(["📅 요일별", "🕐 시간대별"])
-    
-    with tab1:
-        if 'funnel_day' in data:
-            df_day = data['funnel_day']
-            
-            col1, col2 = st.columns([2, 1])
-            
-            with col1:
-                fig_day = go.Figure()
-                
-                fig_day.add_trace(go.Bar(
-                    x=df_day['day_name'],
-                    y=df_day['sessions'],
-                    name='세션 수',
-                    marker_color='#3498db',
-                    yaxis='y'
-                ))
-                
-                fig_day.add_trace(go.Scatter(
-                    x=df_day['day_name'],
-                    y=df_day['cvr'],
-                    name='전환율 (%)',
-                    mode='lines+markers+text',
-                    marker=dict(size=10, color='#e74c3c'),
-                    line=dict(width=3),
-                    text=df_day['cvr'].apply(lambda x: f'{x}%'),
-                    textposition='top center',
-                    yaxis='y2'
-                ))
-                
-                fig_day.update_layout(
-                    title="요일별 세션 수 & 전환율",
-                    xaxis_title="요일",
-                    yaxis=dict(title="세션 수", side='left'),
-                    yaxis2=dict(title="전환율 (%)", side='right', overlaying='y', range=[0, 3]),
-                    legend=dict(orientation='h', yanchor='bottom', y=1.02),
-                    height=600
-                )
-                
-                st.plotly_chart(fig_day, use_container_width=True)
-            
-            with col2:
-                best_day = df_day.loc[df_day['cvr'].idxmax()]
-                worst_day = df_day.loc[df_day['cvr'].idxmin()]
-                
-                st.markdown(f"""
-                <div class="success-box">
-                <strong>📈 최고 전환율 요일</strong><br><br>
-                <strong>{best_day['day_name']}</strong><br>
-                • 전환율: {best_day['cvr']}%<br>
-                • 구매: {int(best_day['purchased']):,}건
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown(f"""
-                <div class="warning-box">
-                <strong>📉 최저 전환율 요일</strong><br><br>
-                <strong>{worst_day['day_name']}</strong><br>
-                • 전환율: {worst_day['cvr']}%<br>
-                • 구매: {int(worst_day['purchased']):,}건
-                </div>
-                """, unsafe_allow_html=True)
-    
-    with tab2:
-        if 'funnel_hour' in data:
-            df_hour = data['funnel_hour']
-            
-            col1, col2 = st.columns([2, 1])
-            
-            with col1:
-                fig_hour = go.Figure()
-                
-                # 전환율 색상 (높을수록 진한 녹색)
-                colors = ['#27ae60' if cvr >= 1.7 else '#f39c12' if cvr >= 1.4 else '#e74c3c' 
-                         for cvr in df_hour['cvr']]
-                
-                fig_hour.add_trace(go.Bar(
-                    x=df_hour['session_hour'],
-                    y=df_hour['cvr'],
-                    marker_color=colors,
-                    text=df_hour['cvr'].apply(lambda x: f'{x}%'),
-                    textposition='outside'
-                ))
-                
-                fig_hour.update_layout(
-                    title="시간대별 전환율 (0-23시)",
-                    xaxis_title="시간 (UTC)",
-                    yaxis_title="전환율 (%)",
-                    height=600
-                )
-                
-                st.plotly_chart(fig_hour, use_container_width=True)
-            
-            with col2:
-                best_hour = df_hour.loc[df_hour['cvr'].idxmax()]
-                worst_hour = df_hour.loc[df_hour['cvr'].idxmin()]
-                
-                st.markdown(f"""
-                <div class="success-box">
-                <strong>🌟 골든 타임</strong><br><br>
-                <strong>{int(best_hour['session_hour'])}시</strong><br>
-                • 전환율: {best_hour['cvr']}%<br>
-                • 세션: {int(best_hour['sessions']):,}
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown(f"""
-                <div class="critical-box">
-                <strong>⚠️ 저조 시간대</strong><br><br>
-                <strong>{int(worst_hour['session_hour'])}시</strong><br>
-                • 전환율: {worst_hour['cvr']}%<br>
-                • 세션: {int(worst_hour['sessions']):,}
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="insight-box">
-                <strong>💡 활용 방안</strong><br><br>
-                • 골든 타임에 프로모션 집중<br>
-                • 저조 시간대 리타겟팅 광고<br>
-                • 시간대별 가격 전략 검토
-                </div>
-                """, unsafe_allow_html=True)
-
-# ----- 5. 디바이스 & 시간 분석 -----
-elif page == "📱 디바이스 & 시간 분석":
-    st.header("📱 디바이스 & ⏱️ 시간 기반 분석")
-    
-    tab1, tab2 = st.tabs(["📱 디바이스 분석", "⏱️ 시간 기반 분석"])
-    
-    with tab1:
-        st.markdown("### 디바이스별 전환 효율 분석")
-        
-        # High Intent 방법론 설명
-        with st.expander("📐 Why High Intent 기준 분석? (핵심 방법론)"):
-            st.markdown("""
-            ### 🎯 문제: 전체 전환율 비교의 한계
-            
-            | 디바이스 | 전체 CVR | 해석 |
-            |:---------|:---------|:-----|
-            | Desktop | 1.58% | - |
-            | Mobile | 1.61% | Desktop보다 높음? |
-            | Tablet | 1.44% | 가장 낮음 |
-            
-            > ❓ "Mobile이 Desktop보다 전환율이 높다고? 그럼 Mobile UX가 더 좋은 건가?"
-            
-            **아닙니다.** 전체 전환율은 **트래픽 품질** (유입 경로, 유저 의도) 에 크게 영향받습니다.
-            
-            ---
-            
-            ### ✅ 해결: High Intent 유저만 비교
-            
-            **"살 마음이 있는 유저"** 가 각 디바이스에서 얼마나 구매를 완료하는지 비교해야
-            **순수 UX 마찰**을 측정할 수 있습니다.
-            
-            | 디바이스 | High Intent CVR | vs Desktop | 해석 |
-            |:---------|:----------------|:-----------|:-----|
-            | Desktop | **25.4%** | 기준 | - |
-            | Mobile | **25.8%** | +2% | UX 마찰 없음 ✅ |
-            | Tablet | **22.7%** | **-11%** | UX 마찰 존재 🔴 |
-            
-            ---
-            
-            ### 💡 핵심 인사이트
-            
-            > "High Intent 유저 (Engagement Score 상위 20%) 도 Tablet에서 전환율이 -11% 낮다면,
-            > 이는 **유저 의도 부족이 아니라 Tablet UX의 구조적 마찰** 때문입니다."
-            
-            **→ Mobile은 문제없음, Tablet만 개선 필요**
-            """, unsafe_allow_html=True)
-            
-            st.code("""
--- mart_device_friction.sql 핵심 로직
-WITH device_stats AS (
-    SELECT
-        e.device_category,
-        COUNT(DISTINCT e.session_unique_id) AS total_sessions,
-        COUNTIF(s.engagement_grade = 'High Intent') AS high_intent_users,
-        COUNTIF(s.engagement_grade = 'High Intent' AND p.is_converted = 1) AS high_intent_converters
-    FROM stg_events e
-    JOIN int_engage_lift_score s ON e.session_unique_id = s.session_unique_id
-    JOIN int_session_paths p ON e.session_unique_id = p.session_unique_id
-    GROUP BY 1
-)
-SELECT
-    device_category,
-    ROUND(SAFE_DIVIDE(high_intent_converters, high_intent_users) * 100, 1) AS high_intent_cvr_percent,
-    
-    -- [핵심] PC 대비 상대 효율 (Efficiency Index)
-    -- 공식: (내 CVR / Desktop CVR) * 100
-    ROUND(
-        SAFE_DIVIDE(
-            high_intent_cvr, 
-            MAX(CASE WHEN device_category = 'desktop' THEN high_intent_cvr END) OVER()
-        ) * 100, 0
-    ) AS efficiency_index_vs_pc
-FROM device_stats
-            """, language="sql")
-        
-        if 'device_friction' in data:
-            df_device = data['device_friction']
-            
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.metric("📱 Mobile", "102", "+2 vs PC", delta_color="normal")
-            with col2:
-                st.metric("🖥️ Desktop", "100", "기준값")
-            with col3:
-                st.metric("📟 Tablet", "90", "-10 vs PC", delta_color="inverse")
-            
-            st.markdown("---")
-            
-            col1, col2 = st.columns(2)
-            
-            with col1:
-                fig = go.Figure()
-                
-                fig.add_trace(go.Bar(
-                    x=df_device['device_category'],
-                    y=df_device['high_intent_cvr_percent'],
-                    marker_color=['#3498db', '#27ae60', '#e74c3c'],
-                    text=df_device['high_intent_cvr_percent'].apply(lambda x: f'{x}%'),
-                    textposition='outside'
-                ))
-                
-                fig.update_layout(
-                    title='디바이스별 High Intent 전환율',
-                    yaxis_title='전환율 (%)',
-                    height=600
-                )
-                
-                st.plotly_chart(fig, use_container_width=True)
-            
-            with col2:
-                st.markdown("""
-                <div class="warning-box">
-                <strong>⚠️ Tablet만 UX 개선 필요</strong><br><br>
-                • High Intent CVR: <strong>22.7%</strong><br>
-                • vs Desktop: <strong>-11%</strong> (25.4%)<br>
-                • 효율지수: 90<br><br>
-                
-                <strong>개선 방안:</strong><br>
-                • 반응형 레이아웃 최적화<br>
-                • 터치 영역 확대<br>
-                • 원클릭 결제 도입<br><br>
-                
-                <em>KPI: Desktop 수준(25.4%) 달성</em>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="insight-box">
-                <strong>💡 반직관적 발견: Mobile은 문제없음</strong><br><br>
-                • Mobile High Intent CVR: <strong>25.8%</strong><br>
-                • vs Desktop: <strong>+2%</strong><br>
-                • 효율지수: 102<br><br>
-                
-                → 모바일 UX는 이미 최적화됨<br>
-                → <strong>Tablet만 집중 개선</strong> 필요
-                </div>
-                """, unsafe_allow_html=True)
-    
-    with tab2:
-        st.markdown("### 구매 소요 시간별 객단가 분석")
-        
-        if 'time_conversion' in data:
-            df_time = data['time_conversion']
-            
-            # 시간 구간별 집계
-            time_summary = df_time.groupby('time_bucket').agg({
-                'session_count': 'sum',
-                'avg_order_value': 'mean'
-            }).reset_index()
-            
-            col1, col2 = st.columns([2, 1])
-            
-            with col1:
-                fig = make_subplots(specs=[[{"secondary_y": True}]])
-                
-                fig.add_trace(
-                    go.Bar(
-                        x=time_summary['time_bucket'],
-                        y=time_summary['avg_order_value'],
-                        name='평균 객단가',
-                        marker_color='#3498db',
-                        text=time_summary['avg_order_value'].apply(lambda x: f'${x:.0f}'),
-                        textposition='outside'
-                    ),
-                    secondary_y=False
-                )
-                
-                fig.add_trace(
-                    go.Scatter(
-                        x=time_summary['time_bucket'],
-                        y=time_summary['session_count'],
-                        name='세션 수',
-                        mode='lines+markers',
-                        marker=dict(size=10, color='#e74c3c'),
-                        line=dict(width=3)
-                    ),
-                    secondary_y=True
-                )
-                
-                fig.update_layout(
-                    title='구매 소요 시간별 객단가 & 세션 수',
-                    height=600,
-                    legend=dict(orientation='h', yanchor='bottom', y=1.02)
-                )
-                fig.update_yaxes(title_text="평균 객단가 ($)", secondary_y=False)
-                fig.update_yaxes(title_text="세션 수", secondary_y=True)
-                
-                st.plotly_chart(fig, use_container_width=True)
-            
-            with col2:
-                st.markdown("""
-                <div class="stat-significant">
-                <strong>📊 H4 가설 검증</strong><br><br>
-                구매 시간 ↑ = 객단가 ↑<br><br>
-                
-                • 상관계수: <strong>r = 0.89</strong><br>
-                • p-value < 0.001 ✅<br><br>
-                
-                <strong>AOV 비교:</strong><br>
-                • 0-5분: $241<br>
-                • 60분+: $1,847<br>
-                • <strong>7.7x 차이</strong>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="success-box">
-                <strong>💡 VIP 고객 특성</strong><br><br>
-                60분+ 구매 고객 (n=102)<br><br>
-                • 고가 상품 신중 검토<br>
-                • 프리미엄 서비스 타겟<br>
-                • 전용 CS 채널 제공 고려
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="limitation-box">
-                <strong>⚠️ 주의사항</strong><br><br>
-                60분+ 세그먼트 n=102<br>
-                → 샘플 크기 작음<br>
-                → 신뢰구간 넓음<br>
-                → 추가 데이터 수집 필요
-                </div>
-                """, unsafe_allow_html=True)
-
 # ----- 6. 이탈 & 기회 분석 -----
 elif page == "🛒 장바구니 & 프로모션 분석":
     st.header("🛒 장바구니 이탈 & 📢 프로모션 기회 분석")
@@ -1983,7 +1538,7 @@ GROUP BY 1
             st.markdown("""
             ### 🎯 유저 품질 평가: Lift 기반 Engagement Score
             
-            프로모션을 클릭한 유저의 **품질(구매 가능성)**을 평가하기 위해 
+            프로모션을 클릭한 유저의 **품질** (구매 가능성) 을 평가하기 위해 
             **Lift(향상도)** 기반의 Engagement Score를 사용합니다.
             
             ---
@@ -2221,14 +1776,14 @@ elif page == "🎯 액션 우선순위":
     
     actions = {
         'action': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너 개선', 'Deep Specialist 비교표', 
-                   'VIP 세그먼트 타겟팅', 'Tablet UX 개선', '분할결제 도입', 
+                   'VIP 세그먼트 타겟팅', '분할결제 도입', 
                    '실시간 세션 스코어링', 'CDP 구축'],
-        'impact': [85, 70, 80, 75, 60, 70, 90, 95],
-        'effort': [20, 15, 40, 50, 70, 60, 80, 95],
+        'impact': [85, 70, 80, 75, 70, 90, 95],
+        'effort': [20, 15, 40, 50, 60, 80, 95],
         'category': ['Quick Win', 'Quick Win', 'Quick Win', 'Major Project', 
-                     'Major Project', 'Major Project', 'Strategic', 'Strategic'],
-        'data_evidence': ['고가 $251/건 이탈', 'CTR 2.6% but CVR 4.63%', '81.4% 결정마비', 'AOV 7.7배',
-                          'CVR 0.8% 최저', 'Bags 이탈 집중', '스코어 기반 예측', '통합 고객 뷰']
+                     'Major Project', 'Strategic', 'Strategic'],
+        'data_evidence': ['Bags 48% 손실 집중', 'CTR 2.6% but CVR 4.63%', '81.4% 결정마비', 'Variety Seeker CVR 13%',
+                          'Bags 건당 $216', '스코어 기반 예측', '통합 고객 뷰']
     }
     
     df_actions = pd.DataFrame(actions)
@@ -2343,13 +1898,13 @@ elif page == "🎯 액션 우선순위":
     st.markdown("### 📋 상세 액션 리스트")
     
     action_detail = {
-        '우선순위': ['🥇 1', '🥇 1', '🥈 2', '🥈 2', '🥉 3', '🥉 3'],
-        '액션': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너', 'Deep Specialist 비교표', 
-                 'VIP 타겟팅', 'Tablet UX', '분할결제'],
-        '데이터 근거': ['고가 상품 이탈 $251/건', 'CTR 2.6% but CVR 4.63%', '81.4%가 결정 마비 구간', 'AOV 7.7배 차이', 'High Intent CVR 22.7% (Desktop 대비 -11%)', 'Bags 이탈 집중'],
-        '성공 KPI': ['A/B 테스트로 측정', 'A/B 테스트로 CTR 측정', '3-11개 수준(5.26%) 달성', 'VIP 재구매율 측정', 'Desktop 수준(25.4%) 달성', 'A/B 테스트로 측정'],
-        '구현 난이도': ['낮음 ⭐', '낮음 ⭐', '중간 ⭐⭐', '중간 ⭐⭐', '높음 ⭐⭐⭐', '중간 ⭐⭐'],
-        '소요 기간': ['1주', '1주', '3주', '4주', '6주', '4주']
+        '우선순위': ['🥇 1', '🥇 1', '🥈 2', '🥈 2'],
+        '액션': ['장바구니 리마케팅 (Bags)', 'Hidden Gem 프로모션 배너', 'Deep Specialist 비교표', 
+                 'VIP 세그먼트 타겟팅'],
+        '데이터 근거': ['Bags 753건, 손실 48%', 'CTR 2.6% but CVR 4.63%', '81.4%가 결정 마비 구간', 'Variety Seeker CVR 13%'],
+        '성공 KPI': ['Bags 이탈률 감소', 'A/B 테스트로 CTR 측정', '3-11개 수준(5.26%) 달성', 'VIP 재구매율 측정'],
+        '구현 난이도': ['낮음 ⭐', '낮음 ⭐', '중간 ⭐⭐', '중간 ⭐⭐'],
+        '소요 기간': ['1주', '1주', '3주', '4주']
     }
     
     st.dataframe(pd.DataFrame(action_detail), use_container_width=True, hide_index=True)
@@ -2609,7 +2164,7 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
             <div class="stat-significant">
             <strong>📈 결과 해석</strong><br><br>
             • χ² = <strong>722.27</strong><br>
-            • p-value < <strong>0.001</strong> ✅<br><br>
+            • p-value: <strong>0.001 미만</strong> ✅<br><br>
             
             <strong>의미:</strong><br>
             두 변수는 독립적이지 않음.<br>
@@ -2632,7 +2187,7 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
             
             **📐 왜 효과 크기가 필요한가?**
             - **통계적으로 유의하다** (Significant) ≠ **중요하다** (Important)
-            - 빅데이터에서는 아주 작은 차이도 p < 0.001이 나옴
+            - 빅데이터에서는 아주 작은 차이도 p 값이 0.001 미만으로 나옴
             - **"실질적인 중요성"** 을 측정하기 위해 사용
             
             **🔬 Cohen's h 특징**
@@ -2813,11 +2368,11 @@ CROSS JOIN price_quantiles
         st.markdown("""
         | 티어 | 백분위 | 가격 범위 (예시) | 특징 |
         |:-----|:-------|:-----------------|:-----|
-        | **Low** | 하위 33% | < $16 | 저관여 상품, 충동구매 유도 |
+        | **Low** | 하위 33% | $16 미만 | 저관여 상품, 충동구매 유도 |
         | **Mid** | 중간 34% | $16 ~ $45 | 비교 구매 대상 |
-        | **High** | 상위 33% | > $45 | 고관여, 결정 마비 발생 |
+        | **High** | 상위 33% | $45 초과 | 고관여, 결정 마비 발생 |
         
-        > 이 방식은 시즌별 가격 변동에도 **자동으로 적응**하는 장점이 있습니다.
+        > 이 방식은 시즌별 가격 변동에도 **자동으로 적응** 하는 장점이 있습니다.
         """)
     
     with tab3:
