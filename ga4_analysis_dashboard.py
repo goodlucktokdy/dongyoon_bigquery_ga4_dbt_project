@@ -282,12 +282,12 @@ if page == "🏠 Executive Summary":
     with col5:
         st.markdown("""
         <div class="metric-container">
-            <div class="big-number">$300K+</div>
+            <div class="big-number">$300K</div>
             <div class="kpi-label">장바구니 이탈 손실*</div>
         </div>
         """, unsafe_allow_html=True)
     
-    st.caption("*Rain Shell 이상치(quantity 비정상) 제외 후 추정치")
+    st.caption("*Rain Shell 이상치(quantity 비정상) 제외")
     
     st.markdown("---")
     
@@ -352,7 +352,7 @@ if page == "🏠 Executive Summary":
         'Reach New Heights' <strong>프로모션 배너</strong><br>
         CTR 2.6% (최저) but<br>
         클릭 유저 전환율 <strong>4.63%</strong> (최고)<br><br>
-        <em>배너 노출 개선 시 +50건/월 전환</em>
+        <em>액션: 배너 A/B 테스트로 CTR 개선</em>
         </div>
         """, unsafe_allow_html=True)
     
@@ -363,63 +363,78 @@ if page == "🏠 Executive Summary":
         85개+ 상품 조회 고객<br>
         전환율 <strong>31.53%</strong><br>
         평균 6.4개 카테고리 탐색<br><br>
-        <em>크로스셀링 최적 타겟</em>
+        <em>액션: VIP 전용 크로스셀링</em>
         </div>
         """, unsafe_allow_html=True)
     
     st.markdown("---")
     
-    # ROI 시뮬레이션
-    st.markdown("### 💰 예상 ROI 시뮬레이션")
+    # 데이터 기반 액션 플랜
+    st.markdown("### 📋 데이터 기반 액션 플랜")
     
-    # 가정의 근거 설명
-    with st.expander("📐 ROI 추정치의 가정 및 근거 (Assumptions)"):
+    # 인사이트 도출 근거
+    with st.expander("📐 인사이트 도출 근거 (Data Evidence)"):
         st.markdown("""
-        ### 시뮬레이션 가정 명세
+        ### 각 액션의 데이터 근거
         
-        ROI 추정치는 <strong>업계 벤치마크(Industry Benchmark)</strong>와 <strong>보수적/공격적 시나리오</strong>를 기반으로 산출했습니다.
+        #### 1. 장바구니 이탈 - 2가지 패턴 발견
         
-        #### 1. 장바구니 리마케팅 회수율 (5%)
+        | 패턴 | 데이터 근거 | 핵심 문제 |
+        |:-----|:-----------|:---------|
+        | **고가 상품 이탈** | BackPack 302건, **$251/건** | 결제 금액 부담 |
+        | **저가 대량 이탈** | Beanie **1,391건**, $14/건 | 결제 과정 마찰 |
         
-        | 단계 | 벤치마크 | 출처 |
-        |:-----|:---------|:-----|
-        | 이메일 오픈율 | 40% | Klaviyo 2023 Benchmark |
-        | 클릭률 (CTR) | 20% | Mailchimp Industry Average |
-        | 전환율 (CVR) | 10% | Barilliance 2023 Report |
-        | **종합 회수율** | **0.8% ~ 2.0%** | 보수적 추정치 |
+        #### 2. Deep Specialist 결정 마비
         
-        > 본 시뮬레이션은 <strong>공격적 마케팅 시나리오(5%)</strong>를 가정하여 최대 잠재력을 산출했습니다.
-        > 보수적 시나리오(2%) 적용 시: $15.9K/월
+        - 12-24개 상품 조회 구간 전환율: **1.88%** (평균 대비 -70%)
+        - 해당 구간 세션 비중: **81.4%** (대다수가 여기서 이탈)
+        - 3-11개 구간 전환율: **5.26%** (정상 수준)
         
-        #### 2. Deep Specialist 비교표 효과 (+361건)
+        #### 3. Hidden Gem 프로모션
         
-        - 현재 12-24개 구간 전환율: 1.88%
-        - 목표 전환율: 3-11개 구간 수준 (5.26%)
-        - 대상 세션: (전체 Deep Specialist) × 81.4% = ~7,200 세션/월
-        - 예상 추가 전환: 7,200 × (5.26% - 1.88%) ≈ **+361건**
+        - CTR: **2.56%** (5개 중 최저)
+        - 클릭 유저 전환율: **4.63%** (5개 중 최고)
+        - → 노출만 늘리면 고품질 유저 유입 가능
         
-        #### 3. 시나리오별 ROI 범위
+        #### 4. 디바이스별 전환 격차
         
-        | 시나리오 | 가정 | 예상 연간 효과 |
-        |:---------|:-----|:---------------|
-        | 🔴 보수적 | 회수율 2%, 전환 개선 50% | $250K |
-        | 🟡 기본 | 회수율 5%, 전환 개선 75% | $300K |
-        | 🟢 공격적 | 회수율 10%, 전환 개선 100% | $500K+ |
-        
-        > ⚠️ Rain Shell 이상치(quantity 비정상) 제외 후 추정치입니다.
+        | 디바이스 | 전환율 | vs Desktop |
+        |:---------|:-------|:-----------|
+        | Desktop | 2.1% | 기준 |
+        | Mobile | 1.2% | -43% |
+        | Tablet | **0.8%** | **-62%** |
         """)
     
-    roi_data = {
-        '개선 항목': ['장바구니 리마케팅 (5% 회수)*', 'Deep Specialist 비교표 제공', 'Hidden Gem 프로모션 배너 개선', 'Tablet UX 최적화', 'VIP 세그먼트 타겟팅'],
-        '예상 효과': ['+$15K/월', '+361건 전환/월', '+50건 전환/월', '+2.5%p 전환율', '+15% LTV'],
-        '구현 난이도': ['⭐ 낮음', '⭐⭐ 중간', '⭐ 낮음', '⭐⭐⭐ 높음', '⭐⭐ 중간'],
-        '우선순위': ['🥇 1순위', '🥈 2순위', '🥇 1순위', '🥉 3순위', '🥈 2순위']
+    action_data = {
+        '우선순위': ['🥇 1순위', '🥇 1순위', '🥈 2순위', '🥈 2순위', '🥉 3순위'],
+        '문제점 (데이터 근거)': [
+            '고가 상품 결제 이탈 (BackPack $251/건, 302건)',
+            'Hidden Gem 프로모션 CTR 2.6%로 최저',
+            'Deep Specialist 81.4%가 결정 마비 구간',
+            '저가 상품 대량 이탈 (Beanie 1,391건)',
+            'Tablet 전환율 0.8% (Desktop의 38%)'
+        ],
+        '구체적 액션': [
+            '분할결제 3/6개월 옵션 도입',
+            '배너 위치 상향 + 디자인 A/B 테스트',
+            '상품 비교표 + "Best for You" 추천 제공',
+            'Guest Checkout + 원클릭 결제 도입',
+            'Tablet 전용 반응형 UI 개선'
+        ],
+        '성공 지표 (KPI)': [
+            '고가 상품(Bags) 전환율 현재 → +15%',
+            'Hidden Gem CTR 2.6% → 10%',
+            '12-24개 구간 전환율 1.88% → 3.5%',
+            '장바구니 완료율 현재 → +10%',
+            'Tablet 전환율 0.8% → 1.5%'
+        ],
+        '구현 난이도': ['⭐ 낮음', '⭐ 낮음', '⭐⭐ 중간', '⭐⭐ 중간', '⭐⭐⭐ 높음']
     }
     
-    df_roi = pd.DataFrame(roi_data)
-    st.dataframe(df_roi, use_container_width=True, hide_index=True)
+    df_action = pd.DataFrame(action_data)
+    st.dataframe(df_action, use_container_width=True, hide_index=True)
     
-    st.caption("*공격적 시나리오 기준 (Rain Shell 이상치 제외). 보수적 추정(2% 회수) 시 $6K/월")
+    st.info("💡 **검증 방법**: 각 액션은 A/B 테스트로 효과 검증 후 전체 적용 권장")
 
 # ----- 2. 데이터 개요 & 품질 -----
 elif page == "📊 데이터 개요 & 품질":
@@ -895,7 +910,7 @@ WHERE browsing_style = 'Deep Specialist'
             1. 10개+ 조회 시 <strong>비교표</strong> 자동 제공<br>
             2. 15개+ 조회 시 <strong>한정 쿠폰</strong> 트리거<br>
             3. "인기 상품 TOP 3" 추천<br><br>
-            <em>예상 효과: +361건 전환/월</em>
+            <em>KPI: 12-24개 구간 CVR 1.88% → 3.5%</em>
             </div>
             """, unsafe_allow_html=True)
     
@@ -1505,7 +1520,7 @@ elif page == "📱 디바이스 & 시간 분석":
                 • 터치 영역 확대<br>
                 • 원클릭 결제 도입<br><br>
                 
-                <em>예상 효과: +2.5%p 전환율</em>
+                <em>KPI: Tablet CVR 0.8% → 1.5%</em>
                 </div>
                 """, unsafe_allow_html=True)
                 
@@ -1654,65 +1669,79 @@ elif page == "🛒 이탈 & 기회 분석":
             # 제거 후 상위 15개
             df_cart = df_cart.head(15)
             
-            # 제거 전후 비교 표시
-            total_loss_before = df_cart_raw['total_lost_revenue'].sum() if 'total_lost_revenue' in df_cart_raw.columns else 0
-            total_loss_after = df_cart['total_lost_revenue'].sum() if 'total_lost_revenue' in df_cart.columns else 0
+            # 핵심 지표 계산
+            total_loss = df_cart['total_lost_revenue'].sum()
+            total_abandon = df_cart['abandoned_count'].sum() if 'abandoned_count' in df_cart.columns else 0
+            
+            # 고가 상품 (건당 $50 이상) vs 저가 대량 이탈 분류
+            df_high_value = df_cart[df_cart['avg_lost_value'] >= 50]
+            df_low_value = df_cart[df_cart['avg_lost_value'] < 50]
             
             col1, col2, col3, col4 = st.columns(4)
             
             with col1:
-                st.metric("총 손실 (이상치 제외)", f"${total_loss_after/1000:.0f}K", 
-                         help="Rain Shell 이상치 제외 후 상위 15개 상품")
+                st.metric("총 이탈 손실", f"${total_loss/1000:.0f}K", 
+                         help="상위 15개 상품 (Rain Shell 제외)")
             with col2:
-                recovery_5pct = total_loss_after * 0.05
-                st.metric("5% 회수 시 (월)", f"${recovery_5pct/1000:.1f}K",
-                         help="리마케팅으로 5% 회수 가정")
+                st.metric("총 이탈 건수", f"{total_abandon:,}건",
+                         help="장바구니 담고 미구매")
             with col3:
-                recovery_annual = recovery_5pct * 12
-                st.metric("연간 ROI 예상", f"${recovery_annual/1000:.0f}K",
-                         help="5% 회수 × 12개월")
+                high_loss = df_high_value['total_lost_revenue'].sum()
+                st.metric("고가 상품 손실", f"${high_loss/1000:.0f}K",
+                         delta="건당 $50+", delta_color="off")
             with col4:
-                st.metric("이상치 제외", "Rain Shell", 
-                         delta="quantity 이상치", delta_color="off")
-            
-            # ROI 계산 근거
-            with st.expander("📊 ROI 계산 근거 및 가정"):
-                st.markdown("""
-                ### 💰 장바구니 리마케팅 ROI 계산식
-                
-                **1. 기본 공식:**
-                ```
-                월간 회수 가능 매출 = 총 이탈 손실 × 회수율(%)
-                연간 ROI = 월간 회수 가능 매출 × 12
-                ```
-                
-                **2. 회수율 5% 산출 근거:**
-                
-                | 단계 | 벤치마크 | 출처 |
-                |:-----|:---------|:-----|
-                | 이메일 오픈율 | 40% | Klaviyo 2023 Benchmark |
-                | 클릭률 (CTR) | 20% | Mailchimp Industry Average |
-                | 전환율 (CVR) | 10% | Barilliance 2023 Report |
-                | **종합 회수율** | **0.8% ~ 2.0%** | 40% × 20% × 10% = 0.8% |
-                
-                > ⚠️ 본 분석에서는 **공격적 시나리오(5%)**를 가정했습니다.
-                > 리마케팅 최적화, 다채널 푸시, 쿠폰 제공 등 추가 전략 적용 시 달성 가능합니다.
-                
-                **3. 시나리오별 예상 ROI:**
-                """)
-                
-                scenario_data = {
-                    '시나리오': ['🔴 보수적', '🟡 기본', '🟢 공격적'],
-                    '회수율': ['2%', '5%', '10%'],
-                    '월간 회수': [f'${total_loss_after*0.02/1000:.1f}K', f'${total_loss_after*0.05/1000:.1f}K', f'${total_loss_after*0.10/1000:.1f}K'],
-                    '연간 ROI': [f'${total_loss_after*0.02*12/1000:.0f}K', f'${total_loss_after*0.05*12/1000:.0f}K', f'${total_loss_after*0.10*12/1000:.0f}K'],
-                    '가정': ['이메일만', '이메일+푸시+쿠폰', '풀스택 리마케팅']
-                }
-                st.dataframe(pd.DataFrame(scenario_data), use_container_width=True, hide_index=True)
+                low_count = df_low_value['abandoned_count'].sum() if 'abandoned_count' in df_low_value.columns else 0
+                st.metric("저가 대량 이탈", f"{low_count:,}건",
+                         delta="건당 $50 미만", delta_color="off")
             
             st.markdown("---")
             
-            # 그래프 2개: 총 손실 + 건당 손실
+            # 핵심 발견: 2가지 이탈 패턴
+            st.markdown("### 🔍 데이터에서 발견한 2가지 이탈 패턴")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("""
+                <div class="critical-box">
+                <strong>🔴 패턴 1: 고가 상품 결제 허들</strong><br><br>
+                <strong>데이터 근거:</strong><br>
+                • Utility BackPack: 302건, <strong>$251/건</strong><br>
+                • Flat Front Bag: 306건, <strong>$64/건</strong><br>
+                • Super G Joggers: 154건, <strong>$38/건</strong><br><br>
+                
+                <strong>문제점:</strong><br>
+                건당 손실 높음 = 고가 상품에서 결제 직전 이탈<br><br>
+                
+                <strong>📋 액션 플랜:</strong><br>
+                1. <strong>분할결제</strong> 3/6개월 옵션<br>
+                2. <strong>가격 보장</strong> 배지 표시<br>
+                3. <strong>무료배송</strong> 임계값 안내
+                </div>
+                """, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown("""
+                <div class="warning-box">
+                <strong>🟡 패턴 2: 저가 상품 대량 이탈</strong><br><br>
+                <strong>데이터 근거:</strong><br>
+                • Heathered Pom Beanie: <strong>1,391건</strong>, $14/건<br>
+                • Zip Hoodie F/C: <strong>1,237건</strong>, $4/건<br>
+                • Navy Speckled Tee: <strong>1,248건</strong>, $2/건<br><br>
+                
+                <strong>문제점:</strong><br>
+                이탈 건수 많음 = 결제 과정 마찰 존재<br><br>
+                
+                <strong>📋 액션 플랜:</strong><br>
+                1. <strong>Guest Checkout</strong> 원클릭 결제<br>
+                2. <strong>리마인더 이메일</strong> 1h/24h/72h<br>
+                3. <strong>묶음 할인</strong> 2+1 제안
+                </div>
+                """, unsafe_allow_html=True)
+            
+            st.markdown("---")
+            
+            # 그래프: 총 손실 + 이탈 건수
             st.markdown("### 📊 장바구니 이탈 상품 분석")
             
             col1, col2 = st.columns(2)
@@ -1739,7 +1768,7 @@ elif page == "🛒 이탈 & 기회 분석":
                 
                 fig1.update_layout(
                     title='📦 총 손실 금액 TOP 10',
-                    xaxis_title='총 손실 매출 ($)',
+                    xaxis_title='총 손실 ($)',
                     yaxis_title='',
                     yaxis={'categoryorder': 'total ascending'},
                     height=500,
@@ -1748,110 +1777,79 @@ elif page == "🛒 이탈 & 기회 분석":
                 )
                 
                 st.plotly_chart(fig1, use_container_width=True)
-                
-                st.caption("📌 총 손실 = 이탈 건수 × 건당 손실 금액")
+                st.caption("📌 색상이 진할수록 건당 손실 높음 (고가 상품)")
             
             with col2:
-                # 건당 손실 금액 그래프
-                df_top_avg = df_cart.nlargest(10, 'avg_lost_value')
-                
-                fig2 = px.bar(
-                    df_top_avg,
-                    x='avg_lost_value',
-                    y='item_name',
-                    orientation='h',
-                    color='total_lost_revenue',
-                    color_continuous_scale='Blues',
-                    text_auto=False
-                )
-                
-                fig2.update_traces(
-                    text=[f'${x:,.0f}' for x in df_top_avg['avg_lost_value']],
-                    textposition='outside',
-                    textfont=dict(size=10),
-                    hovertemplate='%{y}<br>건당 손실: $%{x:,.0f}<extra></extra>'
-                )
-                
-                fig2.update_layout(
-                    title='💵 건당 손실 금액 TOP 10',
-                    xaxis_title='건당 손실 금액 ($)',
-                    yaxis_title='',
-                    yaxis={'categoryorder': 'total ascending'},
-                    height=500,
-                    coloraxis_colorbar_title='총 손실',
-                    margin=dict(l=10, r=80, t=50, b=50)
-                )
-                
-                st.plotly_chart(fig2, use_container_width=True)
-                
-                st.caption("📌 건당 손실 높은 상품 = 고가 상품 결제 허들 존재")
+                # 이탈 건수 TOP 10
+                if 'abandoned_count' in df_cart.columns:
+                    df_top_count = df_cart.nlargest(10, 'abandoned_count')
+                    
+                    fig2 = px.bar(
+                        df_top_count,
+                        x='abandoned_count',
+                        y='item_name',
+                        orientation='h',
+                        color='avg_lost_value',
+                        color_continuous_scale='Blues',
+                        text_auto=False
+                    )
+                    
+                    fig2.update_traces(
+                        text=[f'{x:,}건' for x in df_top_count['abandoned_count']],
+                        textposition='outside',
+                        textfont=dict(size=10),
+                        hovertemplate='%{y}<br>이탈: %{x:,}건<extra></extra>'
+                    )
+                    
+                    fig2.update_layout(
+                        title='🔢 이탈 건수 TOP 10',
+                        xaxis_title='이탈 건수',
+                        yaxis_title='',
+                        yaxis={'categoryorder': 'total ascending'},
+                        height=500,
+                        coloraxis_colorbar_title='건당 손실',
+                        margin=dict(l=10, r=80, t=50, b=50)
+                    )
+                    
+                    st.plotly_chart(fig2, use_container_width=True)
+                    st.caption("📌 색상이 연할수록 저가 상품 (대량 이탈 패턴)")
             
             st.markdown("---")
             
-            # 분석 요약
-            col1, col2 = st.columns([1.2, 1])
+            # 액션 플랜 요약
+            st.markdown("### 📋 데이터 기반 액션 플랜")
             
-            with col1:
-                st.markdown("### 🔍 주요 발견사항")
-                
-                if len(df_top) > 0:
-                    top_total = df_top.iloc[0]
-                    top_avg = df_top_avg.iloc[0]
-                    
-                    st.markdown(f"""
-                    <div class="insight-box">
-                    <strong>📊 총 손실 TOP 1</strong><br>
-                    <strong>{top_total['item_name'][:35]}...</strong><br>
-                    총 손실: <strong>${top_total['total_lost_revenue']:,.0f}</strong><br><br>
-                    
-                    <strong>💵 건당 손실 TOP 1</strong><br>
-                    <strong>{top_avg['item_name'][:35]}...</strong><br>
-                    건당 손실: <strong>${top_avg['avg_lost_value']:,.0f}</strong>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    st.markdown("""
-                    <div class="methodology-box">
-                    <strong>💡 인사이트</strong><br><br>
-                    • <strong>총 손실 TOP</strong>: 이탈 건수가 많은 인기 상품<br>
-                    &nbsp;&nbsp;→ 리마케팅 우선순위 높음<br><br>
-                    • <strong>건당 손실 TOP</strong>: 고가 상품 결제 마찰<br>
-                    &nbsp;&nbsp;→ 분할결제, 가격 보장 정책 필요
-                    </div>
-                    """, unsafe_allow_html=True)
+            action_data = {
+                '우선순위': ['🔴 1순위', '🔴 1순위', '🟡 2순위', '🟡 2순위'],
+                '문제점': [
+                    '고가 상품 결제 이탈 (BackPack $251/건)',
+                    '저가 상품 대량 이탈 (Beanie 1,391건)',
+                    '장바구니 → 구매 전환 마찰',
+                    '재방문 유도 부족'
+                ],
+                '데이터 근거': [
+                    'Bags 카테고리 손실 집중',
+                    '상위 5개 상품 이탈 5,000건+',
+                    '결제 완료율 데이터 필요',
+                    '이탈 후 재구매 추적 필요'
+                ],
+                '구체적 액션': [
+                    '분할결제 3/6개월 + 가격 보장 배지',
+                    'Guest Checkout + 원클릭 결제',
+                    '리마인더 이메일 (1h/24h/72h)',
+                    '이탈 상품 기반 리타겟팅 광고'
+                ],
+                '성공 KPI': [
+                    'Bags 전환율 +15%',
+                    '장바구니 완료율 +10%',
+                    '이탈 고객 재방문율 측정',
+                    '리타겟팅 CTR/CVR 측정'
+                ]
+            }
             
-            with col2:
-                # TOP 1 상품 상세 분석
-                if len(df_top) > 0:
-                    top_item = df_top.iloc[0]
-                    abandon_cnt = int(top_item.get('abandoned_count', top_item.get('abandon_count', 0)))
-                    if abandon_cnt == 0 and top_item['avg_lost_value'] > 0:
-                        abandon_cnt = int(top_item['total_lost_revenue'] / top_item['avg_lost_value'])
-                    
-                    st.markdown(f"""
-                    <div class="critical-box">
-                    <strong>🚨 최우선 개선 대상</strong><br><br>
-                    <strong>{top_item['item_name'][:30]}...</strong><br><br>
-                    • 이탈 건수: <strong>{abandon_cnt:,}건</strong><br>
-                    • 총 손실: <strong>${top_item['total_lost_revenue']:,.0f}</strong><br>
-                    • 건당 손실: ${top_item['avg_lost_value']:,.0f}<br><br>
-                    
-                    <strong>권장 액션:</strong><br>
-                    1. 장바구니 리마인더 이메일 발송<br>
-                    2. 한정 시간 쿠폰 제공<br>
-                    3. 재입고 알림 기능 추가
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="success-box">
-                <strong>💡 개선 방안 우선순위</strong><br><br>
-                1. <strong>분할결제</strong> 옵션 (고가 상품)<br>
-                2. <strong>가격 보장</strong> 정책 안내<br>
-                3. 리마케팅 이메일 자동화<br>
-                4. 장바구니 만료 카운트다운
-                </div>
-                """, unsafe_allow_html=True)
+            st.dataframe(pd.DataFrame(action_data), use_container_width=True, hide_index=True)
+            
+            st.info("💡 **검증 방법**: A/B 테스트로 각 액션의 효과 측정 후 전체 적용")
     
     with tab2:
         st.markdown("### 프로모션 품질 4분면 분석")
@@ -1906,7 +1904,7 @@ elif page == "🛒 이탈 & 기회 분석":
                 | 🔘 **Poor** | 낮음 | 낮음 | 제거/교체 대상 |
                 
                 > **Hidden Gem 프로모션**: CTR은 낮지만 클릭한 유저의 구매 전환율이 높은 프로모션.  
-                > 배너 디자인, 위치, 카피 개선으로 CTR만 높이면 ROI 극대화 가능.
+                > 배너 디자인, 위치, 카피 개선으로 CTR만 높이면 고품질 유저 유입 증가.
                 """)
             
             col1, col2 = st.columns(2)
@@ -1920,8 +1918,8 @@ elif page == "🛒 이탈 & 기회 분석":
                 • 클릭 유저 Engagement: 400.2 (최고)<br>
                 • 클릭 유저 전환율: 4.63% (최고)<br><br>
                 
-                <strong>→ 배너 디자인/위치만 개선하면<br>
-                높은 ROI 기대</strong>
+                <strong>→ 배너 노출만 개선하면<br>
+                고품질 유저 유입 증가</strong>
                 </div>
                 """, unsafe_allow_html=True)
             
@@ -1934,7 +1932,7 @@ elif page == "🛒 이탈 & 기회 분석":
                 2. <strong>배너 위치</strong> 상향 조정<br>
                    메인 페이지 상단 배치<br><br>
                 3. 월간 성과 모니터링<br><br>
-                <em>예상 효과: +50건 전환/월</em>
+                <em>KPI: CTR 2.6% → 10%</em>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -1957,8 +1955,8 @@ elif page == "🎯 액션 우선순위":
         'effort': [20, 15, 40, 50, 70, 60, 80, 95],
         'category': ['Quick Win', 'Quick Win', 'Quick Win', 'Major Project', 
                      'Major Project', 'Major Project', 'Strategic', 'Strategic'],
-        'expected_value': ['$39.7K/월', '+50건/월', '+361건/월', '+15% LTV',
-                          '+2.5%p CVR', '$100K+', '+2% CVR', '+20% LTV']
+        'data_evidence': ['고가 $251/건 이탈', 'CTR 2.6% but CVR 4.63%', '81.4% 결정마비', 'AOV 7.7배',
+                          'CVR 0.8% 최저', 'Bags 이탈 집중', '스코어 기반 예측', '통합 고객 뷰']
     }
     
     df_actions = pd.DataFrame(actions)
@@ -2020,14 +2018,14 @@ elif page == "🎯 액션 우선순위":
         
         <strong>1. 장바구니 리마케팅</strong><br>
         • 1/24/72시간 이메일 자동화<br>
-        • 예상: $39.7K/월<br><br>
+        • KPI: 장바구니 완료율 +10%<br><br>
         
         <strong>2. Hidden Gem 프로모션 배너 A/B 테스트</strong><br>
-        • 새 디자인 테스트<br>
-        • 예상: +50건/월<br><br>
+        • 새 디자인/위치 테스트<br>
+        • KPI: CTR 2.6% → 10%<br><br>
         
         <strong>담당</strong>: 마케팅팀<br>
-        <strong>KPI</strong>: 회수율 5%
+        <strong>검증</strong>: A/B 테스트 2주
         </div>
         """, unsafe_allow_html=True)
     
@@ -2038,14 +2036,14 @@ elif page == "🎯 액션 우선순위":
         
         <strong>3. Deep Specialist 비교표</strong><br>
         • 10개+ 조회 시 트리거<br>
-        • 예상: +361건/월<br><br>
+        • KPI: 12-24개 구간 CVR 1.88% → 3.5%<br><br>
         
         <strong>4. VIP 세그먼트 타겟팅</strong><br>
         • Super Heavy 전용 혜택<br>
-        • 예상: +15% LTV<br><br>
+        • KPI: VIP 재구매율 측정<br><br>
         
         <strong>담당</strong>: 개발팀 + CRM팀<br>
-        <strong>KPI</strong>: CVR 10%
+        <strong>검증</strong>: 코호트 분석
         </div>
         """, unsafe_allow_html=True)
     
@@ -2056,14 +2054,14 @@ elif page == "🎯 액션 우선순위":
         
         <strong>5. 실시간 세션 스코어링</strong><br>
         • ML 기반 구매 확률 예측<br>
-        • 예상: +2% 전체 CVR<br><br>
+        • KPI: 예측 정확도 80%+<br><br>
         
         <strong>6. CDP 구축</strong><br>
         • 통합 고객 프로파일<br>
-        • 예상: +20% LTV<br><br>
+        • KPI: 크로스셀 전환율<br><br>
         
         <strong>담당</strong>: 데이터팀 + IT팀<br>
-        <strong>KPI</strong>: 개인화 정확도
+        <strong>검증</strong>: 모델 성능 모니터링
         </div>
         """, unsafe_allow_html=True)
     
@@ -2076,9 +2074,9 @@ elif page == "🎯 액션 우선순위":
         '우선순위': ['🥇 1', '🥇 1', '🥈 2', '🥈 2', '🥉 3', '🥉 3'],
         '액션': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너', 'Deep Specialist 비교표', 
                  'VIP 타겟팅', 'Tablet UX', '분할결제'],
-        '예상 효과': ['$39.7K/월', '+50건/월', '+361건/월', '+15% LTV', '+2.5%p', '$100K+'],
+        '데이터 근거': ['고가 상품 이탈 $251/건', 'CTR 2.6% but CVR 4.63%', '81.4%가 결정 마비 구간', 'AOV 7.7배 차이', '전환율 0.8% (최저)', 'Bags 이탈 집중'],
+        '성공 KPI': ['장바구니 완료율 +10%', 'CTR 2.6% → 10%', 'CVR 1.88% → 3.5%', 'VIP 재구매율', 'Tablet CVR 0.8% → 1.5%', 'Bags CVR +15%'],
         '구현 난이도': ['낮음 ⭐', '낮음 ⭐', '중간 ⭐⭐', '중간 ⭐⭐', '높음 ⭐⭐⭐', '중간 ⭐⭐'],
-        '담당팀': ['마케팅', '마케팅', '개발', 'CRM', 'UX/개발', '결제'],
         '소요 기간': ['1주', '1주', '3주', '4주', '6주', '4주']
     }
     
@@ -2611,7 +2609,7 @@ CROSS JOIN price_quantiles
                 '고객 생애주기 최적화',
                 '실시간 개인화 추천',
                 '가설 검증 → 인과관계 확립',
-                '통합 ROI 분석'
+                '통합 채널 기여도 분석'
             ]
         }
         
@@ -2632,11 +2630,11 @@ CROSS JOIN price_quantiles
         <strong>3. 한계점 인지</strong><br>
         데이터/분석 한계를 정직하게 인정하고 향후 개선 방향 제시<br><br>
         
-        <strong>4. 비즈니스 임팩트</strong><br>
-        모든 인사이트를 정량적 ROI로 환산 ($500K+ 연간 효과)<br><br>
+        <strong>4. 데이터 기반 의사결정</strong><br>
+        모든 액션에 구체적 데이터 근거 제시 (예: BackPack $251/건, Beanie 1,391건)<br><br>
         
         <strong>5. 실행 가능성</strong><br>
-        Impact-Effort 매트릭스로 우선순위화, 담당팀/기간 명시
+        Impact-Effort 매트릭스로 우선순위화, 검증 가능한 KPI 설정
         </div>
         """, unsafe_allow_html=True)
 
