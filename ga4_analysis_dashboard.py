@@ -735,7 +735,7 @@ GROUP BY 1
             hole=.4,
             marker_colors=['#27ae60', '#f39c12', '#e74c3c']
         )])
-        fig.update_layout(height=300, margin=dict(t=20, b=20))
+        fig.update_layout(height=350, margin=dict(t=20, b=20))
         st.plotly_chart(fig, use_container_width=True)
         
         st.markdown("""
@@ -790,7 +790,7 @@ elif page == "🔍 세그먼트 분석":
                 title="세그먼트 2x2 매트릭스",
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.3, 2.2]),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.3, 2.2]),
-                height=450,
+                height=550,
                 showlegend=False
             )
             
@@ -860,7 +860,7 @@ elif page == "🔍 세그먼트 분석":
                     xaxis_title="세그먼트",
                     yaxis_title="전환율 (%)",
                     showlegend=False,
-                    height=400
+                    height=500
                 )
                 
                 st.plotly_chart(fig, use_container_width=True)
@@ -923,7 +923,7 @@ elif page == "🔍 세그먼트 분석":
                 title="상품 조회 구간별 전환율",
                 xaxis_title="조회 구간",
                 yaxis_title="전환율 (%)",
-                height=400
+                height=500
             )
             
             st.plotly_chart(fig, use_container_width=True)
@@ -989,7 +989,7 @@ elif page == "🔍 세그먼트 분석":
                 title="Variety Seeker 조회 강도별 전환율",
                 xaxis_title="조회 강도",
                 yaxis_title="전환율 (%)",
-                height=400
+                height=500
             )
             
             st.plotly_chart(fig, use_container_width=True)
