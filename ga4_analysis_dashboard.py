@@ -9,7 +9,7 @@ import os
 
 # ===== 페이지 설정 =====
 st.set_page_config(
-    page_title="김동윤:GA4 로그분석",
+    page_title="김동윤: GA4 로그 분석",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -190,8 +190,8 @@ def effect_size_cohens_h(p1, p2):
     return abs(phi1 - phi2)
 
 # ===== 사이드바 =====
-st.sidebar.markdown("## 김동윤의 GA4 로그분석")
-st.sidebar.markdown("GA4 로그분석 대시보드")
+st.sidebar.markdown("## 김동윤의 GA4 행동 로그 분석")
+st.sidebar.markdown("GA4 e-Commerce 분석 대시보드")
 st.sidebar.markdown("---")
 
 if data_path:
@@ -257,10 +257,14 @@ if page == "🏠 Executive Summary":
         </div>
         """, unsafe_allow_html=True)
     
+    # 이탈률 계산
+    bounce_rate = (1 - total_purchases / total_sessions) * 100 if total_sessions > 0 else 98.4
+    cvr_rate = (total_purchases / total_sessions) * 100 if total_sessions > 0 else 1.6
+    
     with col2:
         st.markdown(f"""
         <div class="critical-box">
-        <div class="big-number" style="color: #e74c3c;">98.4%</div>
+        <div class="big-number" style="color: #e74c3c;">{bounce_rate:.1f}%</div>
         <div class="kpi-label">이탈률</div>
         </div>
         """, unsafe_allow_html=True)
@@ -281,11 +285,11 @@ if page == "🏠 Executive Summary":
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="insight-box">
         <strong>Q1. 누가 "진짜" 고객인가?</strong><br><br>
-        133,368 세션 중 구매는 2,116건 (1.6%)<br>
-        나머지 98.4%는 모두 "이탈"인가?<br><br>
+        {total_sessions:,} 세션 중 구매는 {total_purchases:,}건 ({cvr_rate:.1f}%)<br>
+        나머지 {bounce_rate:.1f}%는 모두 "이탈"인가?<br><br>
         → <strong>구매 가능성이 높은 유저</strong>를 식별해야 함
         </div>
         """, unsafe_allow_html=True)
@@ -335,40 +339,71 @@ if page == "🏠 Executive Summary":
     
     st.markdown("---")
     
-    # 핵심 발견 미리보기
+    # 핵심 발견 미리보기 - 동적 데이터 사용
     st.markdown("### 🔍 핵심 발견 (Preview)")
+    
+    # 데이터에서 동적으로 값 추출
+    variety_cvr_display = "13.02%"
+    deep_share_display = "81.4%"
+    deep_cvr_display = "1.88%"
+    
+    if 'browsing_style' in data:
+        df_bs = data['browsing_style']
+        variety_row = df_bs[df_bs['browsing_style'].str.contains('Variety')]
+        if len(variety_row) > 0:
+            variety_cvr_display = f"{variety_row['conversion_rate'].values[0]:.2f}%"
+    
+    if 'deep_specialists' in data:
+        df_deep = data['deep_specialists']
+        focus_row = df_deep[df_deep['depth_segment'].str.contains('12-24')]
+        if len(focus_row) > 0:
+            deep_share_display = f"{focus_row['share_percent'].values[0]:.1f}%"
+            deep_cvr_display = f"{focus_row['conversion_rate'].values[0]:.2f}%"
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="warning-box">
         <strong>발견 1</strong><br><br>
         <strong>Variety Seeker</strong><br>
         (다양한 카테고리 탐색 유저)<br><br>
-        전환율 <strong>13.02%</strong><br>
+        전환율 <strong>{variety_cvr_display}</strong><br>
         평균 대비 8배 높음
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
-        st.markdown("""
+        st.markdown(f"""
         <div class="warning-box">
         <strong>발견 2</strong><br><br>
-        <strong>Deep Specialist 81.4%</strong><br>
+        <strong>Deep Specialist {deep_share_display}</strong><br>
         (12-24개 상품 조회 구간)<br><br>
-        전환율 <strong>1.88%</strong>로 급락<br>
+        전환율 <strong>{deep_cvr_display}</strong>로 급락<br>
         "결정 마비" 발생
         </div>
         """, unsafe_allow_html=True)
     
+    # Bags 카테고리 데이터 동적 추출
+    bags_loss_pct = "48%"
+    bags_avg_loss = "$216"
+    if 'cart_abandon' in data:
+        df_cart = data['cart_abandon']
+        bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
+        if len(bags_row) > 0:
+            total_lost = df_cart['lost_revenue'].sum()
+            bags_lost = bags_row['lost_revenue'].values[0]
+            bags_loss_pct = f"{bags_lost / total_lost * 100:.0f}%" if total_lost > 0 else "48%"
+            bags_count = bags_row['cart_abandon_sessions'].values[0]
+            bags_avg_loss = f"${bags_lost / bags_count:.0f}" if bags_count > 0 else "$216"
+    
     with col3:
-        st.markdown("""
+        st.markdown(f"""
         <div class="warning-box">
         <strong>발견 3</strong><br><br>
         <strong>Bags 카테고리</strong><br>
-        이탈 손실의 <strong>48%</strong> 차지<br><br>
-        건당 평균 손실 <strong>$216</strong><br>
+        이탈 손실의 <strong>{bags_loss_pct}</strong> 차지<br><br>
+        건당 평균 손실 <strong>{bags_avg_loss}</strong><br>
         고가 상품 결제 부담
         </div>
         """, unsafe_allow_html=True)
@@ -412,15 +447,15 @@ elif page == "📊 데이터 개요":
     
     with col1:
         st.markdown("### 📦 데이터 소스")
-        st.markdown("""
+        st.markdown(f"""
         | 항목 | 내용 |
         |-----|------|
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **총 이벤트** | 약 3.2M 이벤트 |
-        | **총 세션** | 133,368 세션 |
-        | **구매 세션** | 2,116 세션 (1.59%) |
+        | **총 이벤트** | 약 2.1M 이벤트 |
+        | **총 세션** | {total_sessions:,} 세션 |
+        | **구매 세션** | {total_purchases:,} 세션 ({overall_cvr:.2f}%) |
         """)
         
         st.markdown("### 🔄 분석 흐름")
@@ -471,14 +506,23 @@ elif page == "📊 데이터 개요":
 elif page == "🎯 진성 유저 식별":
     st.header("🎯 진성 유저 식별: Engagement Scoring")
     
-    st.markdown("""
-    > **핵심 질문**: "133,368 세션 중 누가 **진짜** 구매할 유저인가?"
+    # 동적으로 세션/전환율 계산
+    total_sessions_user = 133368
+    overall_cvr_user = 1.6
+    if 'funnel_overall' in data:
+        df_ov = data['funnel_overall']
+        total_sessions_user = int(df_ov['total_sessions'].values[0])
+        total_purchases_user = int(df_ov['step5_purchase'].values[0])
+        overall_cvr_user = round(total_purchases_user / total_sessions_user * 100, 1)
+    
+    st.markdown(f"""
+    > **핵심 질문**: "{total_sessions_user:,} 세션 중 누가 **진짜** 구매할 유저인가?"
     """)
     
     st.markdown("### Lift 기반 Engagement Score")
     
-    st.markdown("""
-    단순히 "전환율 1.6%"로 끝내지 않고, **Lift (향상도)** 를 활용하여 
+    st.markdown(f"""
+    단순히 "전환율 {overall_cvr_user}%"로 끝내지 않고, **Lift (향상도)** 를 활용하여 
     각 유저의 구매 가능성을 정량화했습니다.
     """)
     
@@ -655,21 +699,47 @@ elif page == "🔍 세그먼트 분석":
         with col2:
             st.markdown("#### 세그먼트 정의표")
             
+            # 실제 데이터에서 동적으로 생성
+            if 'browsing_style' in data:
+                df_bs = data['browsing_style']
+                
+                # 세그먼트별 데이터 추출
+                light = df_bs[df_bs['browsing_style'].str.contains('Light')]
+                deep = df_bs[df_bs['browsing_style'].str.contains('Deep')]
+                variety = df_bs[df_bs['browsing_style'].str.contains('Variety')]
+                
+                light_share = f"{light['session_share_percent'].values[0]:.1f}%" if len(light) > 0 else "2.4%"
+                deep_share = f"{deep['session_share_percent'].values[0]:.1f}%" if len(deep) > 0 else "39.5%"
+                variety_share = f"{variety['session_share_percent'].values[0]:.1f}%" if len(variety) > 0 else "58.1%"
+                
+                light_cvr = f"{light['conversion_rate'].values[0]:.2f}%" if len(light) > 0 else "5.45%"
+                deep_cvr = f"{deep['conversion_rate'].values[0]:.2f}%" if len(deep) > 0 else "2.55%"
+                variety_cvr = f"{variety['conversion_rate'].values[0]:.2f}%" if len(variety) > 0 else "13.02%"
+                
+                # 전환율 비율 계산
+                v_cvr_val = variety['conversion_rate'].values[0] if len(variety) > 0 else 13.02
+                d_cvr_val = deep['conversion_rate'].values[0] if len(deep) > 0 else 2.55
+                cvr_ratio = v_cvr_val / d_cvr_val if d_cvr_val > 0 else 5.1
+            else:
+                light_share, deep_share, variety_share = "2.4%", "39.5%", "58.1%"
+                light_cvr, deep_cvr, variety_cvr = "5.45%", "2.55%", "13.02%"
+                v_cvr_val, d_cvr_val, cvr_ratio = 13.02, 2.55, 5.1
+            
             segment_data = {
                 '세그먼트': ['Light Browser', 'Deep Specialist', 'Variety Seeker'],
                 'SQL 조건': ['Items ≤ 2', 'Items > 2, Category = 1', 'Categories ≥ 2'],
-                '비중': ['2.4%', '39.5%', '58.1%'],
-                'CVR': ['5.45%', '2.55%', '13.02%'],
+                '비중': [light_share, deep_share, variety_share],
+                'CVR': [light_cvr, deep_cvr, variety_cvr],
                 '특성': ['탐색 의도 미발현', '선택의 역설 취약', 'Cross-selling 최적']
             }
             st.dataframe(pd.DataFrame(segment_data), use_container_width=True, hide_index=True)
             
-            st.markdown("""
+            st.markdown(f"""
             <div class="methodology-box">
             <strong>💡 핵심 발견</strong><br><br>
-            • <strong>Variety Seeker</strong>: 전환율 <strong>13.02%</strong> (가장 높음)<br>
-            • <strong>Deep Specialist</strong>: 전환율 <strong>2.55%</strong> (결정 마비)<br>
-            • 차이: <strong>5.1배</strong> (통계적으로 유의미)
+            • <strong>Variety Seeker</strong>: 전환율 <strong>{variety_cvr}</strong> (가장 높음)<br>
+            • <strong>Deep Specialist</strong>: 전환율 <strong>{deep_cvr}</strong> (결정 마비)<br>
+            • 차이: <strong>{cvr_ratio:.1f}배</strong> (통계적으로 유의미)
             </div>
             """, unsafe_allow_html=True)
         
@@ -726,15 +796,37 @@ elif page == "🔍 세그먼트 분석":
                 deep = df[df['browsing_style'].str.contains('Deep')]
                 
                 if len(variety) > 0 and len(deep) > 0:
+                    v_sessions = variety['session_count'].values[0]
                     v_cvr = variety['conversion_rate'].values[0]
+                    v_conversions = int(v_sessions * v_cvr / 100)
+                    
+                    d_sessions = deep['session_count'].values[0]
                     d_cvr = deep['conversion_rate'].values[0]
+                    d_conversions = int(d_sessions * d_cvr / 100)
+                    
+                    # 실제 χ² 검정 계산
+                    chi2, p_value = chi_square_test(v_conversions, v_sessions, d_conversions, d_sessions)
+                    
+                    # 실제 Cohen's h 계산
+                    cohens_h = effect_size_cohens_h(v_cvr/100, d_cvr/100)
+                    
+                    # p-value 표시 형식
+                    p_display = "0.001 미만" if p_value < 0.001 else f"{p_value:.4f}"
+                    
+                    # 효과 크기 해석
+                    if cohens_h >= 0.8:
+                        effect_label = "대형 효과"
+                    elif cohens_h >= 0.5:
+                        effect_label = "중간 효과"
+                    else:
+                        effect_label = "소형 효과"
                     
                     st.markdown(f"""
                     <div class="stat-significant">
                     <strong>통계적 유의성 검정</strong><br><br>
                     • Variety: {v_cvr:.2f}% vs Deep: {d_cvr:.2f}%<br>
-                    • <strong>χ² 검정 p-value: 0.001 미만</strong> ✅<br>
-                    • Cohen's h = 0.42 (중간 효과)<br><br>
+                    • <strong>χ² = {chi2:.2f}, p-value: {p_display}</strong> ✅<br>
+                    • Cohen's h = {cohens_h:.2f} ({effect_label})<br><br>
                     <em>→ 유의미한 차이 확인</em>
                     </div>
                     """, unsafe_allow_html=True)
@@ -785,18 +877,53 @@ elif page == "🔍 세그먼트 분석":
             st.plotly_chart(fig, use_container_width=True)
         
         with col2:
-            st.markdown("""
-            <div class="critical-box">
-            <strong>🚨 결정 마비 구간</strong><br><br>
-            <strong>집중 비교 (12-24개)</strong><br>
-            • 전환율: <strong>1.88%</strong><br>
-            • 세션 비중: <strong>81.4%</strong><br>
-            • 대다수가 이 구간에서 이탈<br><br>
+            # 4개 구간 전체에 대한 χ² 검정 (4x2 분할표)
+            # H₀: 모든 구간의 전환율이 동일
+            # H₁: 적어도 하나의 구간 전환율이 다름
             
-            <strong>통계 검정 결과</strong><br>
-            • χ² = 156.3, p 값 0.001 미만
-            </div>
-            """, unsafe_allow_html=True)
+            focus_row = df_deep[df_deep['depth_segment'].str.contains('12-24')]
+            
+            if len(focus_row) > 0:
+                focus_cvr = focus_row['conversion_rate'].values[0]
+                focus_share = focus_row['share_percent'].values[0]
+                
+                # 4x2 분할표 생성
+                contingency_table = []
+                for _, row in df_deep.iterrows():
+                    sessions = row['session_count']
+                    cvr = row['conversion_rate']
+                    conversions = int(sessions * cvr / 100)
+                    non_conversions = sessions - conversions
+                    contingency_table.append([conversions, non_conversions])
+                
+                # χ² 검정 (4x2 분할표)
+                contingency_array = np.array(contingency_table)
+                chi2_deep, p_value_deep, dof, expected = stats.chi2_contingency(contingency_array)
+                p_display_deep = "0.001 미만" if p_value_deep < 0.001 else f"{p_value_deep:.4f}"
+                
+                st.markdown(f"""
+                <div class="critical-box">
+                <strong>🚨 결정 마비 구간</strong><br><br>
+                <strong>집중 비교 (12-24개)</strong><br>
+                • 전환율: <strong>{focus_cvr:.2f}%</strong><br>
+                • 세션 비중: <strong>{focus_share:.1f}%</strong><br>
+                • 대다수가 이 구간에서 이탈<br><br>
+                
+                <strong>통계 검정 결과 (4x2 χ²)</strong><br>
+                • χ² = {chi2_deep:.1f}, df = {dof}<br>
+                • p 값 {p_display_deep}
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="critical-box">
+                <strong>🚨 결정 마비 구간</strong><br><br>
+                <strong>집중 비교 (12-24개)</strong><br>
+                • 전환율: <strong>1.88%</strong><br>
+                • 세션 비중: <strong>81.4%</strong><br>
+                • 대다수가 이 구간에서 이탈
+                </div>
+                """, unsafe_allow_html=True)
             
             st.markdown("""
             <div class="success-box">
@@ -810,8 +937,16 @@ elif page == "🔍 세그먼트 분석":
     with tab3:
         st.markdown("### 🟢 Variety Seeker VIP 세그먼트")
         
-        st.markdown("""
-        **핵심 발견**: 다양한 카테고리를 탐색하는 유저가 전환율 13.02%로 가장 높음
+        # 동적으로 전환율 표시
+        variety_cvr_text = "13.02%"
+        if 'browsing_style' in data:
+            df_bs = data['browsing_style']
+            variety_row = df_bs[df_bs['browsing_style'].str.contains('Variety')]
+            if len(variety_row) > 0:
+                variety_cvr_text = f"{variety_row['conversion_rate'].values[0]:.2f}%"
+        
+        st.markdown(f"""
+        **핵심 발견**: 다양한 카테고리를 탐색하는 유저가 전환율 {variety_cvr_text}로 가장 높음
         """)
         
         if 'variety_seekers' in data:
@@ -851,19 +986,77 @@ elif page == "🔍 세그먼트 분석":
             st.plotly_chart(fig, use_container_width=True)
         
         with col2:
-            st.markdown("""
-            <div class="success-box">
-            <strong>⭐ VIP 세그먼트 발견</strong><br><br>
-            <strong>Super Heavy Seeker (85개+)</strong><br>
-            • 전환율: <strong>31.53%</strong><br>
-            • 평균 카테고리: 6.4개<br>
-            • 세션 비중: 24.8%<br><br>
+            # Super Heavy vs Light Seeker 비교 (2x2) + 전체 4개 구간 검정 (4x2)
+            super_heavy = df_variety[df_variety['intensity_segment'].str.contains('Super Heavy|85')]
+            light = df_variety[df_variety['intensity_segment'].str.contains('Light|24개 이하')]
             
-            <strong>vs Light Seeker</strong><br>
-            • 전환율 차이: 8.0x<br>
-            • Cohen's h = 0.72 (대형 효과)
-            </div>
-            """, unsafe_allow_html=True)
+            if len(super_heavy) > 0 and len(light) > 0:
+                sh_sessions = super_heavy['session_count'].values[0]
+                sh_cvr = super_heavy['conversion_rate'].values[0]
+                sh_conversions = int(sh_sessions * sh_cvr / 100)
+                sh_categories = super_heavy['avg_categories'].values[0]
+                sh_share = super_heavy['share_percent'].values[0]
+                
+                l_sessions = light['session_count'].values[0]
+                l_cvr = light['conversion_rate'].values[0]
+                l_conversions = int(l_sessions * l_cvr / 100)
+                
+                # 실제 통계량 계산
+                cvr_ratio = sh_cvr / l_cvr if l_cvr > 0 else 0
+                cohens_h_variety = effect_size_cohens_h(sh_cvr/100, l_cvr/100)
+                
+                # 효과 크기 해석
+                if cohens_h_variety >= 0.8:
+                    effect_label_v = "대형 효과"
+                elif cohens_h_variety >= 0.5:
+                    effect_label_v = "중간~대형 효과"
+                else:
+                    effect_label_v = "소형~중간 효과"
+                
+                st.markdown(f"""
+                <div class="success-box">
+                <strong>⭐ VIP 세그먼트 발견</strong><br><br>
+                <strong>Super Heavy Seeker (85개+)</strong><br>
+                • 전환율: <strong>{sh_cvr:.2f}%</strong><br>
+                • 평균 카테고리: {sh_categories:.1f}개<br>
+                • 세션 비중: {sh_share:.1f}%<br><br>
+                
+                <strong>vs Light Seeker (2x2 검정)</strong><br>
+                • 전환율 차이: <strong>{cvr_ratio:.1f}x</strong><br>
+                • Cohen's h = {cohens_h_variety:.2f} ({effect_label_v})
+                </div>
+                """, unsafe_allow_html=True)
+                
+                # 4개 구간 전체 χ² 검정 (4x2 분할표)
+                contingency_table_v = []
+                for _, row in df_variety.iterrows():
+                    sessions = row['session_count']
+                    cvr = row['conversion_rate']
+                    conversions = int(sessions * cvr / 100)
+                    non_conversions = sessions - conversions
+                    contingency_table_v.append([conversions, non_conversions])
+                
+                chi2_all, p_all, dof_all, _ = stats.chi2_contingency(np.array(contingency_table_v))
+                p_display_all = "0.001 미만" if p_all < 0.001 else f"{p_all:.4f}"
+                
+                st.markdown(f"""
+                <div class="methodology-box">
+                <strong>📊 4개 구간 전체 검정 (4x2)</strong><br><br>
+                • χ² = {chi2_all:.1f}, df = {dof_all}<br>
+                • p 값 {p_display_all}<br>
+                • 구간별 전환율 차이 유의미
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="success-box">
+                <strong>⭐ VIP 세그먼트 발견</strong><br><br>
+                <strong>Super Heavy Seeker (85개+)</strong><br>
+                • 전환율: <strong>31.53%</strong><br>
+                • 평균 카테고리: 6.4개<br>
+                • 세션 비중: 24.8%
+                </div>
+                """, unsafe_allow_html=True)
             
             st.markdown("""
             <div class="insight-box">
@@ -1343,14 +1536,27 @@ END AS promo_status
             
             col1, col2 = st.columns(2)
             
+            # Hidden Gem 프로모션 데이터 동적 추출
+            hidden_gem = df_promo[df_promo['promo_status'].str.contains('Hidden Gem', na=False)]
+            if len(hidden_gem) > 0:
+                hg_name = hidden_gem['promotion_name'].values[0]
+                hg_ctr = hidden_gem['ctr_percent'].values[0]
+                hg_score = hidden_gem['avg_session_score'].values[0]
+                hg_cvr = hidden_gem['promo_cvr'].values[0]
+            else:
+                hg_name = "Reach New Heights"
+                hg_ctr = 2.56
+                hg_score = 400.2
+                hg_cvr = 4.63
+            
             with col1:
-                st.markdown("""
+                st.markdown(f"""
                 <div class="warning-box">
                 <strong>💎 Hidden Gem 프로모션 발견!</strong><br><br>
-                <strong>'Reach New Heights' 프로모션 배너</strong><br><br>
-                • CTR: 2.56% (전체 최저)<br>
-                • 클릭 유저 Engagement: 400.2 (최고)<br>
-                • 클릭 유저 전환율: 4.63% (최고)<br><br>
+                <strong>'{hg_name}' 프로모션 배너</strong><br><br>
+                • CTR: {hg_ctr:.2f}% (전체 최저)<br>
+                • 클릭 유저 Engagement: {hg_score:.1f} (최고)<br>
+                • 클릭 유저 전환율: {hg_cvr:.2f}% (최고)<br><br>
                 
                 <strong>→ 배너 노출만 개선하면<br>
                 고품질 유저 유입 증가</strong>
@@ -1378,6 +1584,51 @@ elif page == "📋 액션 플랜":
     > 📌 **분석가 노트**: 분석 결과를 실행 가능한 액션으로 전환하고, Impact-Effort 기준으로 우선순위를 정합니다.
     """)
     
+    # 동적 데이터 추출
+    bags_loss_text = "Bags 48% 손실 집중"
+    hg_text = "CTR 2.6% but CVR 4.63%"
+    deep_text = "81.4% 결정마비"
+    variety_text = "Variety Seeker CVR 13%"
+    bags_detail = "Bags 753건, 손실 48%"
+    deep_kpi = "3-11개 수준(5.26%) 달성"
+    
+    if 'cart_abandon' in data:
+        df_cart = data['cart_abandon']
+        bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
+        if len(bags_row) > 0:
+            total_lost = df_cart['lost_revenue'].sum()
+            bags_lost = bags_row['lost_revenue'].values[0]
+            bags_pct = bags_lost / total_lost * 100 if total_lost > 0 else 48
+            bags_count = bags_row['cart_abandon_sessions'].values[0]
+            bags_loss_text = f"Bags {bags_pct:.0f}% 손실 집중"
+            bags_detail = f"Bags {bags_count:.0f}건, 손실 {bags_pct:.0f}%"
+    
+    if 'promo_quality' in data:
+        df_promo_act = data['promo_quality']
+        hg_row = df_promo_act[df_promo_act['promo_status'].str.contains('Hidden Gem', na=False)]
+        if len(hg_row) > 0:
+            hg_ctr = hg_row['ctr_percent'].values[0]
+            hg_cvr = hg_row['promo_cvr'].values[0]
+            hg_text = f"CTR {hg_ctr:.1f}% but CVR {hg_cvr:.2f}%"
+    
+    if 'deep_specialists' in data:
+        df_deep_act = data['deep_specialists']
+        focus_row = df_deep_act[df_deep_act['depth_segment'].str.contains('12-24')]
+        early_row = df_deep_act[df_deep_act['depth_segment'].str.contains('3-11|탐색')]
+        if len(focus_row) > 0:
+            deep_share = focus_row['share_percent'].values[0]
+            deep_text = f"{deep_share:.1f}% 결정마비"
+        if len(early_row) > 0:
+            early_cvr = early_row['conversion_rate'].values[0]
+            deep_kpi = f"3-11개 수준({early_cvr:.2f}%) 달성"
+    
+    if 'browsing_style' in data:
+        df_bs_act = data['browsing_style']
+        variety_row = df_bs_act[df_bs_act['browsing_style'].str.contains('Variety')]
+        if len(variety_row) > 0:
+            v_cvr = variety_row['conversion_rate'].values[0]
+            variety_text = f"Variety Seeker CVR {v_cvr:.0f}%"
+    
     # Impact-Effort 매트릭스
     st.markdown("### 📊 Impact-Effort 매트릭스")
     
@@ -1389,7 +1640,7 @@ elif page == "📋 액션 플랜":
         'effort': [20, 15, 40, 50, 60, 80, 95],
         'category': ['Quick Win', 'Quick Win', 'Quick Win', 'Major Project', 
                      'Major Project', 'Strategic', 'Strategic'],
-        'data_evidence': ['Bags 48% 손실 집중', 'CTR 2.6% but CVR 4.63%', '81.4% 결정마비', 'Variety Seeker CVR 13%',
+        'data_evidence': [bags_loss_text, hg_text, deep_text, variety_text,
                           'Bags 건당 $216', '스코어 기반 예측', '통합 고객 뷰']
     }
     
@@ -1508,8 +1759,8 @@ elif page == "📋 액션 플랜":
         '우선순위': ['🥇 1', '🥇 1', '🥈 2', '🥈 2'],
         '액션': ['장바구니 리마케팅 (Bags)', 'Hidden Gem 프로모션 배너', 'Deep Specialist 비교표', 
                  'VIP 세그먼트 타겟팅'],
-        '데이터 근거': ['Bags 753건, 손실 48%', 'CTR 2.6% but CVR 4.63%', '81.4%가 결정 마비 구간', 'Variety Seeker CVR 13%'],
-        '성공 KPI': ['Bags 이탈률 감소', 'A/B 테스트로 CTR 측정', '3-11개 수준(5.26%) 달성', 'VIP 재구매율 측정'],
+        '데이터 근거': [bags_detail, hg_text, f"{deep_text} 구간", variety_text],
+        '성공 KPI': ['Bags 이탈률 감소', 'A/B 테스트로 CTR 측정', deep_kpi, 'VIP 재구매율 측정'],
         '구현 난이도': ['낮음 ⭐', '낮음 ⭐', '중간 ⭐⭐', '중간 ⭐⭐'],
         '소요 기간': ['1주', '1주', '3주', '4주']
     }
@@ -1535,7 +1786,7 @@ elif page == "📐 방법론 & 한계점":
             # 노드 정의 - 실제 dbt 구조 반영
             nodes = [
                 # Source Layer
-                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (3.2M rows)</i>', 
+                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
                  'color': '#4285F4', 'width': 0.85},
                 
                 # Staging Layer
@@ -1715,7 +1966,7 @@ models/
                 '영역': ['Data Source', 'Transformation', 'Analysis', 'Visualization', 'Deployment'],
                 '기술': ['BigQuery Public Dataset', 'dbt Core 1.7+', 'Python 3.10+', 'Streamlit 1.28+', 'Streamlit Cloud'],
                 '상세': [
-                    'ga4_obfuscated_sample_ecommerce (3.2M events)',
+                    'ga4_obfuscated_sample_ecommerce (2.1M events)',
                     'Staging → Intermediate → Mart 레이어 구조',
                     'pandas, numpy, scipy.stats (χ², Wilson CI)',
                     'Plotly (Funnel, Sankey, Scatter), Custom CSS',
@@ -1825,16 +2076,34 @@ def cohens_h(p1, p2):
             | 0.8 | 큰 효과 (Large) |
             
             <br>
-            <strong>우리의 결과: h = 0.42</strong><br>
-            → <strong>중간 정도(Medium)</strong>의 효과 크기<br>
-            → 마케팅 전략 변경 시<br>
-            &nbsp;&nbsp;&nbsp;매출에 유의미한 변화 기대
+            <em>효과 크기는 세그먼트 분석 페이지에서 실제 계산됩니다.</em>
             </div>
             """, unsafe_allow_html=True)
         
         # 3. Wilson Score 신뢰구간
         st.markdown("---")
         st.markdown("#### 3️⃣ Wilson Score 신뢰구간")
+        
+        # 동적으로 신뢰구간 계산
+        v_ci_low, v_ci_high = 12.5, 13.6
+        d_ci_low, d_ci_high = 2.2, 2.9
+        
+        if 'browsing_style' in data:
+            df_bs_ci = data['browsing_style']
+            variety_row = df_bs_ci[df_bs_ci['browsing_style'].str.contains('Variety')]
+            deep_row = df_bs_ci[df_bs_ci['browsing_style'].str.contains('Deep')]
+            
+            if len(variety_row) > 0:
+                v_sessions = variety_row['session_count'].values[0]
+                v_cvr = variety_row['conversion_rate'].values[0]
+                v_conversions = int(v_sessions * v_cvr / 100)
+                _, v_ci_low, v_ci_high = calculate_confidence_interval(v_conversions, v_sessions)
+            
+            if len(deep_row) > 0:
+                d_sessions = deep_row['session_count'].values[0]
+                d_cvr = deep_row['conversion_rate'].values[0]
+                d_conversions = int(d_sessions * d_cvr / 100)
+                _, d_ci_low, d_ci_high = calculate_confidence_interval(d_conversions, d_sessions)
         
         col1, col2 = st.columns([1.2, 1])
         
@@ -1863,21 +2132,21 @@ def wilson_ci(successes, total, confidence=0.95):
     
     return center - margin, center + margin
 
-# Variety Seeker: 12.5% ~ 13.6%
-# Deep Specialist: 2.2% ~ 2.9%
+# Variety Seeker: {v_ci_low}% ~ {v_ci_high}%
+# Deep Specialist: {d_ci_low}% ~ {d_ci_high}%
 # → 신뢰구간 겹치지 않음 (Non-overlapping)
             """, language="python")
         
         with col2:
-            st.markdown("""
+            st.markdown(f"""
             <div class="success-box">
             <strong>📈 결과 해석</strong><br><br>
             
             <strong>Variety Seeker</strong><br>
-            95% CI: [12.5%, 13.6%]<br><br>
+            95% CI: [{v_ci_low:.1f}%, {v_ci_high:.1f}%]<br><br>
             
             <strong>Deep Specialist</strong><br>
-            95% CI: [2.2%, 2.9%]<br><br>
+            95% CI: [{d_ci_low:.1f}%, {d_ci_high:.1f}%]<br><br>
             
             <strong>→ 신뢰구간이 전혀 겹치지 않음!</strong><br><br>
             
@@ -1944,7 +2213,7 @@ SELECT ROUND(cart_cv / base_cv, 1) as lift_cart
         st.markdown("#### 5️⃣ 가격 티어링 (Dynamic Tiering)")
         
         st.markdown("""
-        "왜 $20가 Low이고 $50가 High인가요?" 라는 질문에 대한 답변:
+        **"왜 $20가 Low이고 $50가 High인가요?"** 라는 질문에 대한 답변:
         
         > 자의적 기준이 아니라, <strong>상품 가격의 분포(Price Distribution)</strong>를 분석하여 
         > <strong>백분위 기반 동적 티어링(Percentile-based Dynamic Tiering)</strong>을 적용했습니다.
