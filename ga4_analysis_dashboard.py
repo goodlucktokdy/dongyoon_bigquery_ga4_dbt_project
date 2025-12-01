@@ -1639,8 +1639,20 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             total_loss = df_cart['total_lost_revenue'].sum()
             total_abandon = df_cart['abandoned_session_count'].sum() if 'abandoned_session_count' in df_cart.columns else 0
             
-            # 카테고리별 분류
-            df_cart['main_category'] = df_cart['item_category'].str.split('/').str[1].fillna('기타')
+            # 카테고리별 분류 (개선된 로직)
+            def get_main_category(cat):
+                if pd.isna(cat):
+                    return 'Other'
+                if 'Bags' in str(cat):
+                    return 'Bags'
+                elif 'Apparel' in str(cat) or "Men's" in str(cat) or "Women's" in str(cat) or 'T-Shirts' in str(cat):
+                    return 'Apparel'
+                elif 'Shop by Brand' in str(cat):
+                    return 'Accessories'
+                else:
+                    return 'Other'
+            
+            df_cart['main_category'] = df_cart['item_category'].apply(get_main_category)
             cat_summary = df_cart.groupby('main_category').agg({
                 'abandoned_session_count': 'sum',
                 'total_lost_revenue': 'sum'
@@ -1684,6 +1696,12 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             - 저렴한 상품 → 이탈 건수 많지만 건당 손실 작음 (결제 과정 마찰)
             """)
             
+            # 안전한 나누기 (ZeroDivisionError 방지)
+            bags_avg = bags_loss / bags_count if bags_count > 0 else 0
+            bags_pct_count = bags_count / total_abandon * 100 if total_abandon > 0 else 0
+            apparel_avg = apparel_loss / apparel_count if apparel_count > 0 else 0
+            apparel_pct_count = apparel_count / total_abandon * 100 if total_abandon > 0 else 0
+            
             col1, col2 = st.columns(2)
             
             with col1:
@@ -1691,9 +1709,9 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                 <div class="critical-box">
                 <strong>🔴 패턴 1: Bags 카테고리 집중 손실</strong><br><br>
                 <strong>데이터 근거:</strong><br>
-                • 이탈 건수: <strong>{bags_count:,}건</strong> (전체의 {bags_count/total_abandon*100:.1f}%)<br>
+                • 이탈 건수: <strong>{bags_count:,}건</strong> (전체의 {bags_pct_count:.1f}%)<br>
                 • 손실 금액: <strong>${bags_loss/1000:.0f}K</strong> (전체의 {bags_pct:.0f}%)<br>
-                • 건당 평균 손실: <strong>${bags_loss/bags_count:.0f}</strong><br><br>
+                • 건당 평균 손실: <strong>${bags_avg:.0f}</strong><br><br>
                 
                 <strong>상위 상품:</strong><br>
                 • Utility BackPack: 302건, $251/건<br>
@@ -1711,9 +1729,9 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                 <div class="warning-box">
                 <strong>🟡 패턴 2: Apparel 대량 이탈</strong><br><br>
                 <strong>데이터 근거:</strong><br>
-                • 이탈 건수: <strong>{apparel_count:,}건</strong> (전체의 {apparel_count/total_abandon*100:.1f}%)<br>
+                • 이탈 건수: <strong>{apparel_count:,}건</strong> (전체의 {apparel_pct_count:.1f}%)<br>
                 • 손실 금액: <strong>${apparel_loss/1000:.0f}K</strong><br>
-                • 건당 평균 손실: <strong>${apparel_loss/apparel_count:.0f}</strong><br><br>
+                • 건당 평균 손실: <strong>${apparel_avg:.0f}</strong><br><br>
                 
                 <strong>상위 상품:</strong><br>
                 • Heathered Pom Beanie: 1,391건<br>
