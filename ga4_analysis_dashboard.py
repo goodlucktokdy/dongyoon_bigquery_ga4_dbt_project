@@ -191,7 +191,7 @@ def effect_size_cohens_h(p1, p2):
 
 # ===== 사이드바 =====
 st.sidebar.markdown("## 김동윤의 GA4 행동 로그 분석")
-st.sidebar.markdown("포트폴리오 대시보드")
+st.sidebar.markdown("GA4 e-Commerce 분석 대시보드")
 st.sidebar.markdown("---")
 
 if data_path:
@@ -207,6 +207,7 @@ page = st.sidebar.radio(
      "📈 전환 퍼널 분석",
      "🛒 장바구니 & 프로모션 분석",
      "🎯 액션 우선순위",
+     "⚡ Engagement Score 산출",
      "📐 방법론 & 한계점"]
 )
 
@@ -1346,18 +1347,18 @@ GROUP BY 1
             col1, col2 = st.columns(2)
             
             with col1:
+                bags_loss_k = int(bags_loss/1000)
+                bags_avg_int = int(bags_avg)
                 st.markdown(f"""
                 <div class="critical-box">
                 <strong>🔴 패턴 1: Bags 카테고리 집중 손실</strong><br><br>
                 <strong>데이터 근거:</strong><br>
                 • 이탈 건수: <strong>{bags_count:,}건</strong> (전체의 {bags_pct_count:.1f}%)<br>
-                • 손실 금액: <strong>${bags_loss/1000:.0f}K</strong> (전체의 {bags_pct:.0f}%)<br>
-                • 건당 평균 손실: <strong>${bags_avg:.0f}</strong><br><br>
-                
+                • 손실 금액: <strong>${bags_loss_k}K</strong> (전체의 {bags_pct:.0f}%)<br>
+                • 건당 평균 손실: <strong>${bags_avg_int}</strong><br><br>
                 <strong>상위 상품:</strong><br>
                 • Utility BackPack: 316건, $371/건<br>
                 • Flat Front Bag: 437건, $71/건<br><br>
-                
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>분할결제</strong> 3/6개월 옵션<br>
                 2. <strong>가격 보장</strong> 배지 표시<br>
@@ -1366,18 +1367,18 @@ GROUP BY 1
                 """, unsafe_allow_html=True)
             
             with col2:
+                apparel_loss_k = int(apparel_loss/1000)
+                apparel_avg_int = int(apparel_avg)
                 st.markdown(f"""
                 <div class="warning-box">
                 <strong>🟡 패턴 2: Apparel 대량 이탈</strong><br><br>
                 <strong>데이터 근거:</strong><br>
                 • 이탈 건수: <strong>{apparel_count:,}건</strong> (전체의 {apparel_pct_count:.1f}%)<br>
-                • 손실 금액: <strong>${apparel_loss/1000:.0f}K</strong><br>
-                • 건당 평균 손실: <strong>${apparel_avg:.0f}</strong><br><br>
-                
+                • 손실 금액: <strong>${apparel_loss_k}K</strong><br>
+                • 건당 평균 손실: <strong>${apparel_avg_int}</strong><br><br>
                 <strong>상위 상품:</strong><br>
                 • Heathered Pom Beanie: 1,742건<br>
                 • Super G Unisex Joggers: 1,731건<br><br>
-                
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>Guest Checkout</strong> 원클릭 결제<br>
                 2. <strong>리마인더 이메일</strong> 1h/24h/72h<br>
@@ -1909,6 +1910,253 @@ elif page == "🎯 액션 우선순위":
     
     st.dataframe(pd.DataFrame(action_detail), use_container_width=True, hide_index=True)
 
+# ----- 7.5 Engagement Score 산출 -----
+elif page == "⚡ Engagement Score 산출":
+    st.header("⚡ Engagement Score 산출 방법론")
+    
+    st.markdown("""
+    > **핵심 질문**: "유저의 구매 가능성을 어떻게 수치화할 것인가?"
+    
+    본 분석에서는 **Lift (향상도)** 기반의 Engagement Score를 사용하여 
+    세션별 구매 가능성을 정량화했습니다.
+    """)
+    
+    tab1, tab2, tab3 = st.tabs(["📊 Lift 개념", "🔢 Score 산출", "📈 등급 분류"])
+    
+    with tab1:
+        st.markdown("### 1️⃣ Lift (향상도) 란?")
+        
+        col1, col2 = st.columns([1.5, 1])
+        
+        with col1:
+            st.markdown("""
+            **정의**: "특정 행동을 하면 구매 확률이 몇 배로 뛰는가?"
+            
+            ```
+            Lift = P(Purchase | Action) / P(Purchase)
+                 = 조건부 확률 / 베이스라인 확률
+            ```
+            
+            **예시**: 
+            - 전체 세션 구매율 (베이스라인): **1.6%**
+            - 장바구니 담은 세션 구매율: **18.9%**
+            - **Lift = 18.9% / 1.6% = 11.8배**
+            
+            → "장바구니를 담은 유저는 평균 유저보다 구매 확률이 **11.8배** 높다"
+            """)
+        
+        with col2:
+            st.markdown("""
+            <div class="insight-box">
+            <strong>💡 Lift의 장점</strong><br><br>
+            • 상대적 비교 가능<br>
+            • 데이터 기반 가중치<br>
+            • 해석이 직관적<br>
+            • 비즈니스 의미 명확
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        st.markdown("### 📊 행동별 Lift 계산 결과")
+        
+        lift_data = {
+            '행동 (Event)': ['view_item', 'view_search_results', 'add_to_cart', 'begin_checkout', 'add_payment_info'],
+            '조건부 구매율': ['7.4%', '4.6%', '18.9%', '49.0%', '74.4%'],
+            'Lift (배수)': ['4.6x', '2.9x', '11.8x', '30.6x', '46.5x'],
+            '해석': [
+                '상품 조회 시 구매 확률 4.6배',
+                '검색 시 구매 확률 2.9배',
+                '장바구니 추가 시 11.8배',
+                '결제 시작 시 30.6배',
+                '결제정보 입력 시 46.5배'
+            ]
+        }
+        
+        st.dataframe(pd.DataFrame(lift_data), use_container_width=True, hide_index=True)
+        
+        st.code("""
+-- int_lift_weight.sql: Lift 가중치 산출
+WITH session_stats AS (
+    SELECT
+        session_unique_id,
+        MAX(IF(event_name = 'purchase', 1, 0)) as is_converted,
+        MAX(IF(event_name = 'view_item', 1, 0)) as has_view_item,
+        MAX(IF(event_name = 'add_to_cart', 1, 0)) as has_cart,
+        MAX(IF(event_name = 'begin_checkout', 1, 0)) as has_checkout,
+        MAX(IF(event_name = 'add_payment_info', 1, 0)) as has_payment
+    FROM stg_events
+    GROUP BY 1
+),
+rates AS (
+    SELECT
+        -- 베이스라인: 전체 구매율
+        SAFE_DIVIDE(SUM(is_converted), COUNT(*)) as base_cv,
+        -- 조건부 확률: 행동별 구매율
+        SAFE_DIVIDE(COUNTIF(has_cart=1 AND is_converted=1), COUNTIF(has_cart=1)) as cart_cv
+    FROM session_stats
+)
+SELECT
+    ROUND(cart_cv / base_cv, 1) as lift_cart  -- 결과: 11.8
+FROM rates
+        """, language="sql")
+    
+    with tab2:
+        st.markdown("### 2️⃣ Engagement Score 산출")
+        
+        col1, col2 = st.columns([1.5, 1])
+        
+        with col1:
+            st.markdown("""
+            **Lift 값을 반올림하여 점수로 변환**
+            
+            세션 내 발생한 모든 이벤트의 점수를 합산:
+            
+            ```
+            Engagement Score = Σ (이벤트별 점수)
+            ```
+            """)
+            
+            score_data = {
+                '이벤트': ['view_item', 'view_search_results', 'add_to_cart', 'begin_checkout', 'add_payment_info', '기타 이벤트'],
+                'Lift': ['4.6x', '2.9x', '11.8x', '30.6x', '46.5x', '-'],
+                '점수': ['5점', '3점', '12점', '31점', '47점', '1점']
+            }
+            
+            st.dataframe(pd.DataFrame(score_data), use_container_width=True, hide_index=True)
+        
+        with col2:
+            st.markdown("""
+            <div class="success-box">
+            <strong>📝 계산 예시</strong><br><br>
+            <strong>세션 A:</strong><br>
+            • view_item (5점)<br>
+            • add_to_cart (12점)<br>
+            • <strong>Total: 17점</strong><br><br>
+            
+            <strong>세션 B:</strong><br>
+            • view_item (5점)<br>
+            • add_to_cart (12점)<br>
+            • begin_checkout (31점)<br>
+            • <strong>Total: 48점</strong>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        st.code("""
+-- int_engage_lift_score.sql: Engagement Score 계산
+SELECT
+    session_unique_id,
+    user_pseudo_id,
+    SUM(CASE 
+        WHEN event_name = 'view_item' THEN 5              -- Lift 4.6 → 5점
+        WHEN event_name = 'view_search_results' THEN 3    -- Lift 2.9 → 3점
+        WHEN event_name = 'add_to_cart' THEN 12           -- Lift 11.8 → 12점
+        WHEN event_name = 'begin_checkout' THEN 31        -- Lift 30.6 → 31점
+        WHEN event_name = 'add_payment_info' THEN 47      -- Lift 46.5 → 47점
+        ELSE 1                                            -- 기타 이벤트
+    END) AS engagement_score
+FROM stg_events
+GROUP BY 1, 2
+        """, language="sql")
+    
+    with tab3:
+        st.markdown("### 3️⃣ 등급 분류 (PERCENT_RANK)")
+        
+        col1, col2 = st.columns([1.5, 1])
+        
+        with col1:
+            st.markdown("""
+            **백분위 기반 등급 분류**
+            
+            Engagement Score를 기준으로 전체 세션을 줄세운 후,
+            백분위에 따라 등급을 부여합니다.
+            """)
+            
+            grade_data = {
+                '등급': ['High Intent', 'Medium Intent', 'Low Intent'],
+                '기준': ['상위 20% (pct_rank ≤ 0.2)', '상위 20~50% (pct_rank ≤ 0.5)', '하위 50% (나머지)'],
+                '특성': ['진성 유저 - 구매 가능성 높음', '탐색 유저 - 관심은 있으나 고민 중', '이탈 유저 - 구매 의도 낮음'],
+                '활용': ['VIP 타겟팅, 프리미엄 서비스', '리마케팅, 쿠폰 제공', '이탈 방지 팝업']
+            }
+            
+            st.dataframe(pd.DataFrame(grade_data), use_container_width=True, hide_index=True)
+        
+        with col2:
+            # 파이 차트
+            fig = go.Figure(data=[go.Pie(
+                labels=['High Intent (20%)', 'Medium Intent (30%)', 'Low Intent (50%)'],
+                values=[20, 30, 50],
+                hole=.4,
+                marker_colors=['#27ae60', '#f39c12', '#e74c3c']
+            )])
+            fig.update_layout(
+                title="세션 등급 분포",
+                height=350
+            )
+            st.plotly_chart(fig, use_container_width=True)
+        
+        st.markdown("---")
+        
+        st.code("""
+-- int_engage_lift_score.sql: 등급 분류
+WITH ranked AS (
+    SELECT
+        *,
+        PERCENT_RANK() OVER (ORDER BY engagement_score DESC) as pct_rank
+    FROM session_scores
+)
+SELECT
+    session_unique_id,
+    engagement_score,
+    CASE 
+        WHEN pct_rank <= 0.2 THEN 'High Intent'   -- 상위 20%
+        WHEN pct_rank <= 0.5 THEN 'Medium Intent' -- 상위 20~50%
+        ELSE 'Low Intent'                         -- 하위 50%
+    END AS engagement_grade
+FROM ranked
+        """, language="sql")
+        
+        st.markdown("---")
+        
+        st.markdown("### 💡 분석에서의 활용")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown("""
+            <div class="insight-box">
+            <strong>🎯 프로모션 품질 평가</strong><br><br>
+            프로모션 클릭 유저의<br>
+            평균 Engagement Score로<br>
+            유저 품질 측정<br><br>
+            <em>→ Hidden Gem 발견</em>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("""
+            <div class="insight-box">
+            <strong>📊 세그먼트 분석</strong><br><br>
+            브라우징 스타일별<br>
+            High Intent 비율 비교<br><br>
+            <em>→ Variety Seeker가<br>
+            전환율 13.02%로 최고</em>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col3:
+            st.markdown("""
+            <div class="insight-box">
+            <strong>🛒 이탈 분석</strong><br><br>
+            High/Medium Intent 중<br>
+            미전환 세션 = 이탈 기회<br><br>
+            <em>→ 장바구니 리마케팅<br>
+            타겟 선정</em>
+            </div>
+            """, unsafe_allow_html=True)
+
 # ----- 8. 방법론 & 한계점 -----
 elif page == "📐 방법론 & 한계점":
     st.header("📐 분석 방법론 & 한계점")
@@ -2121,8 +2369,8 @@ models/
         st.markdown("### 📊 통계 분석 방법론")
         
         st.markdown("""
-        > 💡 **면접 핵심 포인트**: "이 통계 기법을 왜 썼고, 그 결과가 무엇을 의미합니까?"  
-        > → "데이터의 특성과 분석 목적에 맞춰 이 기법을 선택했습니다."
+        > 💡 **핵심 질문**: "이 통계 기법을 왜 썼고, 그 결과가 무엇을 의미하는가?"  
+        > → 데이터의 특성과 분석 목적에 맞춰 기법을 선택했습니다.
         """)
         
         # 1. 카이제곱 검정
@@ -2444,7 +2692,7 @@ CROSS JOIN price_quantiles
         
         st.markdown("---")
         
-        st.markdown("### 💡 면접관에게 강조할 포인트")
+        st.markdown("### 💡 분석 핵심 포인트")
         
         st.markdown("""
         <div class="success-box">
@@ -2452,13 +2700,13 @@ CROSS JOIN price_quantiles
         단순 EDA가 아닌, 비즈니스 가설 → 통계 검증 → 액션 도출 구조<br><br>
         
         <strong>2. 통계적 엄밀성</strong><br>
-        χ² 검정, 효과 크기(Cohen's h), 신뢰구간 등 통계적 근거 제시<br><br>
+        χ² 검정, 효과 크기 (Cohen's h), 신뢰구간 등 통계적 근거 제시<br><br>
         
         <strong>3. 한계점 인지</strong><br>
         데이터/분석 한계를 정직하게 인정하고 향후 개선 방향 제시<br><br>
         
         <strong>4. 데이터 기반 의사결정</strong><br>
-        모든 액션에 구체적 데이터 근거 제시 (예: Bags 카테고리 손실 48%, Apparel 12,011건)<br><br>
+        모든 액션에 구체적 데이터 근거 제시 (예: Bags 카테고리 손실 48%, Apparel 12,650건)<br><br>
         
         <strong>5. 실행 가능성</strong><br>
         Impact-Effort 매트릭스로 우선순위화, 검증 가능한 KPI 설정
