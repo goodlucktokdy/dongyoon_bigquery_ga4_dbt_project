@@ -1181,55 +1181,7 @@ elif page == "📈 전환 퍼널 분석":
     # 디바이스별 퍼널
     st.markdown("### 📱 디바이스별 퍼널 비교")
     
-    # 디바이스 분석 방법론 설명
-    with st.expander("📐 Why High Intent 기준 분석? (핵심 방법론)"):
-        st.markdown("""
-        ### 🎯 문제: 전체 전환율 비교의 한계
-        
-        | 디바이스 | 전체 CVR | 해석 |
-        |:---------|:---------|:-----|
-        | Desktop | 1.58% | - |
-        | Mobile | 1.61% | Desktop보다 높음? |
-        | Tablet | 1.44% | 가장 낮음 |
-        
-        > ❓ "Mobile이 Desktop보다 전환율이 높다고? 그럼 Mobile UX가 더 좋은 건가?"
-        
-        **아닙니다.** 전체 전환율은 **트래픽 품질** (유입 경로, 유저 의도) 에 크게 영향받습니다.
-        
-        ---
-        
-        ### ✅ 해결: High Intent 유저만 비교
-        
-        **"살 마음이 있는 유저"** 가 각 디바이스에서 얼마나 구매를 완료하는지 비교해야
-        **순수 UX 마찰**을 측정할 수 있습니다.
-        
-        | 디바이스 | High Intent CVR | vs Desktop | 해석 |
-        |:---------|:----------------|:-----------|:-----|
-        | Desktop | **25.4%** | 기준 | - |
-        | Mobile | **25.8%** | +2% | UX 마찰 없음 ✅ |
-        | Tablet | **22.7%** | **-11%** | UX 마찰 존재 🔴 |
-        
-        ---
-        
-        ### 💡 핵심 인사이트
-        
-        > "High Intent 유저(Engagement Score 상위 20%)도 Tablet에서 전환율이 -11% 낮다면,
-        > 이는 **유저 의도 부족이 아니라 Tablet UX의 구조적 마찰** 때문입니다."
-        
-        **→ Mobile은 문제없음, Tablet만 개선 필요**
-        """, unsafe_allow_html=True)
-        
-        st.code("""
--- High Intent 유저 디바이스별 전환율 (실제 쿼리)
-SELECT
-    device_category,
-    COUNT(DISTINCT session_unique_id) AS high_intent_sessions,
-    SUM(is_converted) AS conversions,
-    ROUND(SUM(is_converted) / COUNT(*) * 100, 2) AS high_intent_cvr
-FROM mart_core_sessions
-WHERE engagement_grade = 'High Intent'  -- Engagement Score 상위 20%
-GROUP BY device_category
-        """, language="sql")
+    st.info("💡 **상세 분석**: '디바이스 & 시간 분석' 페이지에서 High Intent 기준 분석을 확인하세요.")
     
     if 'funnel_device' in data:
         df_device = data['funnel_device']
@@ -1435,6 +1387,56 @@ elif page == "📱 디바이스 & 시간 분석":
     with tab1:
         st.markdown("### 디바이스별 전환 효율 분석")
         
+        # High Intent 방법론 설명
+        with st.expander("📐 Why High Intent 기준 분석? (핵심 방법론)"):
+            st.markdown("""
+            ### 🎯 문제: 전체 전환율 비교의 한계
+            
+            | 디바이스 | 전체 CVR | 해석 |
+            |:---------|:---------|:-----|
+            | Desktop | 1.58% | - |
+            | Mobile | 1.61% | Desktop보다 높음? |
+            | Tablet | 1.44% | 가장 낮음 |
+            
+            > ❓ "Mobile이 Desktop보다 전환율이 높다고? 그럼 Mobile UX가 더 좋은 건가?"
+            
+            **아닙니다.** 전체 전환율은 **트래픽 품질** (유입 경로, 유저 의도) 에 크게 영향받습니다.
+            
+            ---
+            
+            ### ✅ 해결: High Intent 유저만 비교
+            
+            **"살 마음이 있는 유저"** 가 각 디바이스에서 얼마나 구매를 완료하는지 비교해야
+            **순수 UX 마찰**을 측정할 수 있습니다.
+            
+            | 디바이스 | High Intent CVR | vs Desktop | 해석 |
+            |:---------|:----------------|:-----------|:-----|
+            | Desktop | **25.4%** | 기준 | - |
+            | Mobile | **25.8%** | +2% | UX 마찰 없음 ✅ |
+            | Tablet | **22.7%** | **-11%** | UX 마찰 존재 🔴 |
+            
+            ---
+            
+            ### 💡 핵심 인사이트
+            
+            > "High Intent 유저 (Engagement Score 상위 20%) 도 Tablet에서 전환율이 -11% 낮다면,
+            > 이는 **유저 의도 부족이 아니라 Tablet UX의 구조적 마찰** 때문입니다."
+            
+            **→ Mobile은 문제없음, Tablet만 개선 필요**
+            """, unsafe_allow_html=True)
+            
+            st.code("""
+-- High Intent 유저 디바이스별 전환율 (실제 쿼리)
+SELECT
+    device_category,
+    COUNT(DISTINCT session_unique_id) AS high_intent_sessions,
+    SUM(is_converted) AS conversions,
+    ROUND(SUM(is_converted) / COUNT(*) * 100, 2) AS high_intent_cvr
+FROM mart_core_sessions
+WHERE engagement_grade = 'High Intent'  -- Engagement Score 상위 20%
+GROUP BY device_category
+            """, language="sql")
+        
         if 'device_friction' in data:
             df_device = data['device_friction']
             
@@ -1630,10 +1632,10 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             df_cart_raw = data['cart_abandon'].copy()
             
             # Rain Shell 이상치 제거
-            df_cart = df_cart_raw[~df_cart_raw['item_name'].str.contains('Rain Shell', case=False, na=False)]
+            df_cart = df_cart_raw[~df_cart_raw['item_name'].str.contains('Rain Shell', case=False, na=False)].copy()
             
             # 제거 후 상위 15개
-            df_cart = df_cart.head(15)
+            df_cart = df_cart.head(15).copy()
             
             # 핵심 지표 계산
             total_loss = df_cart['total_lost_revenue'].sum()
@@ -1643,11 +1645,12 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             def get_main_category(cat):
                 if pd.isna(cat):
                     return 'Other'
-                if 'Bags' in str(cat):
+                cat_str = str(cat)
+                if 'Bags' in cat_str:
                     return 'Bags'
-                elif 'Apparel' in str(cat) or "Men's" in str(cat) or "Women's" in str(cat) or 'T-Shirts' in str(cat):
+                elif 'Apparel' in cat_str or "Men's" in cat_str or "Women's" in cat_str or 'T-Shirts' in cat_str or 'Unisex' in cat_str:
                     return 'Apparel'
-                elif 'Shop by Brand' in str(cat):
+                elif 'Shop by Brand' in cat_str:
                     return 'Accessories'
                 else:
                     return 'Other'
