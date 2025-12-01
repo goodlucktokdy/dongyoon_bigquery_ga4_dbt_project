@@ -1666,13 +1666,13 @@ elif page == "📋 액션 플랜":
     actions = {
         'action': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너 개선', 'Deep Specialist 비교표', 
                    'VIP 세그먼트 타겟팅', '분할결제 도입', 
-                   '실시간 세션 스코어링', 'CDP 구축'],
-        'impact': [85, 70, 80, 75, 70, 90, 95],
-        'effort': [20, 15, 40, 50, 60, 80, 95],
+                   '실시간 세션 스코어링'],
+        'impact': [85, 70, 80, 75, 70, 90],
+        'effort': [20, 15, 40, 50, 60, 80],
         'category': ['Quick Win', 'Quick Win', 'Quick Win', 'Major Project', 
-                     'Major Project', 'Strategic', 'Strategic'],
+                     'Major Project', 'Strategic'],
         'data_evidence': [bags_loss_text, hg_text, deep_text, variety_text,
-                          'Bags 건당 $216', '스코어 기반 예측', '통합 고객 뷰']
+                          'Bags 건당 $216', '스코어 기반 예측']
     }
     
     df_actions = pd.DataFrame(actions)
@@ -1771,10 +1771,6 @@ elif page == "📋 액션 플랜":
         <strong>5. 실시간 세션 스코어링</strong><br>
         • ML 기반 구매 확률 예측<br>
         • KPI: 모델 정확도 측정<br><br>
-        
-        <strong>6. CDP 구축</strong><br>
-        • 통합 고객 프로파일<br>
-        • KPI: 크로스셀 전환율 측정<br><br>
         
         <strong>담당</strong>: 데이터팀 + IT팀<br>
         <strong>검증</strong>: 모델 성능 모니터링
