@@ -1242,16 +1242,16 @@ GROUP BY 1
             apparel_avg = apparel_loss / apparel_count if apparel_count > 0 else 0
             apparel_pct_count = apparel_count / total_abandon * 100 if total_abandon > 0 else 0
             
-            # 카테고리별 상위 상품 추출
-            bags_items = df_cart[df_cart['main_category'] == 'Bags'].nlargest(2, 'abandoned_session_count')
-            apparel_items = df_cart[df_cart['main_category'] == 'Apparel'].nlargest(2, 'abandoned_session_count')
+            # 카테고리별 상위 상품 추출 (손실 금액 기준)
+            bags_items = df_cart[df_cart['main_category'] == 'Bags'].nlargest(2, 'total_lost_revenue')
+            apparel_items = df_cart[df_cart['main_category'] == 'Apparel'].nlargest(2, 'total_lost_revenue')
             
             # Bags 상위 상품 텍스트 생성
             bags_top_text = ""
             for _, row in bags_items.iterrows():
                 item_short = row['item_name'].replace('Google ', '')[:25]
                 item_count = int(row['abandoned_session_count'])
-                item_avg = int(row['avg_lost_value']) if 'avg_lost_value' in row else int(row['total_lost_revenue'] / row['abandoned_session_count'])
+                item_avg = int(row['avg_lost_value']) if 'avg_lost_value' in row and row['avg_lost_value'] > 0 else int(row['total_lost_revenue'] / row['abandoned_session_count']) if row['abandoned_session_count'] > 0 else 0
                 bags_top_text += f"• {item_short}: {item_count:,}건, ${item_avg}/건<br>"
             if not bags_top_text:
                 bags_top_text = "• 데이터 없음<br>"
@@ -1261,7 +1261,8 @@ GROUP BY 1
             for _, row in apparel_items.iterrows():
                 item_short = row['item_name'].replace('Google ', '')[:25]
                 item_count = int(row['abandoned_session_count'])
-                apparel_top_text += f"• {item_short}: {item_count:,}건<br>"
+                item_loss_k = int(row['total_lost_revenue'] / 1000)
+                apparel_top_text += f"• {item_short}: {item_count:,}건, ${item_loss_k}K<br>"
             if not apparel_top_text:
                 apparel_top_text = "• 데이터 없음<br>"
             
@@ -1278,7 +1279,7 @@ GROUP BY 1
                 • 이탈 건수: <strong>{bags_count:,}건</strong> (전체의 {bags_pct_count:.1f}%)<br>
                 • 손실 금액: <strong>${bags_loss_k}K</strong> (전체의 {bags_pct:.0f}%)<br>
                 • 건당 평균 손실: <strong>${bags_avg_int}</strong><br><br>
-                <strong>상위 상품:</strong><br>
+                <strong>상위 상품 (손실 금액 기준):</strong><br>
                 {bags_top_text}<br>
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>분할결제</strong> 3/6개월 옵션<br>
@@ -1297,7 +1298,7 @@ GROUP BY 1
                 • 이탈 건수: <strong>{apparel_count:,}건</strong> (전체의 {apparel_pct_count:.1f}%)<br>
                 • 손실 금액: <strong>${apparel_loss_k}K</strong><br>
                 • 건당 평균 손실: <strong>${apparel_avg_int}</strong><br><br>
-                <strong>상위 상품:</strong><br>
+                <strong>상위 상품 (손실 금액 기준):</strong><br>
                 {apparel_top_text}<br>
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>Guest Checkout</strong> 원클릭 결제<br>
