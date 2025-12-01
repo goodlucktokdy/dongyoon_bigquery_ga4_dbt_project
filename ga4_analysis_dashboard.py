@@ -734,7 +734,7 @@ elif page == "🔍 세그먼트 분석":
             
             segment_data = {
                 '세그먼트': ['Light Browser', 'Deep Specialist', 'Variety Seeker'],
-                'SQL 조건': ['1 < Items ≤ 2', 'Items > 2, Category = 1', 'Categories ≥ 2'],
+                'SQL 조건': ['1 ≤ Items ≤ 2', 'Items > 2, Category = 1', 'Categories ≥ 2'],
                 '비중': [light_share, deep_share, variety_share],
                 'CVR': [light_cvr, deep_cvr, variety_cvr],
                 '특성': ['탐색 의도 미발현', '선택의 역설 취약', 'Cross-selling 최적']
