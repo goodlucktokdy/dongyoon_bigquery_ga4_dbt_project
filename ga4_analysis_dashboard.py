@@ -9,7 +9,7 @@ import os
 
 # ===== 페이지 설정 =====
 st.set_page_config(
-    page_title="GA4 행동로그 분석",
+    page_title="GA4 이커머스 전환 최적화 분석",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -113,10 +113,7 @@ def load_data():
     
     # 여러 경로 시도
     possible_paths = [
-        "./mart_tables",
-        "mart_tables", 
-        ".",
-        "/mnt/user-data/uploads"
+        "./mart_tables"
     ]
     
     files = {
@@ -190,7 +187,7 @@ def effect_size_cohens_h(p1, p2):
     return abs(phi1 - phi2)
 
 # ===== 사이드바 =====
-st.sidebar.markdown("## 📊김동윤의 GA4 분석")
+st.sidebar.markdown("## 📊 GA4 전환 최적화")
 st.sidebar.markdown("**포트폴리오 대시보드**")
 st.sidebar.markdown("---")
 
@@ -225,7 +222,7 @@ dbt + BigQuery + Python + Streamlit
 """)
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("#### 김동윤")
+st.sidebar.markdown("#### 👤 분석가 정보")
 st.sidebar.markdown("""
 데이터 분석 포트폴리오  
 [GitHub](https://github.com) | [LinkedIn](https://linkedin.com)
@@ -289,10 +286,12 @@ if page == "🏠 Executive Summary":
     with col5:
         st.markdown("""
         <div class="metric-container">
-            <div class="big-number">$795K+</div>
-            <div class="kpi-label">장바구니 이탈 손실</div>
+            <div class="big-number">$300K+</div>
+            <div class="kpi-label">장바구니 이탈 손실*</div>
         </div>
         """, unsafe_allow_html=True)
+    
+    st.caption("*Rain Shell 이상치(quantity 비정상) 제외 후 추정치")
     
     st.markdown("---")
     
@@ -312,12 +311,13 @@ if page == "🏠 Executive Summary":
                 'H6: 고가 상품에서 장바구니 이탈 집중'
             ],
             '검증 결과': ['✅ 검증 (p<0.001)', '✅ 검증 (p<0.001)', '⚠️ 부분 검증', '✅ 검증 (r=0.89)', '✅ 검증', '✅ 검증'],
-            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Tablet만 -10%", "7.7x AOV 차이", "Hidden Gem 발견", "$489K 단일 상품"],
+            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Tablet만 -10%", "7.7x AOV 차이", "Hidden Gem 발견", "상위 10개 집중*"],
             '액션': ['VIP 세그먼트 타겟팅', '비교표/쿠폰 트리거', 'Tablet 반응형 개선', 'VIP 전용 서비스', '배너 A/B 테스트', '분할결제 도입']
         }
         
         df_hypothesis = pd.DataFrame(hypothesis_data)
         st.dataframe(df_hypothesis, use_container_width=True, hide_index=True)
+        st.caption("*Rain Shell 이상치 제외")
     
     with col2:
         st.markdown("""
@@ -407,13 +407,15 @@ if page == "🏠 Executive Summary":
         | 시나리오 | 가정 | 예상 연간 효과 |
         |:---------|:-----|:---------------|
         | 🔴 보수적 | 회수율 2%, 전환 개선 50% | $250K |
-        | 🟡 기본 | 회수율 5%, 전환 개선 75% | $500K |
-        | 🟢 공격적 | 회수율 10%, 전환 개선 100% | $800K+ |
+        | 🟡 기본 | 회수율 5%, 전환 개선 75% | $300K |
+        | 🟢 공격적 | 회수율 10%, 전환 개선 100% | $500K+ |
+        
+        > ⚠️ Rain Shell 이상치(quantity 비정상) 제외 후 추정치입니다.
         """)
     
     roi_data = {
         '개선 항목': ['장바구니 리마케팅 (5% 회수)*', 'Deep Specialist 비교표 제공', 'Hidden Gem 배너 개선', 'Tablet UX 최적화', 'VIP 세그먼트 타겟팅'],
-        '예상 효과': ['+$39.7K/월', '+361건 전환/월', '+50건 전환/월', '+2.5%p 전환율', '+15% LTV'],
+        '예상 효과': ['+$15K/월', '+361건 전환/월', '+50건 전환/월', '+2.5%p 전환율', '+15% LTV'],
         '구현 난이도': ['⭐ 낮음', '⭐⭐ 중간', '⭐ 낮음', '⭐⭐⭐ 높음', '⭐⭐ 중간'],
         '우선순위': ['🥇 1순위', '🥈 2순위', '🥇 1순위', '🥉 3순위', '🥈 2순위']
     }
@@ -421,7 +423,7 @@ if page == "🏠 Executive Summary":
     df_roi = pd.DataFrame(roi_data)
     st.dataframe(df_roi, use_container_width=True, hide_index=True)
     
-    st.caption("*공격적 시나리오 기준. 보수적 추정(2% 회수) 시 $15.9K/월")
+    st.caption("*공격적 시나리오 기준 (Rain Shell 이상치 제외). 보수적 추정(2% 회수) 시 $6K/월")
 
 # ----- 2. 데이터 개요 & 품질 -----
 elif page == "📊 데이터 개요 & 품질":
@@ -1577,17 +1579,60 @@ elif page == "🛒 이탈 & 기회 분석":
     with tab1:
         st.markdown("### 장바구니 이탈 분석")
         
+        # 이상치 제거 설명
+        with st.expander("⚠️ 데이터 전처리: 이상치 제거 (Rain Shell)"):
+            st.markdown("""
+            ### 🚨 Rain Shell 상품 이상치 처리
+            
+            **문제 발견:**
+            - 'Google Rain Shell' 상품의 장바구니 이탈 손실이 **$489,180**으로 비정상적으로 높음
+            - 평균 손실 금액이 **$14,388/건**으로, 다른 상품 대비 10배 이상 차이
+            - 이는 **수량(quantity) 이상치**로 인한 것으로 추정됨
+            
+            **원인 분석:**
+            | 항목 | Rain Shell | 일반 상품 평균 |
+            |:-----|:-----------|:---------------|
+            | 이탈 건수 | 23건 | 50~200건 |
+            | 평균 손실 | $14,388 | $500~2,000 |
+            | 추정 수량 | 100+ | 1~3개 |
+            
+            > 💡 일반적인 소비자 행동 패턴으로 보기 어려운 **대량 주문 → 이탈** 케이스로 판단됩니다.
+            > 테스트 주문, 봇 트래픽, 또는 B2B 샘플 주문일 가능성이 높습니다.
+            
+            **처리 방법:**
+            ```sql
+            -- 이상치 제거: Rain Shell 제외
+            WHERE item_name NOT LIKE '%Rain Shell%'
+            -- 또는 quantity 기준 필터링
+            WHERE item_quantity <= 10
+            ```
+            
+            **결론:** Rain Shell을 **분석 대상에서 제외**하고, 일반적인 소비자 행동 패턴을 반영한 상위 10개 상품을 분석합니다.
+            """)
+        
         if 'cart_abandon' in data:
-            df_cart = data['cart_abandon'].head(15)
+            df_cart_raw = data['cart_abandon'].copy()
+            
+            # Rain Shell 이상치 제거
+            df_cart = df_cart_raw[~df_cart_raw['item_name'].str.contains('Rain Shell', case=False, na=False)]
+            
+            # 제거 후 상위 15개
+            df_cart = df_cart.head(15)
+            
+            # 제거 전후 비교 표시
+            total_loss_before = df_cart_raw['total_lost_revenue'].sum() if 'total_lost_revenue' in df_cart_raw.columns else 0
+            total_loss_after = df_cart['total_lost_revenue'].sum() if 'total_lost_revenue' in df_cart.columns else 0
             
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                st.metric("상위 10개 손실", "$795K+")
+                st.metric("상위 10개 손실", f"${total_loss_after/1000:.0f}K", 
+                         help="Rain Shell 이상치 제외 후")
             with col2:
-                st.metric("5% 회수 시", "$39.7K/월")
+                st.metric("5% 회수 시", f"${total_loss_after*0.05/1000:.1f}K/월")
             with col3:
-                st.metric("Rain Shell 손실", "$489K")
+                st.metric("이상치 제외", "Rain Shell", 
+                         delta="quantity 이상치", delta_color="off")
             
             st.markdown("---")
             
@@ -1608,7 +1653,7 @@ elif page == "🛒 이탈 & 기회 분석":
                 
                 fig.update_traces(textposition='outside')
                 fig.update_layout(
-                    title='장바구니 이탈 손실 TOP 10',
+                    title='장바구니 이탈 손실 TOP 10 (이상치 제외)',
                     xaxis_title='손실 매출 ($)',
                     yaxis_title='',
                     yaxis={'categoryorder': 'total ascending'},
@@ -1619,29 +1664,42 @@ elif page == "🛒 이탈 & 기회 분석":
                 st.plotly_chart(fig, use_container_width=True)
             
             with col2:
-                st.markdown("""
-                <div class="critical-box">
-                <strong>🚨 Rain Shell 집중 분석</strong><br><br>
-                • 이탈: 23건<br>
-                • 손실: <strong>$489,180</strong><br>
-                • 평균: $14,388/건<br><br>
-                
-                <strong>원인 추정:</strong><br>
-                • 고가 상품 결제 허들<br>
-                • 사이즈 정보 불확실<br>
-                • 반품 정책 우려
-                </div>
-                """, unsafe_allow_html=True)
+                # TOP 1 상품 분석 (이상치 제외 후)
+                if len(df_top) > 0:
+                    top_item = df_top.iloc[-1]  # 가장 손실 큰 상품
+                    st.markdown(f"""
+                    <div class="critical-box">
+                    <strong>🚨 최대 이탈 상품 분석</strong><br><br>
+                    <strong>{top_item['item_name'][:30]}...</strong><br><br>
+                    • 이탈: {int(top_item.get('abandon_count', 0))}건<br>
+                    • 손실: <strong>${top_item['total_lost_revenue']:,.0f}</strong><br>
+                    • 평균: ${top_item['avg_lost_value']:,.0f}/건<br><br>
+                    
+                    <strong>원인 추정:</strong><br>
+                    • 고가 상품 결제 허들<br>
+                    • 가격 비교 후 이탈<br>
+                    • 결제 수단 제한
+                    </div>
+                    """, unsafe_allow_html=True)
                 
                 st.markdown("""
                 <div class="success-box">
                 <strong>💡 개선 방안</strong><br><br>
                 1. <strong>분할결제</strong> 옵션 제공<br>
-                2. 상세 <strong>사이즈 가이드</strong><br>
-                3. <strong>무료 반품</strong> 정책 강조<br>
-                4. 리마케팅 이메일 자동화<br><br>
+                2. <strong>가격 보장</strong> 정책<br>
+                3. 리마케팅 이메일 자동화<br>
+                4. 장바구니 만료 알림<br><br>
                 
-                <em>예상 회수: $39.7K/월</em>
+                <em>예상 회수: 5% 기준</em>
+                </div>
+                """, unsafe_allow_html=True)
+                
+                st.markdown("""
+                <div class="limitation-box">
+                <strong>📌 이상치 처리 근거</strong><br><br>
+                Rain Shell 상품은 평균 손실 금액이<br>
+                다른 상품 대비 <strong>10배 이상</strong>으로<br>
+                quantity 이상치로 판단하여 제외했습니다.
                 </div>
                 """, unsafe_allow_html=True)
     
