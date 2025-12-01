@@ -200,7 +200,7 @@ page = st.sidebar.radio(
     "분석 섹션",
     ["🏠 Executive Summary",
      "📊 데이터 개요 & 품질",
-     "🔍 세그먼트 분석 (통계 검증)",
+     "🔍 세그먼트 분석",
      "📈 전환 퍼널 분석",
      "📱 디바이스 & 시간 분석",
      "🛒 이탈 & 기회 분석",
@@ -2535,7 +2535,7 @@ st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; font-size: 0.85rem;">
     <strong>GA4 이커머스 전환 최적화 분석</strong><br>
-    데이터 분석가 포트폴리오 | Built with Python, dbt, BigQuery, Streamlit<br>
+    Built with Python, dbt, BigQuery, Streamlit<br>
     <em>분석 기간: 2020.12.01 ~ 12.31 | 데이터: ga4_obfuscated_sample_ecommerce</em>
 </div>
 """, unsafe_allow_html=True)
