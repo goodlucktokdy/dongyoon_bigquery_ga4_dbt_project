@@ -1002,6 +1002,21 @@ elif page == "📈 전환 퍼널 분석":
         with col4:
             st.metric("구매 완료", f"{total_purchases:,}", f"{overall_cvr}%")
         
+        # 퍼센트 의미 설명
+        st.markdown("""
+        <div style="background-color: #f8f9fa; padding: 12px 16px; border-radius: 8px; margin: 10px 0; font-size: 0.85rem; color: #666;">
+        📌 <strong>퍼센트 해석</strong>: 모든 비율은 <strong>총 세션({:,}) 대비 전환율</strong>입니다.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;• 상품 조회 {}% = {:,} / {:,}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;• 장바구니 {}% = {:,} / {:,}<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;• 구매 완료 {}% = {:,} / {:,}
+        </div>
+        """.format(
+            total_sessions,
+            df_overall['pct_view'].values[0], int(df_overall['step1_view_item'].values[0]), total_sessions,
+            df_overall['pct_cart'].values[0], int(df_overall['step2_add_to_cart'].values[0]), total_sessions,
+            overall_cvr, total_purchases, total_sessions
+        ), unsafe_allow_html=True)
+        
         st.markdown("---")
         
         # 퍼널 차트
