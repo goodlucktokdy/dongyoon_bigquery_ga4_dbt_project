@@ -9,7 +9,7 @@ import os
 
 # ===== 페이지 설정 =====
 st.set_page_config(
-    page_title="GA4 이커머스 전환 최적화 분석",
+    page_title="김동윤: GA4 로그 분석",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -187,8 +187,8 @@ def effect_size_cohens_h(p1, p2):
     return abs(phi1 - phi2)
 
 # ===== 사이드바 =====
-st.sidebar.markdown("## 📊 GA4 전환 최적화")
-st.sidebar.markdown("**포트폴리오 대시보드**")
+st.sidebar.markdown("## 김동윤의 GA4 행동 로그 분석")
+st.sidebar.markdown("포트폴리오 대시보드")
 st.sidebar.markdown("---")
 
 if data_path:
@@ -222,11 +222,7 @@ dbt + BigQuery + Python + Streamlit
 """)
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("#### 👤 분석가 정보")
-st.sidebar.markdown("""
-데이터 분석 포트폴리오  
-[GitHub](https://github.com) | [LinkedIn](https://linkedin.com)
-""")
+st.sidebar.markdown("#### 김동윤")
 
 # ===== 페이지별 컨텐츠 =====
 
@@ -1927,108 +1923,235 @@ elif page == "📐 방법론 & 한계점":
     with tab1:
         st.markdown("### 데이터 파이프라인 아키텍처")
         
-        st.markdown("""
-        ```
-        ┌─────────────────────────────────────────────────────────────────┐
-        │                    GA4 Raw Data (BigQuery)                      │
-        │              ga4_obfuscated_sample_ecommerce                    │
-        └─────────────────────────────────────────────────────────────────┘
-                                        │
-                                        ▼
-        ┌─────────────────────────────────────────────────────────────────┐
-        │                      dbt Staging Layer                          │
-        │                        stg_events                               │
-        │         • 이벤트 정제 • session_unique_id 생성 • 타입 변환       │
-        └─────────────────────────────────────────────────────────────────┘
-                                        │
-                        ┌───────────────┼───────────────┐
-                        ▼               ▼               ▼
-        ┌─────────────────┐ ┌─────────────────┐ ┌─────────────────┐
-        │ int_browsing_   │ │ int_engage_     │ │ int_session_    │
-        │ style           │ │ lift_score      │ │ paths           │
-        │                 │ │                 │ │                 │
-        │ • 카테고리 수    │ │ • Lift 기반     │ │ • 행동 경로     │
-        │ • 조회 상품 수   │ │   점수 산정     │ │ • 전환 여부     │
-        │ • 스타일 분류   │ │ • Intent 등급   │ │                 │
-        └─────────────────┘ └─────────────────┘ └─────────────────┘
-                        │               │               │
-                        └───────────────┼───────────────┘
-                                        │
-                                        ▼
-        ┌─────────────────────────────────────────────────────────────────┐
-        │                        dbt Mart Layer                           │
-        │  mart_browsing_style │ mart_deep_specialists │ mart_variety     │
-        │  mart_device_friction│ mart_cart_abandon     │ mart_promo       │
-        │  mart_time_conversion│ mart_bundle_strategy  │ mart_core        │
-        └─────────────────────────────────────────────────────────────────┘
-                                        │
-                                        ▼
-        ┌─────────────────────────────────────────────────────────────────┐
-        │                    Streamlit Dashboard                          │
-        │              • 인터랙티브 시각화 • 통계 검정 • 액션 도출         │
-        └─────────────────────────────────────────────────────────────────┘
-        ```
-        """)
+        # dbt 프로젝트 구조 표시
+        col1, col2 = st.columns([1.2, 1])
         
+        with col1:
+            # Plotly를 사용한 파이프라인 시각화
+            fig_pipeline = go.Figure()
+            
+            # 노드 정의 - 실제 dbt 구조 반영
+            nodes = [
+                # Source Layer
+                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
+                 'color': '#4285F4', 'width': 0.85},
+                
+                # Staging Layer
+                {'x': 0.5, 'y': 5, 'text': '🔧 <b>Staging Layer</b><br>stg_events.sql<br><i>session_unique_id 생성 • 타입 변환</i>', 
+                 'color': '#FF6D01', 'width': 0.85},
+                
+                # Intermediate Layer - 8개 모델
+                {'x': 0.12, 'y': 4, 'text': 'int_browsing<br>_style', 'color': '#34A853', 'width': 0.18},
+                {'x': 0.31, 'y': 4, 'text': 'int_engage<br>_lift_score', 'color': '#34A853', 'width': 0.18},
+                {'x': 0.5, 'y': 4, 'text': 'int_session<br>_paths', 'color': '#34A853', 'width': 0.18},
+                {'x': 0.69, 'y': 4, 'text': 'int_session<br>_funnel', 'color': '#34A853', 'width': 0.18},
+                {'x': 0.88, 'y': 4, 'text': 'int_promo<br>+3 more', 'color': '#34A853', 'width': 0.18},
+                
+                # Mart Layer - 17개 모델
+                {'x': 0.5, 'y': 3, 'text': '📦 <b>Mart Layer (17 tables)</b><br>mart_browsing_style • mart_core_sessions • mart_funnel_*<br><i>mart_cart_abandon • mart_promo_quality • mart_device_friction</i>', 
+                 'color': '#EA4335', 'width': 0.85},
+                
+                # Dashboard Layer
+                {'x': 0.5, 'y': 2, 'text': '📱 <b>Streamlit Dashboard</b><br>인터랙티브 분석 • 통계 검정<br><i>χ² Test • Cohen\'s h • Wilson CI</i>', 
+                 'color': '#9C27B0', 'width': 0.85},
+            ]
+            
+            # 노드 그리기
+            for node in nodes:
+                fig_pipeline.add_shape(
+                    type="rect",
+                    x0=node['x'] - node['width']/2, x1=node['x'] + node['width']/2,
+                    y0=node['y'] - 0.35, y1=node['y'] + 0.35,
+                    fillcolor=node['color'],
+                    opacity=0.9,
+                    line=dict(color='white', width=2),
+                    layer='below'
+                )
+                
+                fig_pipeline.add_annotation(
+                    x=node['x'], y=node['y'],
+                    text=node['text'],
+                    showarrow=False,
+                    font=dict(size=9, color='white'),
+                    align='center'
+                )
+            
+            # 화살표
+            arrows = [
+                {'x0': 0.5, 'y0': 5.65, 'x1': 0.5, 'y1': 5.35},
+                {'x0': 0.5, 'y0': 4.65, 'x1': 0.12, 'y1': 4.35},
+                {'x0': 0.5, 'y0': 4.65, 'x1': 0.31, 'y1': 4.35},
+                {'x0': 0.5, 'y0': 4.65, 'x1': 0.5, 'y1': 4.35},
+                {'x0': 0.5, 'y0': 4.65, 'x1': 0.69, 'y1': 4.35},
+                {'x0': 0.5, 'y0': 4.65, 'x1': 0.88, 'y1': 4.35},
+                {'x0': 0.5, 'y0': 3.65, 'x1': 0.5, 'y1': 3.35},
+                {'x0': 0.5, 'y0': 2.65, 'x1': 0.5, 'y1': 2.35},
+            ]
+            
+            for arrow in arrows:
+                fig_pipeline.add_annotation(
+                    x=arrow['x1'], y=arrow['y1'],
+                    ax=arrow['x0'], ay=arrow['y0'],
+                    xref='x', yref='y', axref='x', ayref='y',
+                    showarrow=True, arrowhead=2, arrowsize=1.2, arrowwidth=1.5, arrowcolor='#666'
+                )
+            
+            fig_pipeline.update_layout(
+                title=dict(text='📊 dbt Data Pipeline', font=dict(size=16)),
+                xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.1, 1.1]),
+                yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[1.3, 6.7]),
+                height=500,
+                plot_bgcolor='rgba(248,249,250,1)',
+                margin=dict(l=20, r=20, t=50, b=20)
+            )
+            
+            st.plotly_chart(fig_pipeline, use_container_width=True)
+        
+        with col2:
+            st.markdown("#### 📁 dbt 프로젝트 구조")
+            st.code("""
+models/
+├── staging/
+│   ├── sources.yml
+│   └── stg_events.sql
+│
+├── intermediate/
+│   ├── int_browsing_style.sql
+│   ├── int_engage_lift_score.sql
+│   ├── int_lift_weight.sql
+│   ├── int_price_tier.sql
+│   ├── int_product_association.sql
+│   ├── int_promo_performance.sql
+│   ├── int_session_funnel.sql
+│   └── int_session_paths.sql
+│
+└── marts/
+    ├── mart_browsing_style.sql
+    ├── mart_bundle_strategy.sql
+    ├── mart_cart_abandon.sql
+    ├── mart_core_sessions.sql
+    ├── mart_deep_specialists.sql
+    ├── mart_device_friction.sql
+    ├── mart_funnel_*.sql (7개)
+    ├── mart_promo_quality.sql
+    ├── mart_time_to_conversion.sql
+    └── mart_variety_seekers.sql
+            """, language="text")
+            
+            st.markdown("""
+            <div class="methodology-box">
+            <strong>📐 레이어 설계 원칙</strong><br><br>
+            • <strong>Staging</strong>: 1:1 소스 미러링<br>
+            • <strong>Intermediate</strong>: 비즈니스 로직 적용<br>
+            • <strong>Mart</strong>: 분석 목적별 집계
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # 기술 스택 카드
         st.markdown("---")
+        st.markdown("### 🛠️ 기술 스택")
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         
         with col1:
             st.markdown("""
-            **데이터 처리**
-            - Google BigQuery
-            - dbt (Data Build Tool)
-            - Python (pandas, numpy)
-            """)
+            <div style="background: linear-gradient(135deg, #4285F4 0%, #1a73e8 100%); 
+                        padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+                <div style="font-size: 2rem;">🗄️</div>
+                <div style="font-weight: bold; margin: 0.5rem 0;">데이터 저장</div>
+                <div style="font-size: 0.85rem; opacity: 0.9;">
+                    Google BigQuery<br>
+                    Cloud Storage
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
         
         with col2:
             st.markdown("""
-            **분석 & 통계**
-            - scipy.stats (χ², t-test)
-            - Lift 기반 스코어링
-            - Wilson Score CI
-            """)
+            <div style="background: linear-gradient(135deg, #FF6D01 0%, #e55b00 100%); 
+                        padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+                <div style="font-size: 2rem;">🔧</div>
+                <div style="font-weight: bold; margin: 0.5rem 0;">데이터 변환</div>
+                <div style="font-size: 0.85rem; opacity: 0.9;">
+                    dbt Core<br>
+                    SQL + Jinja2
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
         
         with col3:
             st.markdown("""
-            **시각화**
-            - Streamlit
-            - Plotly
-            - Custom CSS
-            """)
+            <div style="background: linear-gradient(135deg, #34A853 0%, #1e8e3e 100%); 
+                        padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+                <div style="font-size: 2rem;">📊</div>
+                <div style="font-weight: bold; margin: 0.5rem 0;">분석 & 통계</div>
+                <div style="font-size: 0.85rem; opacity: 0.9;">
+                    Python · pandas<br>
+                    scipy · numpy
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col4:
+            st.markdown("""
+            <div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); 
+                        padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+                <div style="font-size: 2rem;">📱</div>
+                <div style="font-weight: bold; margin: 0.5rem 0;">시각화</div>
+                <div style="font-size: 0.85rem; opacity: 0.9;">
+                    Streamlit<br>
+                    Plotly
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # 추가 기술 상세
+        with st.expander("📋 상세 기술 명세"):
+            tech_data = {
+                '영역': ['Data Source', 'Transformation', 'Analysis', 'Visualization', 'Deployment'],
+                '기술': ['BigQuery Public Dataset', 'dbt Core 1.7+', 'Python 3.10+', 'Streamlit 1.28+', 'Streamlit Cloud'],
+                '상세': [
+                    'ga4_obfuscated_sample_ecommerce (2.1M events)',
+                    'Staging → Intermediate → Mart 레이어 구조',
+                    'pandas, numpy, scipy.stats (χ², Wilson CI)',
+                    'Plotly (Funnel, Sankey, Scatter), Custom CSS',
+                    'GitHub 연동 자동 배포'
+                ]
+            }
+            st.dataframe(pd.DataFrame(tech_data), use_container_width=True, hide_index=True)
     
     with tab2:
-        st.markdown("### 핵심 분석 방법론")
+        st.markdown("### 📊 통계 분석 방법론")
         
-        st.markdown("#### 1. Lift 기반 Engagement Score")
+        st.markdown("""
+        > 💡 **면접 핵심 포인트**: "이 통계 기법을 왜 썼고, 그 결과가 무엇을 의미합니까?"  
+        > → "데이터의 특성과 분석 목적에 맞춰 이 기법을 선택했습니다."
+        """)
         
-        st.code("""
--- Lift(향상도) = P(Purchase | Action) / P(Purchase)
--- 각 행동이 구매 확률을 몇 배 높이는지 측정
-
-WITH rates AS (
-    SELECT
-        SAFE_DIVIDE(SUM(is_converted), COUNT(*)) as base_cv,
-        SAFE_DIVIDE(COUNTIF(has_cart=1 AND is_converted=1), COUNTIF(has_cart=1)) as cart_cv
-    FROM session_stats
-)
-SELECT ROUND(cart_cv / base_cv, 1) as lift_cart  -- 결과: 11.8
-
--- Lift 값을 가중치로 변환
-SUM(CASE 
-    WHEN event_name = 'view_item' THEN 5          -- Lift 4.6
-    WHEN event_name = 'add_to_cart' THEN 12       -- Lift 11.8
-    WHEN event_name = 'begin_checkout' THEN 31    -- Lift 30.6
-    WHEN event_name = 'add_payment_info' THEN 47  -- Lift 46.5
-END) AS engagement_score
-        """, language="sql")
+        # 1. 카이제곱 검정
+        st.markdown("---")
+        st.markdown("#### 1️⃣ 카이제곱 검정 (χ² Test of Independence)")
         
-        st.markdown("#### 2. 통계적 유의성 검정")
+        col1, col2 = st.columns([1.2, 1])
         
-        st.code("""
-# 카이제곱 검정 (두 그룹 전환율 비교)
+        with col1:
+            st.markdown("""
+            **🎯 사용 목적**  
+            "탐색 스타일(A, B, C)에 따라 구매 여부(Yes/No)가 정말로 달라지는가?"  
+            → **범주형 변수 간의 독립성 검정**
+            
+            **📐 왜 이 기법을 선택했는가?**
+            - 데이터가 모두 **범주형(Categorical)** → 평균 비교 불가
+            - **"그룹 간 비율의 차이"**가 우연인지 아닌지 판별 필요
+            - 관측 빈도(Observed)와 기대 빈도(Expected) 간의 차이 측정
+            """)
+            
+            st.code("""
+# 카이제곱 검정 구현
 from scipy import stats
+import numpy as np
 
 def chi_square_test(g1_success, g1_total, g2_success, g2_total):
     contingency = np.array([
@@ -2038,18 +2161,96 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
     chi2, p_value, dof, expected = stats.chi2_contingency(contingency)
     return chi2, p_value
 
-# 효과 크기 (Cohen's h)
+# 결과: χ² = 722.27, p < 0.001
+            """, language="python")
+        
+        with col2:
+            st.markdown("""
+            <div class="stat-significant">
+            <strong>📈 결과 해석</strong><br><br>
+            • χ² = <strong>722.27</strong><br>
+            • p-value < <strong>0.001</strong> ✅<br><br>
+            
+            <strong>의미:</strong><br>
+            두 변수는 독립적이지 않음.<br>
+            즉, <strong>"탐색 스타일이 구매 전환에<br>
+            강력한 영향을 미친다"</strong>는<br>
+            통계적 확신을 얻음.
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # 2. 효과 크기 (Cohen's h)
+        st.markdown("---")
+        st.markdown("#### 2️⃣ 효과 크기 (Cohen's h)")
+        
+        col1, col2 = st.columns([1.2, 1])
+        
+        with col1:
+            st.markdown("""
+            **🎯 사용 목적**  
+            "차이가 있는 건 알겠는데(P-value), 그 차이가 **비즈니스적으로 써먹을 만큼** 큰가?"
+            
+            **📐 왜 효과 크기가 필요한가?**
+            - **통계적으로 유의하다(Significant) ≠ 중요하다(Important)**
+            - 빅데이터에서는 아주 작은 차이도 p < 0.001이 나옴
+            - **"실질적인 중요성"**을 측정하기 위해 사용
+            
+            **🔬 Cohen's h 특징**
+            - 두 **비율(Proportion)** 간의 차이를 아크사인 변환
+            - 1%→2% (2배)와 50%→51% (미미함)을 구분
+            """)
+            
+            st.code("""
+# Cohen's h 효과 크기 계산
 def cohens_h(p1, p2):
     phi1 = 2 * np.arcsin(np.sqrt(p1))
     phi2 = 2 * np.arcsin(np.sqrt(p2))
     return abs(phi1 - phi2)
-# 해석: 0.2 small, 0.5 medium, 0.8 large
-        """, language="python")
+
+# 기준: 0.2(작음), 0.5(중간), 0.8(큼)
+# 결과: h = 0.42 (중간 효과)
+            """, language="python")
         
-        st.markdown("#### 3. Wilson Score 신뢰구간")
+        with col2:
+            st.markdown("""
+            <div class="insight-box">
+            <strong>📊 효과 크기 해석 기준</strong><br><br>
+            
+            | Cohen's h | 해석 |
+            |:----------|:-----|
+            | 0.2 | 작은 효과 (Small) |
+            | 0.5 | 중간 효과 (Medium) |
+            | 0.8 | 큰 효과 (Large) |
+            
+            <br>
+            <strong>우리의 결과: h = 0.42</strong><br>
+            → <strong>중간 정도(Medium)</strong>의 효과 크기<br>
+            → 마케팅 전략 변경 시<br>
+            &nbsp;&nbsp;&nbsp;매출에 유의미한 변화 기대
+            </div>
+            """, unsafe_allow_html=True)
         
-        st.code("""
-# 이항 비율의 신뢰구간 (소표본에서도 안정적)
+        # 3. Wilson Score 신뢰구간
+        st.markdown("---")
+        st.markdown("#### 3️⃣ Wilson Score 신뢰구간")
+        
+        col1, col2 = st.columns([1.2, 1])
+        
+        with col1:
+            st.markdown("""
+            **🎯 사용 목적**  
+            "전환율 13%가 진짜 13%인가? 오차 범위는 어디까지인가?"
+            
+            **📐 왜 일반 신뢰구간이 아니라 'Wilson'인가?** (핵심!)
+            - 일반적인 정규분포 근사(Wald Interval)는  
+              전환율이 **0%나 100%에 가까울 때** 오차가 큼
+            - 이커머스 전환율(1~5%)은 이 영역에 해당
+            - Wilson 구간은 **비대칭적 분포**를 고려  
+              → 전환율 추정에 훨씬 **강건(Robust)**하고 정확
+            """)
+            
+            st.code("""
+# Wilson Score 신뢰구간 (소표본에서도 안정적)
 def wilson_ci(successes, total, confidence=0.95):
     p = successes / total
     z = stats.norm.ppf((1 + confidence) / 2)
@@ -2059,9 +2260,86 @@ def wilson_ci(successes, total, confidence=0.95):
     margin = z * np.sqrt((p*(1-p) + z**2/(4*total)) / total) / denominator
     
     return center - margin, center + margin
-        """, language="python")
+
+# Variety Seeker: 12.5% ~ 13.6%
+# Deep Specialist: 2.2% ~ 2.9%
+# → 신뢰구간 겹치지 않음 (Non-overlapping)
+            """, language="python")
         
-        st.markdown("#### 4. 가격 티어링 (Dynamic Tiering)")
+        with col2:
+            st.markdown("""
+            <div class="success-box">
+            <strong>📈 결과 해석</strong><br><br>
+            
+            <strong>Variety Seeker</strong><br>
+            95% CI: [12.5%, 13.6%]<br><br>
+            
+            <strong>Deep Specialist</strong><br>
+            95% CI: [2.2%, 2.9%]<br><br>
+            
+            <strong>→ 신뢰구간이 전혀 겹치지 않음!</strong><br><br>
+            
+            이는 데이터가 우연히 좋게 나온 게 아니라,<br>
+            <strong>아무리 못해도 Specialist보다는<br>
+            무조건 높다</strong>는 통계적 보증
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # 4. Lift 기반 스코어링
+        st.markdown("---")
+        st.markdown("#### 4️⃣ Lift 기반 Engagement Score")
+        
+        col1, col2 = st.columns([1.2, 1])
+        
+        with col1:
+            st.markdown("""
+            **🎯 사용 목적**  
+            각 행동이 구매 확률을 **몇 배** 높이는지 측정
+            
+            **📐 Lift 공식**
+            $$Lift = \\frac{P(Purchase | Action)}{P(Purchase)}$$
+            
+            **점수 가중치 설계 근거**
+            - Lift 값을 그대로 가중치로 변환
+            - 각 행동의 **실제 구매 기여도** 반영
+            """)
+            
+            st.code("""
+-- Lift 계산 SQL
+WITH rates AS (
+    SELECT
+        SAFE_DIVIDE(SUM(is_converted), COUNT(*)) as base_cv,
+        SAFE_DIVIDE(
+            COUNTIF(has_cart=1 AND is_converted=1), 
+            COUNTIF(has_cart=1)
+        ) as cart_cv
+    FROM session_stats
+)
+SELECT ROUND(cart_cv / base_cv, 1) as lift_cart
+
+-- 결과: Lift = 11.8 (장바구니 추가 시 구매 확률 11.8배 증가)
+            """, language="sql")
+        
+        with col2:
+            lift_data = {
+                '행동': ['view_item', 'add_to_cart', 'begin_checkout', 'add_payment_info'],
+                'Lift': ['4.6x', '11.8x', '30.6x', '46.5x'],
+                '가중치': [5, 12, 31, 47]
+            }
+            st.dataframe(pd.DataFrame(lift_data), use_container_width=True, hide_index=True)
+            
+            st.markdown("""
+            <div class="methodology-box">
+            <strong>💡 가중치 설계 원칙</strong><br><br>
+            • Lift 값 ≈ 가중치로 직접 매핑<br>
+            • <strong>데이터 기반 객관적 스코어링</strong><br>
+            • "왜 이 가중치인가요?" → "Lift 값입니다"
+            </div>
+            """, unsafe_allow_html=True)
+        
+        # 5. 가격 티어링 방법론
+        st.markdown("---")
+        st.markdown("#### 5️⃣ 가격 티어링 (Dynamic Tiering)")
         
         st.markdown("""
         **"왜 $20가 Low이고 $50가 High인가요?"** 라는 질문에 대한 답변:
