@@ -394,7 +394,7 @@ if page == "🏠 Executive Summary":
             total_lost = df_cart['total_lost_revenue'].sum()
             bags_lost = bags_row['total_lost_revenue'].values[0]
             bags_loss_pct = f"{bags_lost / total_lost * 100:.0f}%" if total_lost > 0 else "48%"
-            bags_count = bags_row['cart_abandon_sessions'].values[0]
+            bags_count = bags_row['abandoned_session_count'].values[0]
             bags_avg_loss = f"${bags_lost / bags_count:.0f}" if bags_count > 0 else "$216"
     
     with col3:
@@ -453,7 +453,7 @@ elif page == "📊 데이터 개요":
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **총 이벤트** | 약 2.1M 이벤트 |
+        | **총 이벤트** | 약 3.2M 이벤트 |
         | **총 세션** | {total_sessions:,} 세션 |
         | **구매 세션** | {total_purchases:,} 세션 ({overall_cvr:.2f}%) |
         """)
@@ -1599,7 +1599,7 @@ elif page == "📋 액션 플랜":
             total_lost = df_cart['total_lost_revenue'].sum()
             bags_lost = bags_row['total_lost_revenue'].values[0]
             bags_pct = bags_lost / total_lost * 100 if total_lost > 0 else 48
-            bags_count = bags_row['cart_abandon_sessions'].values[0]
+            bags_count = bags_row['abandoned_session_count'].values[0]
             bags_loss_text = f"Bags {bags_pct:.0f}% 손실 집중"
             bags_detail = f"Bags {bags_count:.0f}건, 손실 {bags_pct:.0f}%"
     
