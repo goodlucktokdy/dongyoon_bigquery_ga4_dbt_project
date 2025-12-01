@@ -392,9 +392,9 @@ if page == "🏠 Executive Summary":
         bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
         if len(bags_row) > 0:
             total_lost = df_cart['total_lost_revenue'].sum()
-            bags_lost = bags_row['total_lost_revenue'].values[0]
+            bags_lost = bags_row['total_lost_revenue'].sum()  # 여러 행일 수 있으므로 sum()
             bags_loss_pct = f"{bags_lost / total_lost * 100:.0f}%" if total_lost > 0 else "48%"
-            bags_count = bags_row['abandoned_session_count'].values[0]
+            bags_count = bags_row['abandoned_session_count'].sum()
             bags_avg_loss = f"${bags_lost / bags_count:.0f}" if bags_count > 0 else "$216"
     
     with col3:
@@ -453,7 +453,7 @@ elif page == "📊 데이터 개요":
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **총 이벤트** | 약 3.2M 이벤트 |
+        | **총 이벤트** | 약 2.1M 이벤트 |
         | **총 세션** | {total_sessions:,} 세션 |
         | **구매 세션** | {total_purchases:,} 세션 ({overall_cvr:.2f}%) |
         """)
@@ -483,10 +483,12 @@ elif page == "📊 데이터 개요":
         <strong>2. 샘플 한계</strong><br>
         • 일부 세그먼트 샘플 크기 작음<br>
         • 통계적 유의성 검증 필수<br>
+        • 60분+ 구매자: 102명 (신뢰구간 넓음)<br><br>
         
         <strong>3. 데이터 특성</strong><br>
         • Obfuscated 데이터 (일부 값 마스킹)<br>
-        • Google Merchandise Store 단일 스토어 데이터 → 일반화 제한<br>
+        • 단일 스토어 → 일반화 제한<br>
+        • 가격 정보 일부 누락
         </div>
         """, unsafe_allow_html=True)
         
@@ -1595,9 +1597,9 @@ elif page == "📋 액션 플랜":
         bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
         if len(bags_row) > 0:
             total_lost = df_cart['total_lost_revenue'].sum()
-            bags_lost = bags_row['total_lost_revenue'].values[0]
+            bags_lost = bags_row['total_lost_revenue'].sum()
             bags_pct = bags_lost / total_lost * 100 if total_lost > 0 else 48
-            bags_count = bags_row['abandoned_session_count'].values[0]
+            bags_count = bags_row['abandoned_session_count'].sum()
             bags_loss_text = f"Bags {bags_pct:.0f}% 손실 집중"
             bags_detail = f"Bags {bags_count:.0f}건, 손실 {bags_pct:.0f}%"
     
@@ -1784,7 +1786,7 @@ elif page == "📐 방법론 & 한계점":
             # 노드 정의 - 실제 dbt 구조 반영
             nodes = [
                 # Source Layer
-                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (3.2M rows)</i>', 
+                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
                  'color': '#4285F4', 'width': 0.85},
                 
                 # Staging Layer
@@ -1964,7 +1966,7 @@ models/
                 '영역': ['Data Source', 'Transformation', 'Analysis', 'Visualization', 'Deployment'],
                 '기술': ['BigQuery Public Dataset', 'dbt Core 1.7+', 'Python 3.10+', 'Streamlit 1.28+', 'Streamlit Cloud'],
                 '상세': [
-                    'ga4_obfuscated_sample_ecommerce (3.2M events)',
+                    'ga4_obfuscated_sample_ecommerce (2.1M events)',
                     'Staging → Intermediate → Mart 레이어 구조',
                     'pandas, numpy, scipy.stats (χ², Wilson CI)',
                     'Plotly (Funnel, Sankey, Scatter), Custom CSS',
@@ -2243,7 +2245,7 @@ CROSS JOIN price_quantiles
         | 티어 | 백분위 | 가격 범위 (예시) | 특징 |
         |:-----|:-------|:-----------------|:-----|
         | **Low** | 하위 33% | $16 미만 | 저관여 상품, 충동구매 유도 |
-        | **Mid** | 중간 34% | $16 - $45 | 비교 구매 대상 |
+        | **Mid** | 중간 34% | $16 ~ $45 | 비교 구매 대상 |
         | **High** | 상위 33% | $45 초과 | 고관여, 결정 마비 발생 |
         
         > 이 방식은 시즌별 가격 변동에도 **자동으로 적응** 하는 장점이 있습니다.
@@ -2268,6 +2270,7 @@ CROSS JOIN price_quantiles
             (60분+ 구매자: 102명)<br><br>
             
             • <strong>데이터 특성</strong><br>
+            Obfuscated 처리<br>
             단일 스토어 한정
             </div>
             """, unsafe_allow_html=True)
@@ -2283,6 +2286,7 @@ CROSS JOIN price_quantiles
             
             • <strong>외부 요인 미통제</strong><br>
             광고 캠페인, 가격 변동 등<br>
+            Confounding 가능<br><br>
             
             • <strong>일반화 제한</strong><br>
             Google Store 특수성<br>
@@ -2341,7 +2345,7 @@ CROSS JOIN price_quantiles
 st.markdown("---")
 st.markdown("""
 <div style="text-align: center; color: #666; font-size: 0.85rem;">
-    <strong>GA4 행동 로그 분석</strong><br>
+    <strong>GA4 이커머스 전환 최적화 분석</strong><br>
     Built with Python, dbt, BigQuery, Streamlit<br>
     <em>데이터: ga4_obfuscated_sample_ecommerce</em>
 </div>
