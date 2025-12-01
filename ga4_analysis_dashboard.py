@@ -9,7 +9,7 @@ import os
 
 # ===== 페이지 설정 =====
 st.set_page_config(
-    page_title="김동윤: GA4 로그 분석",
+    page_title="김동윤:GA4 로그분석",
     page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -190,8 +190,8 @@ def effect_size_cohens_h(p1, p2):
     return abs(phi1 - phi2)
 
 # ===== 사이드바 =====
-st.sidebar.markdown("## 김동윤의 GA4 행동 로그 분석")
-st.sidebar.markdown("GA4 e-Commerce 분석 대시보드")
+st.sidebar.markdown("## 김동윤의 GA4 로그분석")
+st.sidebar.markdown("GA4 로그분석 대시보드")
 st.sidebar.markdown("---")
 
 if data_path:
@@ -418,7 +418,7 @@ elif page == "📊 데이터 개요":
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **총 이벤트** | 약 2.1M 이벤트 |
+        | **총 이벤트** | 약 3.2M 이벤트 |
         | **총 세션** | 133,368 세션 |
         | **구매 세션** | 2,116 세션 (1.59%) |
         """)
@@ -1535,7 +1535,7 @@ elif page == "📐 방법론 & 한계점":
             # 노드 정의 - 실제 dbt 구조 반영
             nodes = [
                 # Source Layer
-                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
+                {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (3.2M rows)</i>', 
                  'color': '#4285F4', 'width': 0.85},
                 
                 # Staging Layer
@@ -1715,7 +1715,7 @@ models/
                 '영역': ['Data Source', 'Transformation', 'Analysis', 'Visualization', 'Deployment'],
                 '기술': ['BigQuery Public Dataset', 'dbt Core 1.7+', 'Python 3.10+', 'Streamlit 1.28+', 'Streamlit Cloud'],
                 '상세': [
-                    'ga4_obfuscated_sample_ecommerce (2.1M events)',
+                    'ga4_obfuscated_sample_ecommerce (3.2M events)',
                     'Staging → Intermediate → Mart 레이어 구조',
                     'pandas, numpy, scipy.stats (χ², Wilson CI)',
                     'Plotly (Funnel, Sankey, Scatter), Custom CSS',
@@ -1944,7 +1944,7 @@ SELECT ROUND(cart_cv / base_cv, 1) as lift_cart
         st.markdown("#### 5️⃣ 가격 티어링 (Dynamic Tiering)")
         
         st.markdown("""
-        **"왜 $20가 Low이고 $50가 High인가요?"** 라는 질문에 대한 답변:
+        "왜 $20가 Low이고 $50가 High인가요?" 라는 질문에 대한 답변:
         
         > 자의적 기준이 아니라, <strong>상품 가격의 분포(Price Distribution)</strong>를 분석하여 
         > <strong>백분위 기반 동적 티어링(Percentile-based Dynamic Tiering)</strong>을 적용했습니다.
