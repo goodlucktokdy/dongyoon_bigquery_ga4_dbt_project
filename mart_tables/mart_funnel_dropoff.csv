@@ -1,0 +1,6 @@
+step_order,step,from_count,to_count,drop_rate
+1,Session → View Item,133368,27976,79.02
+2,View Item → Add to Cart,27976,8450,69.8
+3,Add to Cart → Begin Checkout,8450,4362,48.38
+4,Begin Checkout → Add Payment,4362,2865,34.32
+5,Add Payment → Purchase,2865,2116,26.14
