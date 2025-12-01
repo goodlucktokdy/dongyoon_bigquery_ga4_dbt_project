@@ -307,7 +307,7 @@ if page == "🏠 Executive Summary":
                 'H6: 고가 상품에서 장바구니 이탈 집중'
             ],
             '검증 결과': ['✅ 검증 (p<0.001)', '✅ 검증 (p<0.001)', '⚠️ 부분 검증', '✅ 검증 (r=0.89)', '✅ 검증', '✅ 검증'],
-            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Tablet만 -10%", "7.7x AOV 차이", "Hidden Gem 프로모션 발견", "상위 10개 집중*"],
+            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Tablet만 -11% (Mobile은 +2%)", "7.7x AOV 차이", "Hidden Gem 프로모션 발견", "상위 10개 집중*"],
             '액션': ['VIP 세그먼트 타겟팅', '비교표/쿠폰 트리거', 'Tablet 반응형 개선', 'VIP 전용 서비스', '배너 A/B 테스트', '분할결제 도입']
         }
         
@@ -396,13 +396,16 @@ if page == "🏠 Executive Summary":
         - 클릭 유저 전환율: **4.63%** (5개 중 최고)
         - → 노출만 늘리면 고품질 유저 유입 가능
         
-        #### 4. 디바이스별 전환 격차
+        #### 4. 디바이스별 High Intent 전환 격차
         
-        | 디바이스 | 전환율 | vs Desktop |
-        |:---------|:-------|:-----------|
-        | Desktop | 2.1% | 기준 |
-        | Mobile | 1.2% | -43% |
-        | Tablet | **0.8%** | **-62%** |
+        > **Why High Intent?** 전체 전환율은 트래픽 품질에 영향받음. 
+        > "살 마음이 있는 유저"만 비교해야 순수 UX 마찰 측정 가능.
+        
+        | 디바이스 | High Intent CVR | vs Desktop |
+        |:---------|:----------------|:-----------|
+        | Desktop | 25.4% | 기준 |
+        | Mobile | 25.8% | +2% |
+        | Tablet | **22.7%** | **-11%** |
         """)
     
     action_data = {
@@ -412,7 +415,7 @@ if page == "🏠 Executive Summary":
             'Hidden Gem 프로모션 CTR 2.6%로 최저',
             'Deep Specialist 81.4%가 결정 마비 구간',
             '저가 상품 대량 이탈 (Beanie 1,391건)',
-            'Tablet 전환율 0.8% (Desktop의 38%)'
+            'Tablet High Intent CVR 22.7% (Desktop 대비 -11%)'
         ],
         '구체적 액션': [
             '분할결제 3/6개월 옵션 도입',
@@ -426,7 +429,7 @@ if page == "🏠 Executive Summary":
             'A/B 테스트로 CTR 개선폭 측정',
             '3-11개 구간 수준(5.26%) 달성',
             'A/B 테스트로 개선폭 측정',
-            'Desktop 수준(2.1%) 달성'
+            'Desktop 수준(25.4%) 달성'
         ],
         '구현 난이도': ['⭐ 낮음', '⭐ 낮음', '⭐⭐ 중간', '⭐⭐ 중간', '⭐⭐⭐ 높음']
     }
@@ -1131,38 +1134,52 @@ elif page == "📈 전환 퍼널 분석":
     st.markdown("### 📱 디바이스별 퍼널 비교")
     
     # 디바이스 분석 방법론 설명
-    with st.expander("📐 디바이스 마찰 분석 방법론 (Friction Index)"):
+    with st.expander("📐 Why High Intent 기준 분석? (핵심 방법론)"):
         st.markdown("""
-        ### 왜 단순 전환율 비교가 아닌가?
+        ### 🎯 문제: 전체 전환율 비교의 한계
         
-        "모바일은 이동 중에 보니까 전환율이 낮은 것 아니냐?"는 반론에 대응하기 위해,
-        **'살 마음이 있는(High Intent) 유저'**만을 대상으로 디바이스별 전환율을 비교했습니다.
+        | 디바이스 | 전체 CVR | 해석 |
+        |:---------|:---------|:-----|
+        | Desktop | 1.58% | - |
+        | Mobile | 1.61% | Desktop보다 높음? |
+        | Tablet | 1.44% | 가장 낮음 |
         
-        ### Friction Index (마찰 지수) 정의
+        > ❓ "Mobile이 Desktop보다 전환율이 높다고? 그럼 Mobile UX가 더 좋은 건가?"
         
-        $$Friction\\ Index = \\frac{Mobile\\ High\\ Intent\\ CVR}{Desktop\\ High\\ Intent\\ CVR} \\times 100$$
+        **아닙니다.** 전체 전환율은 **트래픽 품질(유입 경로, 유저 의도)**에 크게 영향받습니다.
         
-        | 지표 | 의미 |
-        |:-----|:-----|
-        | **100** | Desktop과 동일한 전환 효율 |
-        | **< 100** | 모바일에서 마찰(Friction) 발생 |
-        | **> 100** | 모바일이 오히려 효율적 |
+        ---
         
-        ### 핵심 인사이트
+        ### ✅ 해결: High Intent 유저만 비교
         
-        > "High Intent 유저(Engagement Score 상위 20%)의 경우에도 모바일 전환율이 Desktop 대비 낮다면,
-        > 이는 <strong>유저의 구매 의지 부족이 아니라 모바일 결제 환경의 구조적 불편함(UI/UX Friction)</strong> 때문입니다."
+        **"살 마음이 있는 유저"**가 각 디바이스에서 얼마나 구매를 완료하는지 비교해야
+        **순수 UX 마찰**을 측정할 수 있습니다.
+        
+        | 디바이스 | High Intent CVR | vs Desktop | 해석 |
+        |:---------|:----------------|:-----------|:-----|
+        | Desktop | **25.4%** | 기준 | - |
+        | Mobile | **25.8%** | +2% | UX 마찰 없음 ✅ |
+        | Tablet | **22.7%** | **-11%** | UX 마찰 존재 🔴 |
+        
+        ---
+        
+        ### 💡 핵심 인사이트
+        
+        > "High Intent 유저(Engagement Score 상위 20%)도 Tablet에서 전환율이 -11% 낮다면,
+        > 이는 **유저 의도 부족이 아니라 Tablet UX의 구조적 마찰** 때문입니다."
+        
+        **→ Mobile은 문제없음, Tablet만 개선 필요**
         """, unsafe_allow_html=True)
         
         st.code("""
--- High Intent 유저 디바이스별 전환율
+-- High Intent 유저 디바이스별 전환율 (실제 쿼리)
 SELECT
     device_category,
     COUNT(DISTINCT session_unique_id) AS high_intent_sessions,
     SUM(is_converted) AS conversions,
     ROUND(SUM(is_converted) / COUNT(*) * 100, 2) AS high_intent_cvr
 FROM mart_core_sessions
-WHERE engagement_grade = 'High Intent'  -- 상위 20% 유저만
+WHERE engagement_grade = 'High Intent'  -- Engagement Score 상위 20%
 GROUP BY device_category
         """, language="sql")
     
@@ -1485,25 +1502,29 @@ elif page == "📱 디바이스 & 시간 분석":
             with col2:
                 st.markdown("""
                 <div class="warning-box">
-                <strong>⚠️ Tablet UX 개선 필요</strong><br><br>
-                • 효율지수: 90 (PC 대비 -10%)<br>
-                • High Intent 전환율: 22.7%<br><br>
+                <strong>⚠️ Tablet만 UX 개선 필요</strong><br><br>
+                • High Intent CVR: <strong>22.7%</strong><br>
+                • vs Desktop: <strong>-11%</strong> (25.4%)<br>
+                • 효율지수: 90<br><br>
                 
                 <strong>개선 방안:</strong><br>
                 • 반응형 레이아웃 최적화<br>
                 • 터치 영역 확대<br>
                 • 원클릭 결제 도입<br><br>
                 
-                <em>KPI: Desktop 수준(2.1%) 달성</em>
+                <em>KPI: Desktop 수준(25.4%) 달성</em>
                 </div>
                 """, unsafe_allow_html=True)
                 
                 st.markdown("""
                 <div class="insight-box">
-                <strong>💡 반직관적 발견</strong><br><br>
-                Mobile > Desktop (효율지수 102 vs 100)<br><br>
-                → 모바일 UX가 이미 최적화되어 있거나<br>
-                → 모바일 사용자의 구매 의도가 더 명확
+                <strong>💡 반직관적 발견: Mobile은 문제없음</strong><br><br>
+                • Mobile High Intent CVR: <strong>25.8%</strong><br>
+                • vs Desktop: <strong>+2%</strong><br>
+                • 효율지수: 102<br><br>
+                
+                → 모바일 UX는 이미 최적화됨<br>
+                → <strong>Tablet만 집중 개선</strong> 필요
                 </div>
                 """, unsafe_allow_html=True)
     
@@ -2081,8 +2102,8 @@ elif page == "🎯 액션 우선순위":
         '우선순위': ['🥇 1', '🥇 1', '🥈 2', '🥈 2', '🥉 3', '🥉 3'],
         '액션': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너', 'Deep Specialist 비교표', 
                  'VIP 타겟팅', 'Tablet UX', '분할결제'],
-        '데이터 근거': ['고가 상품 이탈 $251/건', 'CTR 2.6% but CVR 4.63%', '81.4%가 결정 마비 구간', 'AOV 7.7배 차이', '전환율 0.8% (최저)', 'Bags 이탈 집중'],
-        '성공 KPI': ['A/B 테스트로 측정', 'A/B 테스트로 CTR 측정', '3-11개 수준(5.26%) 달성', 'VIP 재구매율 측정', 'Desktop 수준(2.1%) 달성', 'A/B 테스트로 측정'],
+        '데이터 근거': ['고가 상품 이탈 $251/건', 'CTR 2.6% but CVR 4.63%', '81.4%가 결정 마비 구간', 'AOV 7.7배 차이', 'High Intent CVR 22.7% (Desktop 대비 -11%)', 'Bags 이탈 집중'],
+        '성공 KPI': ['A/B 테스트로 측정', 'A/B 테스트로 CTR 측정', '3-11개 수준(5.26%) 달성', 'VIP 재구매율 측정', 'Desktop 수준(25.4%) 달성', 'A/B 테스트로 측정'],
         '구현 난이도': ['낮음 ⭐', '낮음 ⭐', '중간 ⭐⭐', '중간 ⭐⭐', '높음 ⭐⭐⭐', '중간 ⭐⭐'],
         '소요 기간': ['1주', '1주', '3주', '4주', '6주', '4주']
     }
