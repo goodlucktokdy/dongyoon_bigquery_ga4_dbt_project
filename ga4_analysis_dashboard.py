@@ -187,7 +187,7 @@ def effect_size_cohens_h(p1, p2):
     return abs(phi1 - phi2)
 
 # ===== 사이드바 =====
-st.sidebar.markdown("## 김동윤의 GA4 로그 분석")
+st.sidebar.markdown("## 김동윤의 GA4 행동 로그 분석")
 st.sidebar.markdown("포트폴리오 대시보드")
 st.sidebar.markdown("---")
 
@@ -377,7 +377,7 @@ if page == "🏠 Executive Summary":
         st.markdown("""
         ### 시뮬레이션 가정 명세
         
-        ROI 추정치는 업계 벤치마크(Industry Benchmark)와 **보수적/공격적 시나리오**를 기반으로 산출했습니다.
+        ROI 추정치는 **업계 벤치마크(Industry Benchmark)**와 **보수적/공격적 시나리오**를 기반으로 산출했습니다.
         
         #### 1. 장바구니 리마케팅 회수율 (5%)
         
@@ -388,7 +388,7 @@ if page == "🏠 Executive Summary":
         | 전환율 (CVR) | 10% | Barilliance 2023 Report |
         | **종합 회수율** | **0.8% ~ 2.0%** | 보수적 추정치 |
         
-        > 본 시뮬레이션은 공격적 마케팅 시나리오(5%)를 가정하여 최대 잠재력을 산출했습니다.
+        > 본 시뮬레이션은 **공격적 마케팅 시나리오(5%)**를 가정하여 최대 잠재력을 산출했습니다.
         > 보수적 시나리오(2%) 적용 시: $15.9K/월
         
         #### 2. Deep Specialist 비교표 효과 (+361건)
@@ -410,7 +410,7 @@ if page == "🏠 Executive Summary":
         """)
     
     roi_data = {
-        '개선 항목': ['장바구니 리마케팅 (5% 회수)', 'Deep Specialist 비교표 제공', 'Hidden Gem 배너 개선', 'Tablet UX 최적화', 'VIP 세그먼트 타겟팅'],
+        '개선 항목': ['장바구니 리마케팅 (5% 회수)*', 'Deep Specialist 비교표 제공', 'Hidden Gem 배너 개선', 'Tablet UX 최적화', 'VIP 세그먼트 타겟팅'],
         '예상 효과': ['+$15K/월', '+361건 전환/월', '+50건 전환/월', '+2.5%p 전환율', '+15% LTV'],
         '구현 난이도': ['⭐ 낮음', '⭐⭐ 중간', '⭐ 낮음', '⭐⭐⭐ 높음', '⭐⭐ 중간'],
         '우선순위': ['🥇 1순위', '🥈 2순위', '🥇 1순위', '🥉 3순위', '🥈 2순위']
@@ -463,9 +463,11 @@ elif page == "📊 데이터 개요 & 품질":
         <strong>1. 시간적 한계</strong><br>
         • 12월 한 달 데이터 → 계절성 반영 안됨<br>
         • 홀리데이 시즌 특수성 존재<br><br>
+        
         <strong>2. 샘플 한계</strong><br>
         • 일부 세그먼트 샘플 크기 작음 (n<100)<br>
         • 60분+ 구매자: 102명 → 신뢰구간 넓음<br><br>
+        
         <strong>3. 데이터 특성</strong><br>
         • Obfuscated 데이터 (일부 값 마스킹)<br>
         • 단일 스토어 → 일반화 제한
@@ -597,8 +599,8 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
         st.markdown("""
         ### 세그먼테이션 프레임워크
         
-        전체 유저를 획일적으로 분석하는 오류를 범하지 않기 위해, 행동 패턴(Behavioral Pattern)에 기반한 세그먼트를 정의했습니다.
-        특히 탐색 깊이(Depth: 상품 조회 수)와 탐색 넓이(Breadth: 카테고리 다양성)를 두 축으로 활용하여 
+        전체 유저를 획일적으로 분석하는 오류를 범하지 않기 위해, **행동 패턴(Behavioral Pattern)**에 기반한 세그먼트를 정의했습니다.
+        특히 **탐색 깊이(Depth: 상품 조회 수)**와 **탐색 넓이(Breadth: 카테고리 다양성)**를 두 축으로 활용하여 
         유저의 쇼핑 의도(Intent)를 구조화했습니다.
         """)
         
@@ -643,15 +645,42 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
             st.plotly_chart(fig_matrix, use_container_width=True)
         
         with col2:
-            st.markdown("""
-            #### 세그먼트 정의표
+            st.markdown("#### 세그먼트 정의표")
             
-            | 세그먼트 | SQL 조건 | 데이터 근거 | 비즈니스 해석 |
-            |:---------|:---------|:------------|:--------------|
-            | **Light Browser**<br>(찍먹형) | `Items ≤ 2` | 전체의 ~35%<br>이탈 그룹 | 탐색 의도 미발현<br>리타겟팅 대상 |
-            | **Deep Specialist**<br>(한우물형) | `Items > 2`<br>`Category = 1` | 조회 중앙값 12회<br>P25-P75: 12-24 | **Depth 중심**<br>'선택의 역설' 취약 |
-            | **Variety Seeker**<br>(다양성형) | `Categories ≥ 2` | 평균 조회 75회<br>최고 전환율 | **Breadth 중심**<br>Cross-selling 최적 |
-            """)
+            st.markdown("""
+            <table style="width:100%; border-collapse: collapse; font-size: 0.9rem;">
+                <thead>
+                    <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
+                        <th style="padding: 12px 8px; text-align: left;">세그먼트</th>
+                        <th style="padding: 12px 8px; text-align: left;">SQL 조건</th>
+                        <th style="padding: 12px 8px; text-align: left;">데이터 근거</th>
+                        <th style="padding: 12px 8px; text-align: left;">비즈니스 해석</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid #dee2e6;">
+                        <td style="padding: 10px 8px;"><strong>Light Browser</strong><br><span style="color:#666;">(찍먹형)</span></td>
+                        <td style="padding: 10px 8px;"><code>Items ≤ 2</code></td>
+                        <td style="padding: 10px 8px;">전체의 ~35%<br>이탈 그룹</td>
+                        <td style="padding: 10px 8px;">탐색 의도 미발현<br>리타겟팅 대상</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #dee2e6;">
+                        <td style="padding: 10px 8px;"><strong>Deep Specialist</strong><br><span style="color:#666;">(한우물형)</span></td>
+                        <td style="padding: 10px 8px;"><code>Items > 2</code><br><code>Category = 1</code></td>
+                        <td style="padding: 10px 8px;">조회 중앙값 12회<br>P25-P75: 12-24</td>
+                        <td style="padding: 10px 8px;"><strong>Depth 중심</strong><br>'선택의 역설' 취약</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 10px 8px;"><strong>Variety Seeker</strong><br><span style="color:#666;">(다양성형)</span></td>
+                        <td style="padding: 10px 8px;"><code>Categories ≥ 2</code></td>
+                        <td style="padding: 10px 8px;">평균 조회 75회<br>최고 전환율</td>
+                        <td style="padding: 10px 8px;"><strong>Breadth 중심</strong><br>Cross-selling 최적</td>
+                    </tr>
+                </tbody>
+            </table>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("<br>", unsafe_allow_html=True)
             
             st.markdown("""
             <div class="methodology-box">
@@ -784,10 +813,10 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
         | P75 (75분위) | **24회** | 상위 25%의 시작점 |
         | P90 (90분위) | **36회** | 극소수 헤비 유저 |
         
-        IQR(Interquartile Range: 12~24회) 구간에 대다수의 유저(81.4%)가 집중되어 있음에도 
+        **IQR(Interquartile Range: 12-24회)** 구간에 대다수의 유저(81.4%)가 집중되어 있음에도 
         불구하고 전환율이 최저점을 기록하는 현상을 발견했습니다.
         
-        이를 '집중 비교 구간의 병목'으로 정의하고, 
+        이를 **'집중 비교 구간의 병목(Decision Paralysis Zone)'**으로 정의하고, 
         해당 구간에 진입한 유저에게 의사결정 보조 도구(비교표, 추천)를 제공하는 전략을 수립했습니다.
         """)
         
@@ -858,6 +887,7 @@ WHERE browsing_style = 'Deep Specialist'
             • 전환율: <strong>1.88%</strong> (급락)<br>
             • 세션 비중: <strong>81.4%</strong><br>
             • 대다수가 이 구간에서 이탈<br><br>
+            
             <strong>통계 검정 결과</strong><br>
             • χ² = 156.3<br>
             • p < 0.001 ✅<br>
@@ -916,6 +946,7 @@ WHERE browsing_style = 'Deep Specialist'
             • 전환율: <strong>31.53%</strong><br>
             • 평균 카테고리: 6.4개<br>
             • 세션 비중: 24.8%<br><br>
+            
             <strong>vs Light Seeker</strong><br>
             • 전환율 차이: 8.0x<br>
             • χ² = 892.4, p < 0.001<br>
@@ -1057,13 +1088,16 @@ elif page == "📈 전환 퍼널 분석":
             st.markdown(f"""
             <div class="critical-box">
             <strong>🚨 1순위 병목: {max_drop_step}</strong><br><br>
+            
             • 이탈률: <strong>{max_drop_rate}%</strong><br>
             • 이탈 세션: <strong>{max_drop_count:,}건</strong><br><br>
+            
             <strong>가능한 원인:</strong><br>
             • 상품 상세 정보 부족<br>
             • 가격 대비 가치 불명확<br>
             • 배송비/배송 기간 우려<br>
             • 리뷰/평점 부재<br><br>
+            
             <strong>개선 방안:</strong><br>
             1. 상품 상세 페이지 UX 강화<br>
             2. 배송 정보 명확화<br>
@@ -1077,12 +1111,15 @@ elif page == "📈 전환 퍼널 분석":
             st.markdown(f"""
             <div class="warning-box">
             <strong>⚠️ 2순위 병목: {second_drop['step']}</strong><br><br>
+            
             • 이탈률: <strong>{second_drop['drop_rate']}%</strong><br>
             • 이탈 세션: <strong>{int(second_drop['from_count'] - second_drop['to_count']):,}건</strong><br><br>
+            
             <strong>가능한 원인:</strong><br>
             • 결제 프로세스 복잡<br>
             • 회원가입 강제<br>
             • 결제 수단 제한<br><br>
+            
             <strong>개선 방안:</strong><br>
             1. 게스트 결제 허용<br>
             2. 원클릭 결제 도입<br>
@@ -1101,7 +1138,7 @@ elif page == "📈 전환 퍼널 분석":
         ### 왜 단순 전환율 비교가 아닌가?
         
         "모바일은 이동 중에 보니까 전환율이 낮은 것 아니냐?"는 반론에 대응하기 위해,
-        **'살 마음이 있는(High Intent) 세션'**만을 대상으로 디바이스별 전환율을 비교했습니다.
+        **'살 마음이 있는(High Intent) 유저'**만을 대상으로 디바이스별 전환율을 비교했습니다.
         
         ### Friction Index (마찰 지수) 정의
         
@@ -1115,8 +1152,8 @@ elif page == "📈 전환 퍼널 분석":
         
         ### 핵심 인사이트
         
-        > "High Intent 세션(Engagement Score 상위 20%)의 경우에도 모바일 전환율이 Desktop 대비 낮다면,
-        > 이는 구매 의지 부족이 아니라 모바일 결제 환경의 구조적 불편함(UI/UX Friction) 때문입니다."
+        > "High Intent 유저(Engagement Score 상위 20%)의 경우에도 모바일 전환율이 Desktop 대비 낮다면,
+        > 이는 **유저의 구매 의지 부족이 아니라 모바일 결제 환경의 구조적 불편함(UI/UX Friction)** 때문입니다."
         """)
         
         st.code("""
@@ -1453,6 +1490,7 @@ elif page == "📱 디바이스 & 시간 분석":
                 <strong>⚠️ Tablet UX 개선 필요</strong><br><br>
                 • 효율지수: 90 (PC 대비 -10%)<br>
                 • High Intent 전환율: 22.7%<br><br>
+                
                 <strong>개선 방안:</strong><br>
                 • 반응형 레이아웃 최적화<br>
                 • 터치 영역 확대<br>
@@ -1527,8 +1565,10 @@ elif page == "📱 디바이스 & 시간 분석":
                 <div class="stat-significant">
                 <strong>📊 H4 가설 검증</strong><br><br>
                 구매 시간 ↑ = 객단가 ↑<br><br>
+                
                 • 상관계수: <strong>r = 0.89</strong><br>
                 • p-value < 0.001 ✅<br><br>
+                
                 <strong>AOV 비교:</strong><br>
                 • 0-5분: $241<br>
                 • 60분+: $1,847<br>
@@ -1660,6 +1700,7 @@ elif page == "🛒 이탈 & 기회 분석":
                     • 이탈: {int(top_item.get('abandon_count', 0))}건<br>
                     • 손실: <strong>${top_item['total_lost_revenue']:,.0f}</strong><br>
                     • 평균: ${top_item['avg_lost_value']:,.0f}/건<br><br>
+                    
                     <strong>원인 추정:</strong><br>
                     • 고가 상품 결제 허들<br>
                     • 가격 비교 후 이탈<br>
@@ -1674,6 +1715,7 @@ elif page == "🛒 이탈 & 기회 분석":
                 2. <strong>가격 보장</strong> 정책<br>
                 3. 리마케팅 이메일 자동화<br>
                 4. 장바구니 만료 알림<br><br>
+                
                 <em>예상 회수: 5% 기준</em>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1737,6 +1779,7 @@ elif page == "🛒 이탈 & 기회 분석":
                 • CTR: 2.56% (최저)<br>
                 • 클릭 유저 점수: 400.2 (최고)<br>
                 • 전환율: 4.63% (최고)<br><br>
+                
                 → 배너 디자인만 개선하면<br>
                 높은 ROI 기대
                 </div>
@@ -1834,12 +1877,15 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="success-box">
         <strong>🚀 Phase 1: Quick Win (1-2주)</strong><br><br>
+        
         <strong>1. 장바구니 리마케팅</strong><br>
         • 1/24/72시간 이메일 자동화<br>
         • 예상: $39.7K/월<br><br>
+        
         <strong>2. Hidden Gem 배너 A/B</strong><br>
         • 새 디자인 테스트<br>
         • 예상: +50건/월<br><br>
+        
         <strong>담당</strong>: 마케팅팀<br>
         <strong>KPI</strong>: 회수율 5%
         </div>
@@ -1849,12 +1895,15 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="warning-box">
         <strong>📊 Phase 2: 구조 개선 (1-2개월)</strong><br><br>
+        
         <strong>3. Deep Specialist 비교표</strong><br>
         • 10개+ 조회 시 트리거<br>
         • 예상: +361건/월<br><br>
+        
         <strong>4. VIP 세그먼트 타겟팅</strong><br>
         • Super Heavy 전용 혜택<br>
         • 예상: +15% LTV<br><br>
+        
         <strong>담당</strong>: 개발팀 + CRM팀<br>
         <strong>KPI</strong>: CVR 10%
         </div>
@@ -1864,12 +1913,15 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="insight-box">
         <strong>🎯 Phase 3: 전략 과제 (3-6개월)</strong><br><br>
+        
         <strong>5. 실시간 세션 스코어링</strong><br>
         • ML 기반 구매 확률 예측<br>
         • 예상: +2% 전체 CVR<br><br>
+        
         <strong>6. CDP 구축</strong><br>
         • 통합 고객 프로파일<br>
         • 예상: +20% LTV<br><br>
+        
         <strong>담당</strong>: 데이터팀 + IT팀<br>
         <strong>KPI</strong>: 개인화 정확도
         </div>
@@ -2121,7 +2173,7 @@ models/
             → **범주형 변수 간의 독립성 검정**
             
             **📐 왜 이 기법을 선택했는가?**
-            - 데이터가 모두 범주형(Categorical) → 평균 비교 불가
+            - 데이터가 모두 **범주형(Categorical)** → 평균 비교 불가
             - **"그룹 간 비율의 차이"**가 우연인지 아닌지 판별 필요
             - 관측 빈도(Observed)와 기대 빈도(Expected) 간의 차이 측정
             """)
@@ -2148,6 +2200,7 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
             <strong>📈 결과 해석</strong><br><br>
             • χ² = <strong>722.27</strong><br>
             • p-value < <strong>0.001</strong> ✅<br><br>
+            
             <strong>의미:</strong><br>
             두 변수는 독립적이지 않음.<br>
             즉, <strong>"탐색 스타일이 구매 전환에<br>
@@ -2168,12 +2221,12 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
             "차이가 있는 건 알겠는데(P-value), 그 차이가 **비즈니스적으로 써먹을 만큼** 큰가?"
             
             **📐 왜 효과 크기가 필요한가?**
-            - 통계적으로 유의하다(Significant) ≠ 중요하다(Important)
+            - **통계적으로 유의하다(Significant) ≠ 중요하다(Important)**
             - 빅데이터에서는 아주 작은 차이도 p < 0.001이 나옴
             - **"실질적인 중요성"**을 측정하기 위해 사용
             
             **🔬 Cohen's h 특징**
-            - 두 비율(Proportion) 간의 차이를 아크사인 변환
+            - 두 **비율(Proportion)** 간의 차이를 아크사인 변환
             - 1%→2% (2배)와 50%→51% (미미함)을 구분
             """)
             
@@ -2192,11 +2245,13 @@ def cohens_h(p1, p2):
             st.markdown("""
             <div class="insight-box">
             <strong>📊 효과 크기 해석 기준</strong><br><br>
+            
             | Cohen's h | 해석 |
             |:----------|:-----|
             | 0.2 | 작은 효과 (Small) |
             | 0.5 | 중간 효과 (Medium) |
             | 0.8 | 큰 효과 (Large) |
+            
             <br>
             <strong>우리의 결과: h = 0.42</strong><br>
             → <strong>중간 정도(Medium)</strong>의 효과 크기<br>
@@ -2221,7 +2276,7 @@ def cohens_h(p1, p2):
               전환율이 **0%나 100%에 가까울 때** 오차가 큼
             - 이커머스 전환율(1~5%)은 이 영역에 해당
             - Wilson 구간은 **비대칭적 분포**를 고려  
-              → 전환율 추정에 훨씬 강건(Robust)하고 정확
+              → 전환율 추정에 훨씬 **강건(Robust)**하고 정확
             """)
             
             st.code("""
@@ -2245,11 +2300,15 @@ def wilson_ci(successes, total, confidence=0.95):
             st.markdown("""
             <div class="success-box">
             <strong>📈 결과 해석</strong><br><br>
+            
             <strong>Variety Seeker</strong><br>
             95% CI: [12.5%, 13.6%]<br><br>
+            
             <strong>Deep Specialist</strong><br>
             95% CI: [2.2%, 2.9%]<br><br>
+            
             <strong>→ 신뢰구간이 전혀 겹치지 않음!</strong><br><br>
+            
             이는 데이터가 우연히 좋게 나온 게 아니라,<br>
             <strong>아무리 못해도 Specialist보다는<br>
             무조건 높다</strong>는 통계적 보증
@@ -2315,8 +2374,8 @@ SELECT ROUND(cart_cv / base_cv, 1) as lift_cart
         st.markdown("""
         **"왜 $20가 Low이고 $50가 High인가요?"** 라는 질문에 대한 답변:
         
-        > 자의적 기준이 아니라, 상품 가격의 분포를 분석하여 
-        > **백분위 기반 동적 티어링**을 적용했습니다.
+        > 자의적 기준이 아니라, **상품 가격의 분포(Price Distribution)**를 분석하여 
+        > **백분위 기반 동적 티어링(Percentile-based Dynamic Tiering)**을 적용했습니다.
         """)
         
         st.code("""
@@ -2360,12 +2419,15 @@ CROSS JOIN price_quantiles
             st.markdown("""
             <div class="limitation-box">
             <strong>1. 데이터 한계</strong><br><br>
+            
             • <strong>시간적 제한</strong><br>
             12월 한 달 → 계절성 미반영<br>
             홀리데이 시즌 특수성<br><br>
+            
             • <strong>샘플 크기</strong><br>
             일부 세그먼트 n < 100<br>
             (60분+ 구매자: 102명)<br><br>
+            
             • <strong>데이터 특성</strong><br>
             Obfuscated 처리<br>
             단일 스토어 한정
@@ -2376,12 +2438,15 @@ CROSS JOIN price_quantiles
             st.markdown("""
             <div class="limitation-box">
             <strong>2. 분석 한계</strong><br><br>
+            
             • <strong>인과관계 vs 상관관계</strong><br>
             "조회 많으면 전환 높다"<br>
             → 역인과 가능성 존재<br><br>
+            
             • <strong>외부 요인 미통제</strong><br>
             광고 캠페인, 가격 변동 등<br>
             Confounding 가능<br><br>
+            
             • <strong>일반화 제한</strong><br>
             Google Store 특수성<br>
             다른 이커머스 적용 시 검증 필요
@@ -2414,18 +2479,22 @@ CROSS JOIN price_quantiles
         
         st.markdown("---")
         
-        st.markdown("### 💡강조 포인트")
+        st.markdown("### 💡 면접관에게 강조할 포인트")
         
         st.markdown("""
         <div class="success-box">
         <strong>1. 가설 기반 분석</strong><br>
         단순 EDA가 아닌, 비즈니스 가설 → 통계 검증 → 액션 도출 구조<br><br>
+        
         <strong>2. 통계적 엄밀성</strong><br>
         χ² 검정, 효과 크기(Cohen's h), 신뢰구간 등 통계적 근거 제시<br><br>
+        
         <strong>3. 한계점 인지</strong><br>
         데이터/분석 한계를 정직하게 인정하고 향후 개선 방향 제시<br><br>
+        
         <strong>4. 비즈니스 임팩트</strong><br>
         모든 인사이트를 정량적 ROI로 환산 ($500K+ 연간 효과)<br><br>
+        
         <strong>5. 실행 가능성</strong><br>
         Impact-Effort 매트릭스로 우선순위화, 담당팀/기간 명시
         </div>
