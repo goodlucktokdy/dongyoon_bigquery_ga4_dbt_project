@@ -1688,14 +1688,16 @@ elif page == "🛒 이탈 & 기회 분석":
                     y='item_name',
                     orientation='h',
                     color='avg_lost_value',
-                    color_continuous_scale='Reds'
+                    color_continuous_scale='Reds',
+                    text_auto=False  # 자동 텍스트 비활성화
                 )
                 
                 # 텍스트 레이블 설정 (손실 금액만 표시)
                 fig.update_traces(
-                    text=df_top['total_lost_revenue'].apply(lambda x: f'${x:,.0f}'),
+                    text=[f'${x:,.0f}' for x in df_top['total_lost_revenue']],
                     textposition='outside',
-                    textfont=dict(size=11)
+                    textfont=dict(size=11),
+                    hovertemplate='%{y}<br>손실: $%{x:,.0f}<extra></extra>'
                 )
                 
                 fig.update_layout(
@@ -1704,7 +1706,9 @@ elif page == "🛒 이탈 & 기회 분석":
                     yaxis_title='',
                     yaxis={'categoryorder': 'total ascending'},
                     height=600,
-                    coloraxis_colorbar_title='평균 금액'
+                    coloraxis_colorbar_title='평균 금액',
+                    uniformtext_minsize=10,
+                    uniformtext_mode='hide'
                 )
                 
                 st.plotly_chart(fig, use_container_width=True)
