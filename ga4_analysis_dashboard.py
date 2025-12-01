@@ -200,14 +200,13 @@ else:
     st.sidebar.error("❌ 데이터 폴더 없음")
 
 page = st.sidebar.radio(
-    "분석 섹션",
-    ["🏠 Executive Summary",
-     "📊 데이터 개요",
-     "🔍 세그먼트 분석",
-     "📈 전환 퍼널 분석",
-     "🛒 장바구니 & 프로모션 분석",
-     "🎯 액션 우선순위",
-     "⚡ Engagement Score 산출",
+    "분석 스토리",
+    ["1️⃣ 문제 정의",
+     "2️⃣ 데이터 파이프라인",
+     "3️⃣ 진성 유저 식별",
+     "4️⃣ 문제1: 결정 마비",
+     "5️⃣ 문제2: 장바구니 이탈", 
+     "6️⃣ 해결책 & 액션플랜",
      "📐 방법론 & 한계점"]
 )
 
@@ -229,10 +228,10 @@ st.sidebar.markdown("#### 김동윤")
 
 # ===== 페이지별 컨텐츠 =====
 
-# ----- 1. Executive Summary -----
-if page == "🏠 Executive Summary":
+# ----- 1. 문제 정의 -----
+if page == "1️⃣ 문제 정의":
     st.markdown('<p class="main-header">🛒 이커머스 전환율 최적화 분석</p>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-header">Google Merchandise Store | GA4 데이터 기반 행동 분석 및 개선안 도출</p>', unsafe_allow_html=True)
+    st.markdown('<p class="sub-header">"트래픽의 98%가 이탈한다. 누가 진짜 고객인가?"</p>', unsafe_allow_html=True)
     
     # 실제 데이터에서 핵심 지표 추출
     total_sessions = 133368
@@ -245,232 +244,138 @@ if page == "🏠 Executive Summary":
         overall_cvr = float(df_ov['pct_purchase'].values[0])
         total_purchases = int(df_ov['step5_purchase'].values[0])
     
-    # 핵심 KPI 요약
-    st.markdown("### 📌 핵심 지표 요약")
+    # 문제 상황 강조
+    st.markdown("### 🚨 현재 상황")
     
-    col1, col2, col3, col4, col5 = st.columns(5)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown(f"""
-        <div class="metric-container">
-            <div class="big-number">{total_sessions:,}</div>
-            <div class="kpi-label">총 세션 수</div>
+        <div class="critical-box">
+        <div class="big-number">{total_sessions:,}</div>
+        <div class="kpi-label">월간 세션</div>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown(f"""
-        <div class="metric-container">
-            <div class="big-number">{overall_cvr}%</div>
-            <div class="kpi-label">전체 전환율</div>
+        <div class="critical-box">
+        <div class="big-number" style="color: #e74c3c;">98.4%</div>
+        <div class="kpi-label">이탈률</div>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown(f"""
-        <div class="metric-container">
-            <div class="big-number">{total_purchases:,}</div>
-            <div class="kpi-label">구매 완료</div>
+        <div class="success-box">
+        <div class="big-number" style="color: #27ae60;">{total_purchases:,}</div>
+        <div class="kpi-label">구매 전환</div>
         </div>
         """, unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown("""
-        <div class="metric-container">
-            <div class="big-number">79%</div>
-            <div class="kpi-label">최대 이탈률 (세션→조회)</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col5:
-        st.markdown("""
-        <div class="metric-container">
-            <div class="big-number">$300K</div>
-            <div class="kpi-label">장바구니 이탈 손실*</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    st.caption("*Rain Shell 이상치(quantity 비정상) 제외")
     
     st.markdown("---")
     
-    # 분석 프레임워크
-    st.markdown("### 🔬 분석 프레임워크: 가설 → 검증 → 액션")
+    # 핵심 질문
+    st.markdown("### 💡 핵심 질문")
     
-    col1, col2 = st.columns([2, 1])
+    col1, col2 = st.columns(2)
     
     with col1:
-        hypothesis_data = {
-            '가설': [
-                'H1: 다양한 탐색 유저가 전환율 높음',
-                'H2: 특정 조회 구간에서 결정 마비 발생',
-                'H3: 프로모션 CTR ≠ 실제 전환 기여',
-                'H4: 고가 상품에서 장바구니 이탈 집중'
-            ],
-            '검증 결과': ['✅ 검증 (p 값 0.001 미만)', '✅ 검증 (p 값 0.001 미만)', '✅ 검증', '✅ 검증'],
-            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Hidden Gem 프로모션 발견", "Bags 카테고리 48%"],
-            '액션': ['VIP 세그먼트 타겟팅', '비교표/쿠폰 트리거', '배너 A/B 테스트', '분할결제 도입']
-        }
+        st.markdown("""
+        <div class="insight-box">
+        <strong>Q1. 누가 "진짜" 고객인가?</strong><br><br>
+        133,368 세션 중 구매는 2,116건 (1.6%)<br>
+        나머지 98.4%는 모두 "이탈"인가?<br><br>
+        → <strong>구매 가능성이 높은 유저</strong>를 식별해야 함
+        </div>
+        """, unsafe_allow_html=True)
         
-        df_hypothesis = pd.DataFrame(hypothesis_data)
-        st.dataframe(df_hypothesis, use_container_width=True, hide_index=True)
-        st.caption("*Rain Shell 이상치 제외")
+        st.markdown("""
+        <div class="insight-box">
+        <strong>Q2. 어디서 이탈하는가?</strong><br><br>
+        퍼널의 어느 단계에서<br>
+        가장 많은 기회가 손실되는가?<br><br>
+        → <strong>병목 지점</strong> 파악 필요
+        </div>
+        """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
-        <div class="methodology-box">
-        <strong>📊 분석 방법론</strong><br><br>
-        • <strong>통계 검정</strong>: χ² test, t-test<br>
-        • <strong>효과 크기</strong>: Cohen's h/d<br>
-        • <strong>신뢰구간</strong>: 95% Wilson CI<br>
-        • <strong>세그멘테이션</strong>: 백분위 기반<br>
-        • <strong>스코어링</strong>: Lift 기반 가중치
+        <div class="insight-box">
+        <strong>Q3. 왜 이탈하는가?</strong><br><br>
+        결제 직전까지 왔는데<br>
+        왜 구매를 포기하는가?<br><br>
+        → <strong>이탈 원인</strong> 분석 필요
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("""
+        <div class="insight-box">
+        <strong>Q4. 어떻게 전환시킬 것인가?</strong><br><br>
+        데이터 기반으로<br>
+        어떤 액션을 취해야 하는가?<br><br>
+        → <strong>실행 가능한 해결책</strong> 도출
         </div>
         """, unsafe_allow_html=True)
     
     st.markdown("---")
     
-    # TOP 3 인사이트
-    st.markdown("### 💡 TOP 3 핵심 인사이트")
+    # 분석 접근법
+    st.markdown("### 🎯 분석 접근법")
     
-    # 용어 정의 추가
-    with st.expander("📖 용어 정의 (클릭하여 확인)"):
-        st.markdown("""
-        | 용어 | 정의 | 기준 |
-        |:-----|:-----|:-----|
-        | **Deep Specialist** | 소수 카테고리를 깊게 탐색하는 유저 | 1-2개 카테고리에서 12개+ 상품 조회 |
-        | **Variety Seeker** | 다양한 카테고리를 넓게 탐색하는 유저 | 3개+ 카테고리 탐색 |
-        | **Super Heavy Seeker** | Variety Seeker 중 극단적 탐색 유저 | 85개+ 상품 조회, 6개+ 카테고리 |
-        | **Hidden Gem** | CTR은 낮지만 CVR이 높은 프로모션 | CTR 하위 but CVR 상위 |
-        
-        > 💡 세그먼트 분류는 `mart_browsing_style.csv`에서 도출되었으며, 
-        > 상품 조회 패턴(깊이 vs 넓이)을 기준으로 정의됨
-        """)
+    st.markdown("""
+    | 단계 | 질문 | 방법론 |
+    |:-----|:-----|:-------|
+    | **1. 진성 유저 식별** | 누가 구매할 가능성이 높은가? | Lift 기반 Engagement Score |
+    | **2. 세그먼트 분석** | 어떤 행동 패턴이 전환과 연결되는가? | 탐색 깊이/넓이 기반 분류 |
+    | **3. 병목 분석** | 어디서 가장 많이 이탈하는가? | 퍼널 단계별 이탈률 |
+    | **4. 원인 분석** | 왜 장바구니를 버리는가? | 카테고리별 이탈 패턴 |
+    | **5. 해결책 도출** | 무엇을 바꿔야 하는가? | Impact-Effort 매트릭스 |
+    """)
+    
+    st.markdown("---")
+    
+    # 핵심 발견 미리보기
+    st.markdown("### 🔍 핵심 발견 (Preview)")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
-        <div class="critical-box">
-        <strong>🚨 #1. 결정 마비 구간 발견</strong><br><br>
-        <strong>Deep Specialist</strong> (1-2개 카테고리 집중 탐색 유저) 중<br>
-        <strong>81.4%</strong>가 12-24개 상품 조회 구간에서<br>
-        전환율 <strong>1.88%</strong>로 급락<br><br>
-        <em>χ² = 156.3, p 값 0.001 미만</em><br>
-        <small>→ 구간별 전환율 차이가 우연이 아님 (99.9% 신뢰)</small>
+        <div class="warning-box">
+        <strong>발견 1</strong><br><br>
+        <strong>Variety Seeker</strong><br>
+        (다양한 카테고리 탐색 유저)<br><br>
+        전환율 <strong>13.02%</strong><br>
+        평균 대비 8배 높음
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
         <div class="warning-box">
-        <strong>💎 #2. Hidden Gem 프로모션</strong><br><br>
-        <strong>'Reach New Heights'</strong> 배너<br>
-        CTR 2.6% (5개 중 최저) but<br>
-        클릭 유저 전환율 <strong>4.63%</strong> (5개 중 최고)<br><br>
-        <em>→ 노출 부족으로 숨겨진 고효율 프로모션</em><br>
-        <small>배너 위치/디자인만 개선하면 고품질 유저 유입</small>
+        <strong>발견 2</strong><br><br>
+        <strong>Deep Specialist 81.4%</strong><br>
+        (12-24개 상품 조회 구간)<br><br>
+        전환율 <strong>1.88%</strong>로 급락<br>
+        "결정 마비" 발생
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown("""
-        <div class="success-box">
-        <strong>⭐ #3. Super Heavy Seeker</strong><br><br>
-        <strong>85개+ 상품 조회</strong> 극단적 탐색 유저<br>
-        전환율 <strong>31.53%</strong> (일반 대비 20배+)<br>
-        평균 <strong>6.4개 카테고리</strong> 탐색<br><br>
-        <em>→ VIP 세그먼트로 별도 관리</em><br>
-        <small>크로스셀링, 전용 혜택 제공</small>
+        <div class="warning-box">
+        <strong>발견 3</strong><br><br>
+        <strong>Bags 카테고리</strong><br>
+        이탈 손실의 <strong>48%</strong> 차지<br><br>
+        건당 평균 손실 <strong>$216</strong><br>
+        고가 상품 결제 부담
         </div>
         """, unsafe_allow_html=True)
-    
-    # 통계 검정 설명
-    with st.expander("📊 통계 검정 해석 (χ² = 156.3, p 값 0.001 미만)"):
-        st.markdown("""
-        ### χ² (카이제곱) 검정이란?
-        
-        "상품 조회 구간별 전환율 차이가 **우연인지 vs 실제 차이인지** 를 검증하는 통계 방법"
-        
-        | 지표 | 값 | 의미 |
-        |:-----|:---|:-----|
-        | **χ² = 156.3** | 검정 통계량 | 구간 간 차이가 매우 큼 (클수록 차이가 확실) |
-        | **p 값 0.001 미만** | 유의확률 | 이 차이가 우연일 확률이 0.1% 미만 |
-        
-        ### 해석
-        
-        > "12-24개 구간의 전환율(1.88%)이 3-11개 구간(5.26%)보다 낮은 것은 
-        > **우연이 아니라 통계적으로 유의미한 차이**이다. (99.9% 신뢰수준)"
-        
-        ### 비즈니스 의미
-        
-        - ✅ **액션 근거 충분**: 이 구간에 개입(비교표, 쿠폰)하면 효과 기대
-        - ✅ **샘플 크기 충분**: 81.4%가 해당 구간 → 충분한 데이터
-        - ✅ **재현 가능성**: 우연이 아니므로 지속적 패턴
-        """)
-    
-    st.markdown("---")
-    
-    # 데이터 기반 액션 플랜
-    st.markdown("### 📋 데이터 기반 액션 플랜")
-    
-    # 인사이트 도출 근거
-    with st.expander("📐 인사이트 도출 근거 (Data Evidence)"):
-        st.markdown("""
-        ### 각 액션의 데이터 근거
-        
-        #### 1. 장바구니 이탈 - 2가지 패턴 발견
-        
-        | 패턴 | 데이터 근거 | 핵심 문제 |
-        |:-----|:-----------|:---------|
-        | **Bags 카테고리** | 753건, 손실 **48%** 차지 | 결제 금액 부담 |
-        | **Apparel 대량 이탈** | **12,650건**, 건당 $7 | 결제 과정 마찰 |
-        
-        #### 2. Deep Specialist 결정 마비
-        
-        - 12-24개 상품 조회 구간 전환율: **1.88%** (평균 대비 -70%)
-        - 해당 구간 세션 비중: **81.4%** (대다수가 여기서 이탈)
-        - 3-11개 구간 전환율: **5.26%** (정상 수준)
-        
-        #### 3. Hidden Gem 프로모션
-        
-        - CTR: **2.56%** (5개 중 최저)
-        - 클릭 유저 전환율: **4.63%** (5개 중 최고)
-        - → 노출만 늘리면 고품질 유저 유입 가능
-        """)
-    
-    action_data = {
-        '우선순위': ['🥇 1순위', '🥇 1순위', '🥈 2순위', '🥈 2순위'],
-        '문제점 (데이터 근거)': [
-            'Bags 카테고리 손실 집중 (753건, 손실 48%)',
-            'Hidden Gem 프로모션 CTR 2.6%로 최저',
-            'Deep Specialist 81.4%가 결정 마비 구간',
-            'Apparel 대량 이탈 (12,650건)'
-        ],
-        '구체적 액션': [
-            '분할결제 3/6개월 옵션 도입',
-            '배너 위치 상향 + 디자인 A/B 테스트',
-            '상품 비교표 + "Best for You" 추천 제공',
-            'Guest Checkout + 원클릭 결제 도입'
-        ],
-        '성공 지표 (KPI)': [
-            'Bags 카테고리 이탈률 감소',
-            'A/B 테스트로 CTR 개선폭 측정',
-            '3-11개 구간 수준 (5.26%) 달성',
-            'Apparel 장바구니 완료율 개선'
-        ],
-        '구현 난이도': ['⭐ 낮음', '⭐ 낮음', '⭐⭐ 중간', '⭐⭐ 중간']
-    }
-    
-    df_action = pd.DataFrame(action_data)
-    st.dataframe(df_action, use_container_width=True, hide_index=True)
-    
-    st.info("💡 **검증 방법**: 각 액션은 A/B 테스트로 효과 검증 후 전체 적용 권장")
 
-# ----- 2. 데이터 개요 & 품질 -----
-elif page == "📊 데이터 개요":
-    st.header("📊 데이터 개요 & 품질 리포트")
-    
+# ----- 2. 데이터 개요 -----
+elif page == "2️⃣ 데이터 파이프라인":
+    st.header("2️⃣ Engineering: 데이터 파이프라인")
     
     # 실제 데이터에서 수치 추출
     total_sessions = 133368
@@ -483,20 +388,48 @@ elif page == "📊 데이터 개요":
         total_purchases = int(df_ov['step5_purchase'].values[0])
         overall_cvr = float(df_ov['pct_purchase'].values[0])
     
+    # 핵심 지표 카드
+    st.markdown("### 📈 핵심 지표")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.metric("총 세션", f"{total_sessions:,}")
+    with col2:
+        st.metric("구매 세션", f"{total_purchases:,}")
+    with col3:
+        st.metric("전체 전환율", f"{overall_cvr}%")
+    with col4:
+        if 'funnel_overall' in data:
+            cart_sessions = int(df_ov['step2_add_to_cart'].values[0])
+            cart_rate = round(cart_sessions / total_sessions * 100, 1)
+            st.metric("장바구니 추가율", f"{cart_rate}%")
+    
+    st.markdown("---")
+    
     # 데이터 개요
     col1, col2 = st.columns(2)
     
     with col1:
         st.markdown("### 📦 데이터 소스")
-        st.markdown(f"""
+        st.markdown("""
         | 항목 | 내용 |
         |-----|------|
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **총 세션** | {total_sessions:,} 세션 |
-        | **구매 세션** | {total_purchases:,} 세션 |
-        | **전체 전환율** | {overall_cvr}% |
+        | **이벤트 수** | 약 4.5M 이벤트 |
+        | **사용 테이블** | stg_events → int_* → mart_* |
+        """)
+        
+        st.markdown("### 🔧 분석 환경")
+        st.markdown("""
+        | 항목 | 도구 |
+        |-----|------|
+        | **데이터 웨어하우스** | Google BigQuery |
+        | **데이터 변환** | dbt (Data Build Tool) |
+        | **시각화** | Streamlit + Plotly |
+        | **통계 분석** | Python (scipy, numpy) |
         """)
     
     with col2:
@@ -508,114 +441,118 @@ elif page == "📊 데이터 개요":
         • 홀리데이 시즌 특수성 존재<br><br>
         
         <strong>2. 샘플 한계</strong><br>
-        • 일부 세그먼트 샘플 크기 작음 (n<100)<br>
-        • 60분+ 구매자: 102명 → 신뢰구간 넓음<br><br>
+        • 일부 세그먼트 샘플 크기 작음<br>
+        • 통계적 유의성 검증 필수<br><br>
         
         <strong>3. 데이터 특성</strong><br>
         • Obfuscated 데이터 (일부 값 마스킹)<br>
         • 단일 스토어 → 일반화 제한
         </div>
         """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # 전체 퍼널 현황 (실제 데이터)
-    st.markdown("### 📈 전체 전환 퍼널")
-    
-    if 'funnel_overall' in data:
-        df_ov = data['funnel_overall']
         
-        funnel_stages = ['세션 시작', '상품 조회', '장바구니 추가', '결제 시작', '결제 정보 입력', '구매 완료']
-        funnel_values = [
-            int(df_ov['total_sessions'].values[0]),
-            int(df_ov['step1_view_item'].values[0]),
-            int(df_ov['step2_add_to_cart'].values[0]),
-            int(df_ov['step3_begin_checkout'].values[0]),
-            int(df_ov['step4_add_payment_info'].values[0]),
-            int(df_ov['step5_purchase'].values[0])
-        ]
-        
-        # Funnel 차트
-        fig_funnel = go.Figure(go.Funnel(
-            y=funnel_stages,
-            x=funnel_values,
-            textposition="inside",
-            textinfo="value+percent initial",
-            opacity=0.85,
-            marker=dict(
-                color=['#3498db', '#2980b9', '#f39c12', '#e74c3c', '#c0392b', '#27ae60'],
-                line=dict(width=2, color='white')
-            ),
-            connector=dict(line=dict(color="royalblue", dash="dot", width=2))
-        ))
-        
-        fig_funnel.update_layout(
-            title="전환 퍼널 (Session → Purchase)",
-            height=600
-        )
-        
-        st.plotly_chart(fig_funnel, use_container_width=True)
-    
-    # 단계별 이탈률 (실제 데이터)
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### 📉 단계별 이탈률")
-        
-        if 'funnel_dropoff' in data:
-            df_drop = data['funnel_dropoff'].copy()
-            df_drop['dropped'] = df_drop['from_count'] - df_drop['to_count']
-            df_drop['심각도'] = df_drop['drop_rate'].apply(
-                lambda x: '🔴 심각' if x >= 60 else ('🟡 중간' if x >= 30 else '🟢 양호')
-            )
-            
-            display_df = df_drop[['step', 'drop_rate', 'dropped', '심각도']].copy()
-            display_df.columns = ['단계', '이탈률(%)', '이탈 세션', '심각도']
-            
-            st.dataframe(display_df, use_container_width=True, hide_index=True)
-    
-    with col2:
-        st.markdown("### 🎯 핵심 병목 지점")
-        
-        if 'funnel_dropoff' in data:
-            df_drop = data['funnel_dropoff']
-            max_drop = df_drop.loc[df_drop['drop_rate'].idxmax()]
-            second_drop = df_drop.nlargest(2, 'drop_rate').iloc[1]
-            
-            st.markdown(f"""
-            <div class="critical-box">
-            <strong>🚨 최대 이탈 지점: {max_drop['step']}</strong><br><br>
-            • 이탈률: <strong>{max_drop['drop_rate']}%</strong><br>
-            • 이탈 세션: {int(max_drop['from_count'] - max_drop['to_count']):,}건<br><br>
-            → 상품 상세 페이지 UX 개선 필요<br>
-            → 가격/배송 정보 명확화
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.markdown(f"""
-            <div class="warning-box">
-            <strong>⚠️ 두 번째 병목: {second_drop['step']}</strong><br><br>
-            • 이탈률: <strong>{second_drop['drop_rate']}%</strong><br>
-            • 이탈 세션: {int(second_drop['from_count'] - second_drop['to_count']):,}건<br><br>
-            → 결제 프로세스 간소화<br>
-            → 장바구니 리마케팅
-            </div>
-            """, unsafe_allow_html=True)
-    
+        st.markdown("### 📊 dbt 모델 구조")
+        st.markdown("""
+        ```
+        stg_events (Staging)
+            ↓
+        int_browsing_style    (세그먼트 분류)
+        int_engage_lift_score (Engagement Score)
+        int_session_funnel    (퍼널 단계)
+        int_session_paths     (경로 분석)
+            ↓
+        mart_* (17개 Mart 테이블)
+        ```
+        """)
 
 # ----- 3. 세그먼트 분석 (통계 검증) -----
-elif page == "🔍 세그먼트 분석":
-    st.header("🔍 세그먼트 분석 with 통계적 검증")
+elif page == "3️⃣ 진성 유저 식별":
+    st.header("3️⃣ 진성 유저 식별: Engagement Scoring")
     
+    st.markdown("""
+    > **핵심 질문**: "133,368 세션 중 누가 **진짜** 구매할 유저인가?"
+    """)
     
-    # ===== 방법론 설명 (Expander) =====
-    with st.expander("📐 세그먼트 정의 및 분석 방법론 (Methodology)", expanded=True):
-        st.markdown("""
-        ### 세그먼테이션 프레임워크
+    tab1, tab2, tab3 = st.tabs(["🎯 Engagement Score", "👥 세그먼트 분류", "📊 세그먼트별 분석"])
+    
+    with tab1:
+        st.markdown("### Lift 기반 Engagement Score")
         
-        전체 유저를 획일적으로 분석하는 오류를 범하지 않기 위해, <strong>행동 패턴(Behavioral Pattern)</strong>에 기반한 세그먼트를 정의했습니다.
-        특히 <strong>탐색 깊이(Depth: 상품 조회 수)</strong>와 <strong>탐색 넓이(Breadth: 카테고리 다양성)</strong>를 두 축으로 활용하여 
-        유저의 쇼핑 의도(Intent)를 구조화했습니다.
+        st.markdown("""
+        단순히 "전환율 1.6%"로 끝내지 않고, **Lift (향상도)** 를 활용하여 
+        각 유저의 구매 가능성을 정량화했습니다.
+        """)
+        
+        col1, col2 = st.columns([1.5, 1])
+        
+        with col1:
+            st.markdown("""
+            **Lift 정의**: "특정 행동을 하면 구매 확률이 몇 배로 뛰는가?"
+            
+            ```
+            Lift = P(Purchase | Action) / P(Purchase)
+            ```
+            
+            **예시**: 
+            - 전체 세션 구매율: **1.6%**
+            - 장바구니 담은 세션 구매율: **18.9%**
+            - **Lift = 11.8배** → 장바구니 담으면 구매 확률 11.8배
+            """)
+            
+            lift_data = {
+                '행동': ['view_item', 'add_to_cart', 'begin_checkout', 'add_payment_info'],
+                'Lift': ['4.6x', '11.8x', '30.6x', '46.5x'],
+                '점수': ['5점', '12점', '31점', '47점']
+            }
+            st.dataframe(pd.DataFrame(lift_data), use_container_width=True, hide_index=True)
+        
+        with col2:
+            st.markdown("""
+            <div class="success-box">
+            <strong>💡 Score 계산 예시</strong><br><br>
+            <strong>세션 A:</strong><br>
+            • view_item (5점)<br>
+            • add_to_cart (12점)<br>
+            • <strong>Total: 17점</strong><br><br>
+            
+            <strong>세션 B:</strong><br>
+            • view_item (5점)<br>
+            • add_to_cart (12점)<br>
+            • begin_checkout (31점)<br>
+            • <strong>Total: 48점</strong>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
+        st.markdown("### 등급 분류")
+        
+        col1, col2 = st.columns([1.5, 1])
+        
+        with col1:
+            grade_data = {
+                '등급': ['High Intent', 'Medium Intent', 'Low Intent'],
+                '기준': ['상위 20%', '상위 20~50%', '하위 50%'],
+                '특성': ['진성 유저 - 구매 가능성 높음', '탐색 유저 - 관심은 있으나 고민 중', '이탈 유저 - 구매 의도 낮음']
+            }
+            st.dataframe(pd.DataFrame(grade_data), use_container_width=True, hide_index=True)
+        
+        with col2:
+            fig = go.Figure(data=[go.Pie(
+                labels=['High Intent (20%)', 'Medium Intent (30%)', 'Low Intent (50%)'],
+                values=[20, 30, 50],
+                hole=.4,
+                marker_colors=['#27ae60', '#f39c12', '#e74c3c']
+            )])
+            fig.update_layout(height=250, margin=dict(t=20, b=20))
+            st.plotly_chart(fig, use_container_width=True)
+    
+    with tab2:
+        # ===== 방법론 설명 =====
+        st.markdown("### 세그먼테이션 프레임워크")
+        
+        st.markdown("""
+        <strong>탐색 깊이 (Depth)</strong>와 <strong>탐색 넓이 (Breadth)</strong>를 두 축으로 
+        유저의 쇼핑 의도를 구조화했습니다.
         """, unsafe_allow_html=True)
         
         col1, col2 = st.columns([1, 1.2])
@@ -728,10 +665,9 @@ elif page == "🔍 세그먼트 분석":
         ```
         """)
     
-    st.markdown("---")
-    
-    # 브라우징 스타일 분석
-    st.markdown("### 1️⃣ 브라우징 스타일별 전환율 분석")
+    with tab3:
+        # 브라우징 스타일 분석
+        st.markdown("### 1️⃣ 브라우징 스타일별 전환율 분석")
     
     if 'browsing_style' in data:
         df = data['browsing_style']
@@ -1009,8 +945,8 @@ GROUP BY 1
         )
 
 # ----- 4. 전환 퍼널 분석 -----
-elif page == "📈 전환 퍼널 분석":
-    st.header("📈 전환 퍼널 상세 분석")
+elif page == "4️⃣ 문제1: 결정 마비":
+    st.header("4️⃣ 문제1: Deep Specialist 결정 마비")
     
     # 실제 데이터 로드
     if 'funnel_overall' in data and 'funnel_dropoff' in data:
@@ -1175,8 +1111,8 @@ elif page == "📈 전환 퍼널 분석":
             """, unsafe_allow_html=True)
     
 # ----- 6. 이탈 & 기회 분석 -----
-elif page == "🛒 장바구니 & 프로모션 분석":
-    st.header("🛒 장바구니 이탈 & 📢 프로모션 기회 분석")
+elif page == "5️⃣ 문제2: 장바구니 이탈":
+    st.header("5️⃣ 문제2: 장바구니 이탈 & 프로모션")
     
     tab1, tab2 = st.tabs(["🛒 장바구니 이탈", "📢 프로모션 품질"])
     
@@ -1765,8 +1701,8 @@ END AS promo_status
                 """, unsafe_allow_html=True)
 
 # ----- 7. 액션 우선순위 -----
-elif page == "🎯 액션 우선순위":
-    st.header("🎯 액션 우선순위 매트릭스")
+elif page == "6️⃣ 해결책 & 액션플랜":
+    st.header("6️⃣ 해결책: 액션 플랜 & 우선순위")
     
     st.markdown("""
     > 📌 **분석가 노트**: 분석 결과를 실행 가능한 액션으로 전환하고, Impact-Effort 기준으로 우선순위를 정합니다.
@@ -1911,253 +1847,6 @@ elif page == "🎯 액션 우선순위":
     st.dataframe(pd.DataFrame(action_detail), use_container_width=True, hide_index=True)
 
 # ----- 7.5 Engagement Score 산출 -----
-elif page == "⚡ Engagement Score 산출":
-    st.header("⚡ Engagement Score 산출 방법론")
-    
-    st.markdown("""
-    > **핵심 질문**: "유저의 구매 가능성을 어떻게 수치화할 것인가?"
-    
-    본 분석에서는 **Lift (향상도)** 기반의 Engagement Score를 사용하여 
-    세션별 구매 가능성을 정량화했습니다.
-    """)
-    
-    tab1, tab2, tab3 = st.tabs(["📊 Lift 개념", "🔢 Score 산출", "📈 등급 분류"])
-    
-    with tab1:
-        st.markdown("### 1️⃣ Lift (향상도) 란?")
-        
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            st.markdown("""
-            **정의**: "특정 행동을 하면 구매 확률이 몇 배로 뛰는가?"
-            
-            ```
-            Lift = P(Purchase | Action) / P(Purchase)
-                 = 조건부 확률 / 베이스라인 확률
-            ```
-            
-            **예시**: 
-            - 전체 세션 구매율 (베이스라인): **1.6%**
-            - 장바구니 담은 세션 구매율: **18.9%**
-            - **Lift = 18.9% / 1.6% = 11.8배**
-            
-            → "장바구니를 담은 유저는 평균 유저보다 구매 확률이 **11.8배** 높다"
-            """)
-        
-        with col2:
-            st.markdown("""
-            <div class="insight-box">
-            <strong>💡 Lift의 장점</strong><br><br>
-            • 상대적 비교 가능<br>
-            • 데이터 기반 가중치<br>
-            • 해석이 직관적<br>
-            • 비즈니스 의미 명확
-            </div>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        st.markdown("### 📊 행동별 Lift 계산 결과")
-        
-        lift_data = {
-            '행동 (Event)': ['view_item', 'view_search_results', 'add_to_cart', 'begin_checkout', 'add_payment_info'],
-            '조건부 구매율': ['7.4%', '4.6%', '18.9%', '49.0%', '74.4%'],
-            'Lift (배수)': ['4.6x', '2.9x', '11.8x', '30.6x', '46.5x'],
-            '해석': [
-                '상품 조회 시 구매 확률 4.6배',
-                '검색 시 구매 확률 2.9배',
-                '장바구니 추가 시 11.8배',
-                '결제 시작 시 30.6배',
-                '결제정보 입력 시 46.5배'
-            ]
-        }
-        
-        st.dataframe(pd.DataFrame(lift_data), use_container_width=True, hide_index=True)
-        
-        st.code("""
--- int_lift_weight.sql: Lift 가중치 산출
-WITH session_stats AS (
-    SELECT
-        session_unique_id,
-        MAX(IF(event_name = 'purchase', 1, 0)) as is_converted,
-        MAX(IF(event_name = 'view_item', 1, 0)) as has_view_item,
-        MAX(IF(event_name = 'add_to_cart', 1, 0)) as has_cart,
-        MAX(IF(event_name = 'begin_checkout', 1, 0)) as has_checkout,
-        MAX(IF(event_name = 'add_payment_info', 1, 0)) as has_payment
-    FROM stg_events
-    GROUP BY 1
-),
-rates AS (
-    SELECT
-        -- 베이스라인: 전체 구매율
-        SAFE_DIVIDE(SUM(is_converted), COUNT(*)) as base_cv,
-        -- 조건부 확률: 행동별 구매율
-        SAFE_DIVIDE(COUNTIF(has_cart=1 AND is_converted=1), COUNTIF(has_cart=1)) as cart_cv
-    FROM session_stats
-)
-SELECT
-    ROUND(cart_cv / base_cv, 1) as lift_cart  -- 결과: 11.8
-FROM rates
-        """, language="sql")
-    
-    with tab2:
-        st.markdown("### 2️⃣ Engagement Score 산출")
-        
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            st.markdown("""
-            **Lift 값을 반올림하여 점수로 변환**
-            
-            세션 내 발생한 모든 이벤트의 점수를 합산:
-            
-            ```
-            Engagement Score = Σ (이벤트별 점수)
-            ```
-            """)
-            
-            score_data = {
-                '이벤트': ['view_item', 'view_search_results', 'add_to_cart', 'begin_checkout', 'add_payment_info', '기타 이벤트'],
-                'Lift': ['4.6x', '2.9x', '11.8x', '30.6x', '46.5x', '-'],
-                '점수': ['5점', '3점', '12점', '31점', '47점', '1점']
-            }
-            
-            st.dataframe(pd.DataFrame(score_data), use_container_width=True, hide_index=True)
-        
-        with col2:
-            st.markdown("""
-            <div class="success-box">
-            <strong>📝 계산 예시</strong><br><br>
-            <strong>세션 A:</strong><br>
-            • view_item (5점)<br>
-            • add_to_cart (12점)<br>
-            • <strong>Total: 17점</strong><br><br>
-            
-            <strong>세션 B:</strong><br>
-            • view_item (5점)<br>
-            • add_to_cart (12점)<br>
-            • begin_checkout (31점)<br>
-            • <strong>Total: 48점</strong>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        st.code("""
--- int_engage_lift_score.sql: Engagement Score 계산
-SELECT
-    session_unique_id,
-    user_pseudo_id,
-    SUM(CASE 
-        WHEN event_name = 'view_item' THEN 5              -- Lift 4.6 → 5점
-        WHEN event_name = 'view_search_results' THEN 3    -- Lift 2.9 → 3점
-        WHEN event_name = 'add_to_cart' THEN 12           -- Lift 11.8 → 12점
-        WHEN event_name = 'begin_checkout' THEN 31        -- Lift 30.6 → 31점
-        WHEN event_name = 'add_payment_info' THEN 47      -- Lift 46.5 → 47점
-        ELSE 1                                            -- 기타 이벤트
-    END) AS engagement_score
-FROM stg_events
-GROUP BY 1, 2
-        """, language="sql")
-    
-    with tab3:
-        st.markdown("### 3️⃣ 등급 분류 (PERCENT_RANK)")
-        
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            st.markdown("""
-            **백분위 기반 등급 분류**
-            
-            Engagement Score를 기준으로 전체 세션을 줄세운 후,
-            백분위에 따라 등급을 부여합니다.
-            """)
-            
-            grade_data = {
-                '등급': ['High Intent', 'Medium Intent', 'Low Intent'],
-                '기준': ['상위 20% (pct_rank ≤ 0.2)', '상위 20~50% (pct_rank ≤ 0.5)', '하위 50% (나머지)'],
-                '특성': ['진성 유저 - 구매 가능성 높음', '탐색 유저 - 관심은 있으나 고민 중', '이탈 유저 - 구매 의도 낮음'],
-                '활용': ['VIP 타겟팅, 프리미엄 서비스', '리마케팅, 쿠폰 제공', '이탈 방지 팝업']
-            }
-            
-            st.dataframe(pd.DataFrame(grade_data), use_container_width=True, hide_index=True)
-        
-        with col2:
-            # 파이 차트
-            fig = go.Figure(data=[go.Pie(
-                labels=['High Intent (20%)', 'Medium Intent (30%)', 'Low Intent (50%)'],
-                values=[20, 30, 50],
-                hole=.4,
-                marker_colors=['#27ae60', '#f39c12', '#e74c3c']
-            )])
-            fig.update_layout(
-                title="세션 등급 분포",
-                height=350
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        
-        st.markdown("---")
-        
-        st.code("""
--- int_engage_lift_score.sql: 등급 분류
-WITH ranked AS (
-    SELECT
-        *,
-        PERCENT_RANK() OVER (ORDER BY engagement_score DESC) as pct_rank
-    FROM session_scores
-)
-SELECT
-    session_unique_id,
-    engagement_score,
-    CASE 
-        WHEN pct_rank <= 0.2 THEN 'High Intent'   -- 상위 20%
-        WHEN pct_rank <= 0.5 THEN 'Medium Intent' -- 상위 20~50%
-        ELSE 'Low Intent'                         -- 하위 50%
-    END AS engagement_grade
-FROM ranked
-        """, language="sql")
-        
-        st.markdown("---")
-        
-        st.markdown("### 💡 분석에서의 활용")
-        
-        col1, col2, col3 = st.columns(3)
-        
-        with col1:
-            st.markdown("""
-            <div class="insight-box">
-            <strong>🎯 프로모션 품질 평가</strong><br><br>
-            프로모션 클릭 유저의<br>
-            평균 Engagement Score로<br>
-            유저 품질 측정<br><br>
-            <em>→ Hidden Gem 발견</em>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col2:
-            st.markdown("""
-            <div class="insight-box">
-            <strong>📊 세그먼트 분석</strong><br><br>
-            브라우징 스타일별<br>
-            High Intent 비율 비교<br><br>
-            <em>→ Variety Seeker가<br>
-            전환율 13.02%로 최고</em>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col3:
-            st.markdown("""
-            <div class="insight-box">
-            <strong>🛒 이탈 분석</strong><br><br>
-            High/Medium Intent 중<br>
-            미전환 세션 = 이탈 기회<br><br>
-            <em>→ 장바구니 리마케팅<br>
-            타겟 선정</em>
-            </div>
-            """, unsafe_allow_html=True)
-
-# ----- 8. 방법론 & 한계점 -----
 elif page == "📐 방법론 & 한계점":
     st.header("📐 분석 방법론 & 한계점")
     
