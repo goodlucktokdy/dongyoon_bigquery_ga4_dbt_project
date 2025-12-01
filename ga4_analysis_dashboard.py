@@ -1651,7 +1651,7 @@ elif page == "📋 액션 플랜":
             deep_text = f"{deep_share:.1f}% 결정마비"
         if len(early_row) > 0:
             early_cvr = early_row['conversion_rate'].values[0]
-            deep_kpi = f"구매전환율 3-11개 수준({early_cvr:.2f}%) 달성"
+            deep_kpi = f"구매 전환율 3-11개 수준({early_cvr:.2f}%) 달성"
     
     if 'browsing_style' in data:
         df_bs_act = data['browsing_style']
