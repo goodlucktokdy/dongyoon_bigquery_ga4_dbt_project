@@ -1660,17 +1660,65 @@ elif page == "📋 액션 플랜":
             v_cvr = variety_row['conversion_rate'].values[0]
             variety_text = f"Variety Seeker CVR {v_cvr:.0f}%"
     
+    # Impact-Effort 매트릭스
+    st.markdown("### 📊 Impact-Effort 매트릭스")
     
     actions = {
         'action': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너 개선', 'Deep Specialist 비교표', 
-                   'VIP 세그먼트 타겟팅'],
-        'impact': [85, 70, 80, 75],
-        'effort': [20, 15, 40, 50],
-        'category': ['Quick Win', 'Quick Win', 'Quick Win', 'Major Project'],
-        'data_evidence': [bags_loss_text, hg_text, deep_text, variety_text]
+                   'VIP 세그먼트 타겟팅', '분할결제 도입', 
+                   '실시간 세션 스코어링', 'CDP 구축'],
+        'impact': [85, 70, 80, 75, 70, 90, 95],
+        'effort': [20, 15, 40, 50, 60, 80, 95],
+        'category': ['Quick Win', 'Quick Win', 'Quick Win', 'Major Project', 
+                     'Major Project', 'Strategic', 'Strategic'],
+        'data_evidence': [bags_loss_text, hg_text, deep_text, variety_text,
+                          'Bags 건당 $216', '스코어 기반 예측', '통합 고객 뷰']
     }
     
     df_actions = pd.DataFrame(actions)
+    
+    fig = px.scatter(
+        df_actions,
+        x='effort',
+        y='impact',
+        size=[50]*len(df_actions),
+        color='category',
+        text='action',
+        color_discrete_map={
+            'Quick Win': '#27ae60',
+            'Major Project': '#f39c12',
+            'Strategic': '#3498db'
+        },
+        size_max=30
+    )
+    
+    # 사분면 영역
+    fig.add_shape(type="rect", x0=0, y0=50, x1=50, y1=100,
+                  fillcolor="rgba(39, 174, 96, 0.1)", line_width=0)
+    fig.add_shape(type="rect", x0=50, y0=50, x1=100, y1=100,
+                  fillcolor="rgba(241, 196, 15, 0.1)", line_width=0)
+    fig.add_shape(type="rect", x0=0, y0=0, x1=50, y1=50,
+                  fillcolor="rgba(149, 165, 166, 0.1)", line_width=0)
+    fig.add_shape(type="rect", x0=50, y0=0, x1=100, y1=50,
+                  fillcolor="rgba(231, 76, 60, 0.1)", line_width=0)
+    
+    # 라벨
+    fig.add_annotation(x=25, y=95, text="🎯 Quick Win", showarrow=False, font=dict(size=14, color='#27ae60'))
+    fig.add_annotation(x=75, y=95, text="📊 Major Project", showarrow=False, font=dict(size=14, color='#f39c12'))
+    fig.add_annotation(x=25, y=5, text="❓ Fill-In", showarrow=False, font=dict(size=14, color='#95a5a6'))
+    fig.add_annotation(x=75, y=5, text="⚠️ Avoid", showarrow=False, font=dict(size=14, color='#e74c3c'))
+    
+    fig.update_traces(textposition='top center')
+    fig.update_layout(
+        title='Impact-Effort 매트릭스',
+        xaxis_title='구현 난이도 (Effort) →',
+        yaxis_title='← 비즈니스 임팩트 (Impact)',
+        xaxis=dict(range=[0, 100]),
+        yaxis=dict(range=[0, 100]),
+        height=600
+    )
+    
+    st.plotly_chart(fig, use_container_width=True)
     
     st.markdown("---")
     
