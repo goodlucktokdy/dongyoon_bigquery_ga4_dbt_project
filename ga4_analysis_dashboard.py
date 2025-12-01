@@ -199,7 +199,7 @@ else:
 page = st.sidebar.radio(
     "분석 섹션",
     ["🏠 Executive Summary",
-     "📊 데이터 개요",
+     "📊 데이터 개요 & 품질",
      "🔍 세그먼트 분석",
      "📈 전환 퍼널 분석",
      "📱 디바이스 & 시간 분석",
@@ -332,40 +332,81 @@ if page == "🏠 Executive Summary":
     # TOP 3 인사이트
     st.markdown("### 💡 TOP 3 핵심 인사이트")
     
+    # 용어 정의 추가
+    with st.expander("📖 용어 정의 (클릭하여 확인)"):
+        st.markdown("""
+        | 용어 | 정의 | 기준 |
+        |:-----|:-----|:-----|
+        | **Deep Specialist** | 소수 카테고리를 깊게 탐색하는 유저 | 1-2개 카테고리에서 12개+ 상품 조회 |
+        | **Variety Seeker** | 다양한 카테고리를 넓게 탐색하는 유저 | 3개+ 카테고리 탐색 |
+        | **Super Heavy Seeker** | Variety Seeker 중 극단적 탐색 유저 | 85개+ 상품 조회, 6개+ 카테고리 |
+        | **Hidden Gem** | CTR은 낮지만 CVR이 높은 프로모션 | CTR 하위 but CVR 상위 |
+        
+        > 💡 세그먼트 분류는 `mart_browsing_style.csv`에서 도출되었으며, 
+        > 상품 조회 패턴(깊이 vs 넓이)을 기준으로 정의됨
+        """)
+    
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
         <div class="critical-box">
         <strong>🚨 #1. 결정 마비 구간 발견</strong><br><br>
-        Deep Specialist 중 <strong>81.4%</strong>가<br>
-        12-24개 상품 조회 구간에서<br>
+        <strong>Deep Specialist</strong> (1-2개 카테고리 집중 탐색 유저) 중<br>
+        <strong>81.4%</strong>가 12-24개 상품 조회 구간에서<br>
         전환율 <strong>1.88%</strong>로 급락<br><br>
-        <em>χ² = 156.3, p < 0.001</em>
+        <em>χ² = 156.3, p < 0.001</em><br>
+        <small>→ 구간별 전환율 차이가 우연이 아님 (99.9% 신뢰)</small>
         </div>
         """, unsafe_allow_html=True)
     
     with col2:
         st.markdown("""
         <div class="warning-box">
-        <strong>💎 #2. Hidden Gem 프로모션 발견</strong><br><br>
-        'Reach New Heights' <strong>프로모션 배너</strong><br>
-        CTR 2.6% (최저) but<br>
-        클릭 유저 전환율 <strong>4.63%</strong> (최고)<br><br>
-        <em>액션: 배너 A/B 테스트로 CTR 개선</em>
+        <strong>💎 #2. Hidden Gem 프로모션</strong><br><br>
+        <strong>'Reach New Heights'</strong> 배너<br>
+        CTR 2.6% (5개 중 최저) but<br>
+        클릭 유저 전환율 <strong>4.63%</strong> (5개 중 최고)<br><br>
+        <em>→ 노출 부족으로 숨겨진 고효율 프로모션</em><br>
+        <small>배너 위치/디자인만 개선하면 고품질 유저 유입</small>
         </div>
         """, unsafe_allow_html=True)
     
     with col3:
         st.markdown("""
         <div class="success-box">
-        <strong>⭐ #3. Super Heavy Seeker VIP</strong><br><br>
-        85개+ 상품 조회 고객<br>
-        전환율 <strong>31.53%</strong><br>
-        평균 6.4개 카테고리 탐색<br><br>
-        <em>액션: VIP 전용 크로스셀링</em>
+        <strong>⭐ #3. Super Heavy Seeker</strong><br><br>
+        <strong>85개+ 상품 조회</strong> 극단적 탐색 유저<br>
+        전환율 <strong>31.53%</strong> (일반 대비 20배+)<br>
+        평균 <strong>6.4개 카테고리</strong> 탐색<br><br>
+        <em>→ VIP 세그먼트로 별도 관리</em><br>
+        <small>크로스셀링, 전용 혜택 제공</small>
         </div>
         """, unsafe_allow_html=True)
+    
+    # 통계 검정 설명
+    with st.expander("📊 통계 검정 해석 (χ² = 156.3, p < 0.001)"):
+        st.markdown("""
+        ### χ² (카이제곱) 검정이란?
+        
+        "상품 조회 구간별 전환율 차이가 **우연인지 vs 실제 차이인지**"를 검증하는 통계 방법
+        
+        | 지표 | 값 | 의미 |
+        |:-----|:---|:-----|
+        | **χ² = 156.3** | 검정 통계량 | 구간 간 차이가 매우 큼 (클수록 차이가 확실) |
+        | **p < 0.001** | 유의확률 | 이 차이가 우연일 확률 < 0.1% |
+        
+        ### 해석
+        
+        > "12-24개 구간의 전환율(1.88%)이 3-11개 구간(5.26%)보다 낮은 것은 
+        > **우연이 아니라 통계적으로 유의미한 차이**이다. (99.9% 신뢰수준)"
+        
+        ### 비즈니스 의미
+        
+        - ✅ **액션 근거 충분**: 이 구간에 개입(비교표, 쿠폰)하면 효과 기대
+        - ✅ **샘플 크기 충분**: 81.4%가 해당 구간 → 충분한 데이터
+        - ✅ **재현 가능성**: 우연이 아니므로 지속적 패턴
+        """)
     
     st.markdown("---")
     
@@ -440,8 +481,8 @@ if page == "🏠 Executive Summary":
     st.info("💡 **검증 방법**: 각 액션은 A/B 테스트로 효과 검증 후 전체 적용 권장")
 
 # ----- 2. 데이터 개요 & 품질 -----
-elif page == "📊 데이터 개요":
-    st.header("📊 데이터 개요 리포트")
+elif page == "📊 데이터 개요 & 품질":
+    st.header("📊 데이터 개요 & 품질 리포트")
     
     
     # 실제 데이터에서 수치 추출
@@ -640,6 +681,7 @@ elif page == "🔍 세그먼트 분석":
                         <th style="padding: 12px 8px; text-align: left;">세그먼트</th>
                         <th style="padding: 12px 8px; text-align: left;">SQL 조건</th>
                         <th style="padding: 12px 8px; text-align: left;">데이터 근거</th>
+                        <th style="padding: 12px 8px; text-align: center;">CVR</th>
                         <th style="padding: 12px 8px; text-align: left;">비즈니스 해석</th>
                     </tr>
                 </thead>
@@ -647,19 +689,22 @@ elif page == "🔍 세그먼트 분석":
                     <tr style="border-bottom: 1px solid #dee2e6;">
                         <td style="padding: 10px 8px;"><strong>Light Browser</strong><br><span style="color:#666;">(찍먹형)</span></td>
                         <td style="padding: 10px 8px;"><code>Items ≤ 2</code></td>
-                        <td style="padding: 10px 8px;">전체의 ~35%<br>이탈 그룹</td>
+                        <td style="padding: 10px 8px;">전체의 2.4%<br>이탈 그룹</td>
+                        <td style="padding: 10px 8px; text-align: center;"><strong>5.45%</strong></td>
                         <td style="padding: 10px 8px;">탐색 의도 미발현<br>리타겟팅 대상</td>
                     </tr>
                     <tr style="border-bottom: 1px solid #dee2e6;">
                         <td style="padding: 10px 8px;"><strong>Deep Specialist</strong><br><span style="color:#666;">(한우물형)</span></td>
                         <td style="padding: 10px 8px;"><code>Items > 2</code><br><code>Category = 1</code></td>
-                        <td style="padding: 10px 8px;">조회 중앙값 12회<br>P25-P75: 12-24</td>
+                        <td style="padding: 10px 8px;">전체의 39.5%<br>P25-P75: 12-24</td>
+                        <td style="padding: 10px 8px; text-align: center; color: #dc3545;"><strong>2.55%</strong></td>
                         <td style="padding: 10px 8px;"><strong>Depth 중심</strong><br>'선택의 역설' 취약</td>
                     </tr>
                     <tr>
                         <td style="padding: 10px 8px;"><strong>Variety Seeker</strong><br><span style="color:#666;">(다양성형)</span></td>
                         <td style="padding: 10px 8px;"><code>Categories ≥ 2</code></td>
-                        <td style="padding: 10px 8px;">평균 조회 75회<br>최고 전환율</td>
+                        <td style="padding: 10px 8px;">전체의 58.1%<br>평균 조회 75회</td>
+                        <td style="padding: 10px 8px; text-align: center; color: #28a745;"><strong>13.02%</strong></td>
                         <td style="padding: 10px 8px;"><strong>Breadth 중심</strong><br>Cross-selling 최적</td>
                     </tr>
                 </tbody>
@@ -675,7 +720,7 @@ elif page == "🔍 세그먼트 분석":
             &nbsp;&nbsp;(view_item 이벤트가 없는 세션 제외)<br>
             • <strong>Items ≤ 2</strong>: 최소 탐색 행동 기준<br>
             • <strong>Category = 1</strong>: 단일 니즈 집중 vs 복수 관심<br>
-            • 백분위 분석(P25, P75)으로 구간 설정
+            • 백분위 분석 (P25, P75) 으로 구간 설정
             </div>
             """, unsafe_allow_html=True)
         
@@ -1144,8 +1189,9 @@ elif page == "📈 전환 퍼널 분석":
         | Mobile | 1.61% | Desktop보다 높음? |
         | Tablet | 1.44% | 가장 낮음 |
         
+        > ❓ "Mobile이 Desktop보다 전환율이 높다고? 그럼 Mobile UX가 더 좋은 건가?"
         
-        전체 전환율은 트래픽 품질(유입 경로, 유저 의도)에 크게 영향받습니다.
+        **아닙니다.** 전체 전환율은 **트래픽 품질** (유입 경로, 유저 의도) 에 크게 영향받습니다.
         
         ---
         
@@ -2338,7 +2384,7 @@ models/
             → **범주형 변수 간의 독립성 검정**
             
             **📐 왜 이 기법을 선택했는가?**
-            - 데이터가 모두 범주형(Categorical)
+            - 데이터가 모두 **범주형** (Categorical) → 평균 비교 불가
             - **"그룹 간 비율의 차이"**가 우연인지 아닌지 판별 필요
             - 관측 빈도(Observed)와 기대 빈도(Expected) 간의 차이 측정
             """)
@@ -2383,15 +2429,15 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
         with col1:
             st.markdown("""
             **🎯 사용 목적**  
-            "차이가 있는 건 알겠는데(P-value), 그 차이가 **비즈니스적으로 써먹을 만큼** 큰가?"
+            "차이가 있는 건 알겠는데 (P-value), 그 차이가 **비즈니스적으로 써먹을 만큼** 큰가?"
             
             **📐 왜 효과 크기가 필요한가?**
-            - 통계적으로 유의하다(Significant) ≠ 중요하다(Important)
+            - **통계적으로 유의하다** (Significant) ≠ **중요하다** (Important)
             - 빅데이터에서는 아주 작은 차이도 p < 0.001이 나옴
             - **"실질적인 중요성"**을 측정하기 위해 사용
             
             **🔬 Cohen's h 특징**
-            - 두 비율(Proportion) 간의 차이를 아크사인 변환
+            - 두 **비율** (Proportion) 간의 차이를 아크사인 변환
             - 1%→2% (2배)와 50%→51% (미미함)을 구분
             """)
             
@@ -2441,7 +2487,7 @@ def cohens_h(p1, p2):
               전환율이 **0%나 100%에 가까울 때** 오차가 큼
             - 이커머스 전환율(1~5%)은 이 영역에 해당
             - Wilson 구간은 **비대칭적 분포**를 고려  
-              → 전환율 추정에 훨씬 강건하고 정확
+              → 전환율 추정에 훨씬 **강건** (Robust) 하고 정확
             """)
             
             st.code("""
