@@ -422,11 +422,11 @@ if page == "🏠 Executive Summary":
             'Tablet 전용 반응형 UI 개선'
         ],
         '성공 지표 (KPI)': [
-            '고가 상품(Bags) 전환율 현재 → +15%',
-            'Hidden Gem CTR 2.6% → 10%',
-            '12-24개 구간 전환율 1.88% → 3.5%',
-            '장바구니 완료율 현재 → +10%',
-            'Tablet 전환율 0.8% → 1.5%'
+            'A/B 테스트로 개선폭 측정',
+            'A/B 테스트로 CTR 개선폭 측정',
+            '3-11개 구간 수준(5.26%) 달성',
+            'A/B 테스트로 개선폭 측정',
+            'Desktop 수준(2.1%) 달성'
         ],
         '구현 난이도': ['⭐ 낮음', '⭐ 낮음', '⭐⭐ 중간', '⭐⭐ 중간', '⭐⭐⭐ 높음']
     }
@@ -571,32 +571,6 @@ elif page == "📊 데이터 개요 & 품질":
             </div>
             """, unsafe_allow_html=True)
     
-    st.markdown("---")
-    
-    # 데이터 품질 체크리스트
-    st.markdown("### ✅ 데이터 품질 체크리스트")
-    
-    quality_checks = {
-        '체크 항목': [
-            '결측값 처리',
-            '이상치 탐지',
-            '중복 제거',
-            '데이터 타입 검증',
-            '비즈니스 로직 검증',
-            '시간 순서 정합성'
-        ],
-        '상태': ['✅ 완료', '✅ 완료', '✅ 완료', '✅ 완료', '✅ 완료', '✅ 완료'],
-        '처리 내용': [
-            'item_price NULL → 0 대체, (not set) 필터링',
-            'Engagement Score 상위 1% 확인 (이상 없음)',
-            'session_unique_id 기준 중복 체크',
-            'event_timestamp, item_price 타입 확인',
-            '전환 세션의 purchase 이벤트 존재 확인',
-            'event_timestamp ASC 정렬 후 경로 생성'
-        ]
-    }
-    
-    st.dataframe(pd.DataFrame(quality_checks), use_container_width=True, hide_index=True)
 
 # ----- 3. 세그먼트 분석 (통계 검증) -----
 elif page == "🔍 세그먼트 분석":
@@ -910,7 +884,7 @@ WHERE browsing_style = 'Deep Specialist'
             1. 10개+ 조회 시 <strong>비교표</strong> 자동 제공<br>
             2. 15개+ 조회 시 <strong>한정 쿠폰</strong> 트리거<br>
             3. "인기 상품 TOP 3" 추천<br><br>
-            <em>KPI: 12-24개 구간 CVR 1.88% → 3.5%</em>
+            <em>KPI: 3-11개 구간 수준(5.26%) 달성</em>
             </div>
             """, unsafe_allow_html=True)
     
@@ -1520,7 +1494,7 @@ elif page == "📱 디바이스 & 시간 분석":
                 • 터치 영역 확대<br>
                 • 원클릭 결제 도입<br><br>
                 
-                <em>KPI: Tablet CVR 0.8% → 1.5%</em>
+                <em>KPI: Desktop 수준(2.1%) 달성</em>
                 </div>
                 """, unsafe_allow_html=True)
                 
@@ -1873,8 +1847,8 @@ elif page == "🛒 이탈 & 기회 분석":
                     '이탈 상품 기반 리타겟팅 광고'
                 ],
                 '성공 KPI': [
-                    'Bags 전환율 +15%',
-                    '장바구니 완료율 +10%',
+                    'A/B 테스트로 개선폭 측정',
+                    'A/B 테스트로 개선폭 측정',
                     '이탈 고객 재방문율 측정',
                     '리타겟팅 CTR/CVR 측정'
                 ]
@@ -1961,11 +1935,11 @@ elif page == "🛒 이탈 & 기회 분석":
                 <div class="insight-box">
                 <strong>🎯 Hidden Gem 프로모션 액션 플랜</strong><br><br>
                 1. <strong>A/B 테스트</strong> 진행<br>
-                   목표: CTR 2.6% → 10%<br><br>
+                   배너 위치/디자인 변경<br><br>
                 2. <strong>배너 위치</strong> 상향 조정<br>
                    메인 페이지 상단 배치<br><br>
                 3. 월간 성과 모니터링<br><br>
-                <em>KPI: CTR 2.6% → 10%</em>
+                <em>KPI: A/B 테스트로 CTR 개선폭 측정</em>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -2051,11 +2025,11 @@ elif page == "🎯 액션 우선순위":
         
         <strong>1. 장바구니 리마케팅</strong><br>
         • 1/24/72시간 이메일 자동화<br>
-        • KPI: 장바구니 완료율 +10%<br><br>
+        • KPI: A/B 테스트로 개선폭 측정<br><br>
         
         <strong>2. Hidden Gem 프로모션 배너 A/B 테스트</strong><br>
         • 새 디자인/위치 테스트<br>
-        • KPI: CTR 2.6% → 10%<br><br>
+        • KPI: A/B 테스트로 CTR 개선폭 측정<br><br>
         
         <strong>담당</strong>: 마케팅팀<br>
         <strong>검증</strong>: A/B 테스트 2주
@@ -2069,7 +2043,7 @@ elif page == "🎯 액션 우선순위":
         
         <strong>3. Deep Specialist 비교표</strong><br>
         • 10개+ 조회 시 트리거<br>
-        • KPI: 12-24개 구간 CVR 1.88% → 3.5%<br><br>
+        • KPI: 3-11개 구간 수준(5.26%) 달성<br><br>
         
         <strong>4. VIP 세그먼트 타겟팅</strong><br>
         • Super Heavy 전용 혜택<br>
@@ -2087,11 +2061,11 @@ elif page == "🎯 액션 우선순위":
         
         <strong>5. 실시간 세션 스코어링</strong><br>
         • ML 기반 구매 확률 예측<br>
-        • KPI: 예측 정확도 80%+<br><br>
+        • KPI: 모델 정확도 측정<br><br>
         
         <strong>6. CDP 구축</strong><br>
         • 통합 고객 프로파일<br>
-        • KPI: 크로스셀 전환율<br><br>
+        • KPI: 크로스셀 전환율 측정<br><br>
         
         <strong>담당</strong>: 데이터팀 + IT팀<br>
         <strong>검증</strong>: 모델 성능 모니터링
@@ -2108,7 +2082,7 @@ elif page == "🎯 액션 우선순위":
         '액션': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너', 'Deep Specialist 비교표', 
                  'VIP 타겟팅', 'Tablet UX', '분할결제'],
         '데이터 근거': ['고가 상품 이탈 $251/건', 'CTR 2.6% but CVR 4.63%', '81.4%가 결정 마비 구간', 'AOV 7.7배 차이', '전환율 0.8% (최저)', 'Bags 이탈 집중'],
-        '성공 KPI': ['장바구니 완료율 +10%', 'CTR 2.6% → 10%', 'CVR 1.88% → 3.5%', 'VIP 재구매율', 'Tablet CVR 0.8% → 1.5%', 'Bags CVR +15%'],
+        '성공 KPI': ['A/B 테스트로 측정', 'A/B 테스트로 CTR 측정', '3-11개 수준(5.26%) 달성', 'VIP 재구매율 측정', 'Desktop 수준(2.1%) 달성', 'A/B 테스트로 측정'],
         '구현 난이도': ['낮음 ⭐', '낮음 ⭐', '중간 ⭐⭐', '중간 ⭐⭐', '높음 ⭐⭐⭐', '중간 ⭐⭐'],
         '소요 기간': ['1주', '1주', '3주', '4주', '6주', '4주']
     }
