@@ -2245,7 +2245,7 @@ CROSS JOIN price_quantiles
         | 티어 | 백분위 | 가격 범위 (예시) | 특징 |
         |:-----|:-------|:-----------------|:-----|
         | **Low** | 하위 33% | $16 미만 | 저관여 상품, 충동구매 유도 |
-        | **Mid** | 중간 34% | $16 ~ $45 | 비교 구매 대상 |
+        | **Mid** | 중간 34% | $16 - $45 | 비교 구매 대상 |
         | **High** | 상위 33% | $45 초과 | 고관여, 결정 마비 발생 |
         
         > 이 방식은 시즌별 가격 변동에도 **자동으로 적응** 하는 장점이 있습니다.
@@ -2270,7 +2270,6 @@ CROSS JOIN price_quantiles
             (60분+ 구매자: 102명)<br><br>
             
             • <strong>데이터 특성</strong><br>
-            Obfuscated 처리<br>
             단일 스토어 한정
             </div>
             """, unsafe_allow_html=True)
@@ -2286,7 +2285,6 @@ CROSS JOIN price_quantiles
             
             • <strong>외부 요인 미통제</strong><br>
             광고 캠페인, 가격 변동 등<br>
-            Confounding 가능<br><br>
             
             • <strong>일반화 제한</strong><br>
             Google Store 특수성<br>
