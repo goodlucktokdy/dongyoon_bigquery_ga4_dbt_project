@@ -113,7 +113,11 @@ def load_data():
     
     # 여러 경로 시도
     possible_paths = [
-        "./mart_tables"
+        "./mart_tables",
+        "../mart_tables",
+        ".",
+        "./data",
+        "../data"
     ]
     
     files = {
@@ -451,10 +455,10 @@ if page == "🏠 Executive Summary":
     action_data = {
         '우선순위': ['🥇 1순위', '🥇 1순위', '🥈 2순위', '🥈 2순위', '🥉 3순위'],
         '문제점 (데이터 근거)': [
-            '고가 상품 결제 이탈 (BackPack $251/건, 302건)',
+            'Bags 카테고리 손실 집중 (608건, 손실 48%)',
             'Hidden Gem 프로모션 CTR 2.6%로 최저',
             'Deep Specialist 81.4%가 결정 마비 구간',
-            '저가 상품 대량 이탈 (Beanie 1,391건)',
+            'Apparel 대량 이탈 (12,011건)',
             'Tablet High Intent CVR 22.7% (Desktop 대비 -11%)'
         ],
         '구체적 액션': [
@@ -465,11 +469,11 @@ if page == "🏠 Executive Summary":
             'Tablet 전용 반응형 UI 개선'
         ],
         '성공 지표 (KPI)': [
-            'A/B 테스트로 개선폭 측정',
+            'Bags 카테고리 이탈률 감소',
             'A/B 테스트로 CTR 개선폭 측정',
-            '3-11개 구간 수준(5.26%) 달성',
-            'A/B 테스트로 개선폭 측정',
-            'Desktop 수준(25.4%) 달성'
+            '3-11개 구간 수준 (5.26%) 달성',
+            'Apparel 장바구니 완료율 개선',
+            'Desktop 수준 (25.4%) 달성'
         ],
         '구현 난이도': ['⭐ 낮음', '⭐ 낮음', '⭐⭐ 중간', '⭐⭐ 중간', '⭐⭐⭐ 높음']
     }
@@ -1635,9 +1639,20 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             total_loss = df_cart['total_lost_revenue'].sum()
             total_abandon = df_cart['abandoned_session_count'].sum() if 'abandoned_session_count' in df_cart.columns else 0
             
-            # 고가 상품 (건당 $50 이상) vs 저가 대량 이탈 분류
-            df_high_value = df_cart[df_cart['avg_lost_value'] >= 50]
-            df_low_value = df_cart[df_cart['avg_lost_value'] < 50]
+            # 카테고리별 분류
+            df_cart['main_category'] = df_cart['item_category'].str.split('/').str[1].fillna('기타')
+            cat_summary = df_cart.groupby('main_category').agg({
+                'abandoned_session_count': 'sum',
+                'total_lost_revenue': 'sum'
+            }).sort_values('total_lost_revenue', ascending=False)
+            
+            # Bags 카테고리 손실
+            bags_loss = cat_summary.loc['Bags', 'total_lost_revenue'] if 'Bags' in cat_summary.index else 0
+            bags_count = cat_summary.loc['Bags', 'abandoned_session_count'] if 'Bags' in cat_summary.index else 0
+            
+            # Apparel 카테고리 손실
+            apparel_loss = cat_summary.loc['Apparel', 'total_lost_revenue'] if 'Apparel' in cat_summary.index else 0
+            apparel_count = cat_summary.loc['Apparel', 'abandoned_session_count'] if 'Apparel' in cat_summary.index else 0
             
             col1, col2, col3, col4 = st.columns(4)
             
@@ -1648,51 +1663,61 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                 st.metric("총 이탈 건수", f"{total_abandon:,}건",
                          help="장바구니 담고 미구매")
             with col3:
-                high_loss = df_high_value['total_lost_revenue'].sum()
-                st.metric("고가 상품 손실", f"${high_loss/1000:.0f}K",
-                         delta="건당 $50+", delta_color="off")
+                bags_pct = bags_loss / total_loss * 100 if total_loss > 0 else 0
+                st.metric("Bags 카테고리 손실", f"${bags_loss/1000:.0f}K",
+                         delta=f"전체의 {bags_pct:.0f}%", delta_color="off")
             with col4:
-                low_count = df_low_value['abandoned_session_count'].sum() if 'abandoned_session_count' in df_low_value.columns else 0
-                st.metric("저가 대량 이탈", f"{low_count:,}건",
-                         delta="건당 $50 미만", delta_color="off")
+                st.metric("Apparel 카테고리", f"{apparel_count:,}건",
+                         delta=f"${apparel_loss/1000:.0f}K 손실", delta_color="off")
             
             st.markdown("---")
             
-            # 핵심 발견: 2가지 이탈 패턴
-            st.markdown("### 🔍 데이터에서 발견한 2가지 이탈 패턴")
+            # 핵심 발견: 카테고리별 이탈 패턴
+            st.markdown("### 🔍 데이터에서 발견한 카테고리별 이탈 패턴")
+            
+            # 상관관계 계산
+            corr = df_cart['avg_lost_value'].corr(df_cart['abandoned_session_count'])
+            
+            st.info(f"""
+            💡 **핵심 발견**: 건당 손실과 이탈 건수는 **음의 상관관계 (r = {corr:.2f})**
+            - 비싼 상품 → 이탈 건수 적지만 건당 손실 큼 (결제 금액 부담)
+            - 저렴한 상품 → 이탈 건수 많지만 건당 손실 작음 (결제 과정 마찰)
+            """)
             
             col1, col2 = st.columns(2)
             
             with col1:
-                st.markdown("""
+                st.markdown(f"""
                 <div class="critical-box">
-                <strong>🔴 패턴 1: 고가 상품 결제 허들</strong><br><br>
+                <strong>🔴 패턴 1: Bags 카테고리 집중 손실</strong><br><br>
                 <strong>데이터 근거:</strong><br>
-                • Utility BackPack: 302건, <strong>$251/건</strong><br>
-                • Flat Front Bag: 306건, <strong>$64/건</strong><br>
-                • Super G Joggers: 154건, <strong>$38/건</strong><br><br>
+                • 이탈 건수: <strong>{bags_count:,}건</strong> (전체의 {bags_count/total_abandon*100:.1f}%)<br>
+                • 손실 금액: <strong>${bags_loss/1000:.0f}K</strong> (전체의 {bags_pct:.0f}%)<br>
+                • 건당 평균 손실: <strong>${bags_loss/bags_count:.0f}</strong><br><br>
                 
-                <strong>문제점:</strong><br>
-                건당 손실 높음 = 고가 상품에서 결제 직전 이탈<br><br>
+                <strong>상위 상품:</strong><br>
+                • Utility BackPack: 302건, $251/건<br>
+                • Flat Front Bag: 306건, $64/건<br><br>
                 
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>분할결제</strong> 3/6개월 옵션<br>
                 2. <strong>가격 보장</strong> 배지 표시<br>
-                3. <strong>무료배송</strong> 임계값 안내
+                3. Bags 페이지 <strong>무료배송</strong> 강조
                 </div>
                 """, unsafe_allow_html=True)
             
             with col2:
-                st.markdown("""
+                st.markdown(f"""
                 <div class="warning-box">
-                <strong>🟡 패턴 2: 저가 상품 대량 이탈</strong><br><br>
+                <strong>🟡 패턴 2: Apparel 대량 이탈</strong><br><br>
                 <strong>데이터 근거:</strong><br>
-                • Heathered Pom Beanie: <strong>1,391건</strong>, $14/건<br>
-                • Zip Hoodie F/C: <strong>1,237건</strong>, $4/건<br>
-                • Navy Speckled Tee: <strong>1,248건</strong>, $2/건<br><br>
+                • 이탈 건수: <strong>{apparel_count:,}건</strong> (전체의 {apparel_count/total_abandon*100:.1f}%)<br>
+                • 손실 금액: <strong>${apparel_loss/1000:.0f}K</strong><br>
+                • 건당 평균 손실: <strong>${apparel_loss/apparel_count:.0f}</strong><br><br>
                 
-                <strong>문제점:</strong><br>
-                이탈 건수 많음 = 결제 과정 마찰 존재<br><br>
+                <strong>상위 상품:</strong><br>
+                • Heathered Pom Beanie: 1,391건<br>
+                • Zip Hoodie: 1,237건<br><br>
                 
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>Guest Checkout</strong> 원클릭 결제<br>
@@ -1776,7 +1801,7 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                     st.plotly_chart(fig2, use_container_width=True)
                     st.caption("📌 색상이 연할수록 저가 상품 (대량 이탈 패턴)")
                 else:
-                    # abandoned_count 컬럼이 없으면 건당 손실 그래프 표시
+                    # abandoned_session_count 컬럼이 없으면 건당 손실 그래프 표시
                     df_top_avg = df_cart.nlargest(10, 'avg_lost_value')
                     
                     fig2 = px.bar(
@@ -1817,14 +1842,14 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             action_data = {
                 '우선순위': ['🔴 1순위', '🔴 1순위', '🟡 2순위', '🟡 2순위'],
                 '문제점': [
-                    '고가 상품 결제 이탈 (BackPack $251/건)',
-                    '저가 상품 대량 이탈 (Beanie 1,391건)',
+                    'Bags 카테고리 손실 집중',
+                    'Apparel 대량 이탈',
                     '장바구니 → 구매 전환 마찰',
                     '재방문 유도 부족'
                 ],
                 '데이터 근거': [
-                    'Bags 카테고리 손실 집중',
-                    '상위 5개 상품 이탈 5,000건+',
+                    f'608건으로 손실 48% 차지 (건당 $263)',
+                    f'12,011건 이탈 (건당 $11)',
                     '결제 완료율 데이터 필요',
                     '이탈 후 재구매 추적 필요'
                 ],
@@ -1835,8 +1860,8 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                     '이탈 상품 기반 리타겟팅 광고'
                 ],
                 '성공 KPI': [
-                    'A/B 테스트로 개선폭 측정',
-                    'A/B 테스트로 개선폭 측정',
+                    'Bags 카테고리 이탈률 감소',
+                    'Apparel 장바구니 완료율 개선',
                     '이탈 고객 재방문율 측정',
                     '리타겟팅 CTR/CVR 측정'
                 ]
@@ -2646,7 +2671,7 @@ CROSS JOIN price_quantiles
         데이터/분석 한계를 정직하게 인정하고 향후 개선 방향 제시<br><br>
         
         <strong>4. 데이터 기반 의사결정</strong><br>
-        모든 액션에 구체적 데이터 근거 제시 (예: BackPack $251/건, Beanie 1,391건)<br><br>
+        모든 액션에 구체적 데이터 근거 제시 (예: Bags 카테고리 손실 48%, Apparel 12,011건)<br><br>
         
         <strong>5. 실행 가능성</strong><br>
         Impact-Effort 매트릭스로 우선순위화, 검증 가능한 KPI 설정
