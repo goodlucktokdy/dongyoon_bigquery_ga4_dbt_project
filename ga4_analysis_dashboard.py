@@ -391,8 +391,8 @@ if page == "🏠 Executive Summary":
         df_cart = data['cart_abandon']
         bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
         if len(bags_row) > 0:
-            total_lost = df_cart['lost_revenue'].sum()
-            bags_lost = bags_row['lost_revenue'].values[0]
+            total_lost = df_cart['total_lost_revenue'].sum()
+            bags_lost = bags_row['total_lost_revenue'].values[0]
             bags_loss_pct = f"{bags_lost / total_lost * 100:.0f}%" if total_lost > 0 else "48%"
             bags_count = bags_row['cart_abandon_sessions'].values[0]
             bags_avg_loss = f"${bags_lost / bags_count:.0f}" if bags_count > 0 else "$216"
@@ -1596,8 +1596,8 @@ elif page == "📋 액션 플랜":
         df_cart = data['cart_abandon']
         bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
         if len(bags_row) > 0:
-            total_lost = df_cart['lost_revenue'].sum()
-            bags_lost = bags_row['lost_revenue'].values[0]
+            total_lost = df_cart['total_lost_revenue'].sum()
+            bags_lost = bags_row['total_lost_revenue'].values[0]
             bags_pct = bags_lost / total_lost * 100 if total_lost > 0 else 48
             bags_count = bags_row['cart_abandon_sessions'].values[0]
             bags_loss_text = f"Bags {bags_pct:.0f}% 손실 집중"
