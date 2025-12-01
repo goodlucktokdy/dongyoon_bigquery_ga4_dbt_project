@@ -1688,11 +1688,16 @@ elif page == "🛒 이탈 & 기회 분석":
                     y='item_name',
                     orientation='h',
                     color='avg_lost_value',
-                    color_continuous_scale='Reds',
-                    text=df_top['total_lost_revenue'].apply(lambda x: f'${x:,.0f}')
+                    color_continuous_scale='Reds'
                 )
                 
-                fig.update_traces(textposition='outside')
+                # 텍스트 레이블 설정 (손실 금액만 표시)
+                fig.update_traces(
+                    text=df_top['total_lost_revenue'].apply(lambda x: f'${x:,.0f}'),
+                    textposition='outside',
+                    textfont=dict(size=11)
+                )
+                
                 fig.update_layout(
                     title='장바구니 이탈 손실 TOP 10 (이상치 제외)',
                     xaxis_title='손실 매출 ($)',
@@ -1708,11 +1713,17 @@ elif page == "🛒 이탈 & 기회 분석":
                 # TOP 1 상품 분석 (이상치 제외 후) - nlargest로 정렬되어 있으므로 iloc[0]이 최대
                 if len(df_top) > 0:
                     top_item = df_top.iloc[0]  # 가장 손실 큰 상품 (nlargest 첫 번째)
+                    # abandoned_count 컬럼 확인 (abandon_count 또는 abandoned_count)
+                    abandon_cnt = int(top_item.get('abandoned_count', top_item.get('abandon_count', 0)))
+                    # 이탈건수가 0이면 total/avg로 역산
+                    if abandon_cnt == 0 and top_item['avg_lost_value'] > 0:
+                        abandon_cnt = int(top_item['total_lost_revenue'] / top_item['avg_lost_value'])
+                    
                     st.markdown(f"""
                     <div class="critical-box">
                     <strong>🚨 최대 이탈 상품 분석</strong><br><br>
                     <strong>{top_item['item_name'][:30]}...</strong><br><br>
-                    • 이탈: {int(top_item.get('abandon_count', 0))}건<br>
+                    • 이탈: {abandon_cnt:,}건<br>
                     • 손실: <strong>${top_item['total_lost_revenue']:,.0f}</strong><br>
                     • 평균: ${top_item['avg_lost_value']:,.0f}/건<br><br>
                     
