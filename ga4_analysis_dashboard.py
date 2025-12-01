@@ -202,7 +202,7 @@ else:
 page = st.sidebar.radio(
     "분석 섹션",
     ["🏠 Executive Summary",
-     "📊 데이터 개요 & 파이프라인",
+     "📊 데이터 개요",
      "🎯 진성 유저 식별",
      "🔍 세그먼트 분석",
      "🛒 장바구니 & 프로모션",
@@ -374,8 +374,8 @@ if page == "🏠 Executive Summary":
         """, unsafe_allow_html=True)
 
 # ----- 2. 데이터 개요 -----
-elif page == "📊 데이터 개요 & 파이프라인":
-    st.header("📊 데이터 개요 & 파이프라인")
+elif page == "📊 데이터 개요":
+    st.header("📊 데이터 개요")
     
     # 실제 데이터에서 수치 추출
     total_sessions = 133368
@@ -418,198 +418,54 @@ elif page == "📊 데이터 개요 & 파이프라인":
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **이벤트 수** | 약 2.1M 이벤트 |
+        | **총 이벤트** | 약 2.1M 이벤트 |
+        | **총 세션** | 133,368 세션 |
+        | **구매 세션** | 2,116 세션 (1.59%) |
         """)
+        
+        st.markdown("### 🔄 분석 흐름")
+        st.markdown("""
+        ```
+        GA4 Raw Data (BigQuery)
+              ↓
+        dbt 변환 (26개 SQL 모델)
+              ↓
+        Streamlit 시각화 + 통계 검정
+        ```
+        """)
+        
+        st.info("💡 **기술 스택 상세**는 `📐 방법론 & 한계점` 페이지에서 확인하세요.")
     
     with col2:
         st.markdown("### ⚠️ 데이터 한계점")
         st.markdown("""
         <div class="limitation-box">
         <strong>1. 시간적 한계</strong><br>
-        • 12월 한 달 → 계절성 미반영<br><br>
+        • 12월 한 달 데이터만 존재<br>
+        • 계절성 (연말 쇼핑 시즌) 반영 불가<br>
+        • 홀리데이 시즌 특수성 존재<br><br>
         
         <strong>2. 샘플 한계</strong><br>
-        • 일부 세그먼트 샘플 작음<br><br>
+        • 일부 세그먼트 샘플 크기 작음<br>
+        • 통계적 유의성 검증 필수<br>
+        • 60분+ 구매자: 102명 (신뢰구간 넓음)<br><br>
         
         <strong>3. 데이터 특성</strong><br>
-        • Obfuscated 데이터 (일부 마스킹)
+        • Obfuscated 데이터 (일부 값 마스킹)<br>
+        • 단일 스토어 → 일반화 제한<br>
+        • 가격 정보 일부 누락
         </div>
         """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # 데이터 파이프라인 아키텍처
-    st.markdown("### 🔧 데이터 파이프라인 아키텍처")
-    
-    col1, col2 = st.columns([1.2, 1])
-    
-    with col1:
-        # Plotly를 사용한 파이프라인 시각화
-        fig_pipeline = go.Figure()
         
-        # 노드 정의 - 실제 dbt 구조 반영
-        nodes = [
-            # Source Layer
-            {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
-             'color': '#4285F4', 'width': 0.85},
-            
-            # Staging Layer
-            {'x': 0.5, 'y': 5, 'text': '🔧 <b>Staging Layer</b><br>stg_events.sql<br><i>session_unique_id 생성 • 타입 변환</i>', 
-             'color': '#FF6D01', 'width': 0.85},
-            
-            # Intermediate Layer - 8개 모델
-            {'x': 0.12, 'y': 4, 'text': 'int_browsing<br>_style', 'color': '#34A853', 'width': 0.18},
-            {'x': 0.31, 'y': 4, 'text': 'int_engage<br>_lift_score', 'color': '#34A853', 'width': 0.18},
-            {'x': 0.5, 'y': 4, 'text': 'int_session<br>_paths', 'color': '#34A853', 'width': 0.18},
-            {'x': 0.69, 'y': 4, 'text': 'int_session<br>_funnel', 'color': '#34A853', 'width': 0.18},
-            {'x': 0.88, 'y': 4, 'text': 'int_promo<br>+3 more', 'color': '#34A853', 'width': 0.18},
-            
-            # Mart Layer - 17개 모델
-            {'x': 0.5, 'y': 3, 'text': '📦 <b>Mart Layer (17 tables)</b><br>mart_browsing_style • mart_core_sessions • mart_funnel_*<br><i>mart_cart_abandon • mart_promo_quality</i>', 
-             'color': '#EA4335', 'width': 0.85},
-            
-            # Dashboard Layer
-            {'x': 0.5, 'y': 2, 'text': '📱 <b>Streamlit Dashboard</b><br>인터랙티브 분석 • 통계 검정<br><i>χ² Test • Cohen\'s h • Wilson CI</i>', 
-             'color': '#9C27B0', 'width': 0.85},
-        ]
-        
-        # 노드 그리기
-        for node in nodes:
-            fig_pipeline.add_shape(
-                type="rect",
-                x0=node['x'] - node['width']/2, x1=node['x'] + node['width']/2,
-                y0=node['y'] - 0.35, y1=node['y'] + 0.35,
-                fillcolor=node['color'],
-                opacity=0.9,
-                line=dict(color='white', width=2),
-                layer='below'
-            )
-            
-            fig_pipeline.add_annotation(
-                x=node['x'], y=node['y'],
-                text=node['text'],
-                showarrow=False,
-                font=dict(size=9, color='white'),
-                align='center'
-            )
-        
-        # 화살표
-        arrows = [
-            {'x0': 0.5, 'y0': 5.65, 'x1': 0.5, 'y1': 5.35},
-            {'x0': 0.5, 'y0': 4.65, 'x1': 0.12, 'y1': 4.35},
-            {'x0': 0.5, 'y0': 4.65, 'x1': 0.31, 'y1': 4.35},
-            {'x0': 0.5, 'y0': 4.65, 'x1': 0.5, 'y1': 4.35},
-            {'x0': 0.5, 'y0': 4.65, 'x1': 0.69, 'y1': 4.35},
-            {'x0': 0.5, 'y0': 4.65, 'x1': 0.88, 'y1': 4.35},
-            {'x0': 0.5, 'y0': 3.65, 'x1': 0.5, 'y1': 3.35},
-            {'x0': 0.5, 'y0': 2.65, 'x1': 0.5, 'y1': 2.35},
-        ]
-        
-        for arrow in arrows:
-            fig_pipeline.add_annotation(
-                x=arrow['x1'], y=arrow['y1'],
-                ax=arrow['x0'], ay=arrow['y0'],
-                xref='x', yref='y', axref='x', ayref='y',
-                showarrow=True, arrowhead=2, arrowsize=1.2, arrowwidth=1.5, arrowcolor='#666'
-            )
-        
-        fig_pipeline.update_layout(
-            title=dict(text='📊 dbt Data Pipeline', font=dict(size=16)),
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.1, 1.1]),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[1.3, 6.7]),
-            height=500,
-            plot_bgcolor='rgba(248,249,250,1)',
-            margin=dict(l=20, r=20, t=50, b=20)
-        )
-        
-        st.plotly_chart(fig_pipeline, use_container_width=True)
-    
-    with col2:
-        st.markdown("#### 📁 dbt 프로젝트 구조")
-        st.code("""
-models/
-├── staging/
-│   └── stg_events.sql
-│
-├── intermediate/
-│   ├── int_browsing_style.sql
-│   ├── int_engage_lift_score.sql
-│   ├── int_session_funnel.sql
-│   └── +5 more
-│
-└── marts/
-    ├── mart_browsing_style.sql
-    ├── mart_cart_abandon.sql
-    ├── mart_funnel_*.sql (7개)
-    └── +8 more
-        """, language="text")
-        
+        st.markdown("### 📊 분석 범위")
         st.markdown("""
-        <div class="methodology-box">
-        <strong>📐 레이어 설계 원칙</strong><br><br>
-        • <strong>Staging</strong>: 1:1 소스 미러링<br>
-        • <strong>Intermediate</strong>: 비즈니스 로직<br>
-        • <strong>Mart</strong>: 분석 목적별 집계
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # 기술 스택 카드
-    st.markdown("---")
-    st.markdown("### 🛠️ 기술 스택")
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #4285F4 0%, #1a73e8 100%); 
-                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
-            <div style="font-size: 2rem;">🗄️</div>
-            <div style="font-weight: bold; margin: 0.5rem 0;">데이터 저장</div>
-            <div style="font-size: 0.85rem; opacity: 0.9;">
-                Google BigQuery<br>
-                Cloud Storage
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #FF6D01 0%, #e55b00 100%); 
-                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
-            <div style="font-size: 2rem;">🔧</div>
-            <div style="font-weight: bold; margin: 0.5rem 0;">데이터 변환</div>
-            <div style="font-size: 0.85rem; opacity: 0.9;">
-                dbt Core<br>
-                SQL + Jinja2
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #34A853 0%, #1e8e3e 100%); 
-                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
-            <div style="font-size: 2rem;">📊</div>
-            <div style="font-weight: bold; margin: 0.5rem 0;">분석 & 통계</div>
-            <div style="font-size: 0.85rem; opacity: 0.9;">
-                Python · pandas<br>
-                scipy · numpy
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); 
-                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
-            <div style="font-size: 2rem;">📱</div>
-            <div style="font-weight: bold; margin: 0.5rem 0;">시각화</div>
-            <div style="font-size: 0.85rem; opacity: 0.9;">
-                Streamlit<br>
-                Plotly
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        | 분석 영역 | 주요 지표 |
+        |:---------|:---------|
+        | 세그먼트 | 브라우징 스타일 3종 |
+        | 퍼널 | 6단계 전환 흐름 |
+        | 이탈 | 장바구니 이탈 패턴 |
+        | 프로모션 | CTR vs 품질 분석 |
+        """)
 
 # ----- 3. 진성 유저 식별 -----
 elif page == "🎯 진성 유저 식별":
@@ -1378,116 +1234,22 @@ GROUP BY 1
     with tab2:
         st.markdown("### 프로모션 품질 4분면 분석")
         
-        # Lift 기반 Engagement Score 설명
-        with st.expander("📐 Engagement Score 산출 방법론 (Lift 기반)"):
+        # Lift 기반 Engagement Score 간단 설명
+        with st.expander("📐 Engagement Score란?"):
             st.markdown("""
-            ### 🎯 유저 품질 평가: Lift 기반 Engagement Score
+            **Engagement Score**: 유저의 구매 가능성을 점수화한 지표
             
-            프로모션을 클릭한 유저의 **품질** (구매 가능성) 을 평가하기 위해 
-            **Lift(향상도)** 기반의 Engagement Score를 사용합니다.
-            
-            ---
-            
-            ### 📊 Lift란?
-            
-            > **"이 행동을 하면 구매 확률이 몇 배로 뛰는가?"**
-            
-            ```
-            Lift = P(Purchase | Action) / P(Purchase)
-                 = 조건부 확률 / 베이스라인
-            ```
-            
-            ---
-            
-            ### 🔢 행동별 Lift 가중치 (실제 데이터 기반)
-            
-            | 행동 | Lift | 해석 |
+            | 행동 | 점수 | 설명 |
             |:-----|:-----|:-----|
-            | view_item | **4.6x** | 상품 조회 시 구매 확률 4.6배 |
-            | view_search_results | **2.9x** | 검색 시 구매 확률 2.9배 |
-            | add_to_cart | **11.8x** | 장바구니 추가 시 11.8배 |
-            | begin_checkout | **30.6x** | 결제 시작 시 30.6배 |
-            | add_payment_info | **46.5x** | 결제정보 입력 시 46.5배 |
+            | view_item | 5점 | 상품 조회 |
+            | add_to_cart | 12점 | 장바구니 추가 |
+            | begin_checkout | 31점 | 결제 시작 |
+            | add_payment_info | 47점 | 결제정보 입력 |
             
-            ---
+            → 프로모션 클릭 유저의 **평균 Score**로 유저 품질 측정
             
-            ### 💡 Engagement Score 계산 (int_engage_lift_score.sql)
-            
-            Lift 값을 반올림하여 점수로 변환:
-            
-            | 행동 | Lift | **점수** |
-            |:-----|:-----|:---------|
-            | view_item | 4.6x | **5점** |
-            | view_search_results | 2.9x | **3점** |
-            | add_to_cart | 11.8x | **12점** |
-            | begin_checkout | 30.6x | **31점** |
-            | add_payment_info | 46.5x | **47점** |
-            | 기타 이벤트 | - | **1점** |
-            
-            ```sql
-            Engagement Score = Σ (이벤트별 점수)
-            ```
-            
-            **예시**: 유저가 view_item + add_to_cart를 했다면
-            - Score = 5 + 12 = **17점**
-            
-            ---
-            
-            ### 📈 등급 분류 (PERCENT_RANK 기반)
-            
-            | 등급 | 기준 | 해석 |
-            |:-----|:-----|:-----|
-            | **High Intent** | 상위 20% (pct_rank ≤ 0.2) | 진성 유저 |
-            | **Medium Intent** | 상위 20~50% (pct_rank ≤ 0.5) | 탐색 유저 |
-            | **Low Intent** | 하위 50% (나머지) | 이탈 가능성 |
-            
-            > 이 Score를 기반으로 프로모션 클릭 유저의 **평균 품질**을 측정합니다.
+            💡 **상세 산출 방법**은 `🎯 진성 유저 식별` 또는 `📐 방법론` 페이지 참조
             """)
-            
-            st.code("""
--- 1. Lift 가중치 산출 (int_lift_weight.sql)
-WITH session_stats AS (
-    SELECT
-        session_unique_id,
-        MAX(IF(event_name = 'purchase', 1, 0)) as is_converted,
-        MAX(IF(event_name = 'view_item', 1, 0)) as has_view_item,
-        MAX(IF(event_name = 'add_to_cart', 1, 0)) as has_cart
-    FROM stg_events
-    GROUP BY 1
-),
-rates AS (
-    SELECT
-        SAFE_DIVIDE(SUM(is_converted), COUNT(*)) as base_cv,
-        SAFE_DIVIDE(COUNTIF(has_cart=1 AND is_converted=1), COUNTIF(has_cart=1)) as cart_cv
-    FROM session_stats
-)
-SELECT ROUND(cart_cv / base_cv, 1) as score_cart  -- 결과: 11.8
-
--- 2. Engagement Score 계산 (int_engage_lift_score.sql)  
-SELECT
-    session_unique_id,
-    SUM(CASE 
-        WHEN event_name = 'view_item' THEN 5
-        WHEN event_name = 'view_search_results' THEN 3
-        WHEN event_name = 'add_to_cart' THEN 12
-        WHEN event_name = 'begin_checkout' THEN 31
-        WHEN event_name = 'add_payment_info' THEN 47
-        ELSE 1
-    END) AS engagement_score
-FROM stg_events
-GROUP BY 1
-
--- 3. 등급 분류
-SELECT *,
-    CASE 
-        WHEN PERCENT_RANK() OVER (ORDER BY engagement_score DESC) <= 0.2 
-            THEN 'High Intent'
-        WHEN PERCENT_RANK() OVER (ORDER BY engagement_score DESC) <= 0.5 
-            THEN 'Medium Intent'
-        ELSE 'Low Intent'
-    END AS engagement_grade
-FROM session_scores
-            """, language="sql")
         
         if 'promo_quality' in data:
             df_promo = data['promo_quality']
