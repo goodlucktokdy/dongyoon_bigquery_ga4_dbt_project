@@ -200,13 +200,13 @@ else:
     st.sidebar.error("❌ 데이터 폴더 없음")
 
 page = st.sidebar.radio(
-    "분석 스토리",
-    ["1️⃣ 문제 정의",
-     "2️⃣ 데이터 파이프라인",
-     "3️⃣ 진성 유저 식별",
-     "4️⃣ 문제1: 결정 마비",
-     "5️⃣ 문제2: 장바구니 이탈", 
-     "6️⃣ 해결책 & 액션플랜",
+    "분석 섹션",
+    ["🏠 Executive Summary",
+     "📊 데이터 개요 & 파이프라인",
+     "🎯 진성 유저 식별",
+     "🔍 세그먼트 분석",
+     "🛒 장바구니 & 프로모션",
+     "📋 액션 플랜",
      "📐 방법론 & 한계점"]
 )
 
@@ -229,7 +229,7 @@ st.sidebar.markdown("#### 김동윤")
 # ===== 페이지별 컨텐츠 =====
 
 # ----- 1. 문제 정의 -----
-if page == "1️⃣ 문제 정의":
+if page == "🏠 Executive Summary":
     st.markdown('<p class="main-header">🛒 이커머스 전환율 최적화 분석</p>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">"트래픽의 98%가 이탈한다. 누가 진짜 고객인가?"</p>', unsafe_allow_html=True)
     
@@ -374,8 +374,8 @@ if page == "1️⃣ 문제 정의":
         """, unsafe_allow_html=True)
 
 # ----- 2. 데이터 개요 -----
-elif page == "2️⃣ 데이터 파이프라인":
-    st.header("2️⃣ Engineering: 데이터 파이프라인")
+elif page == "📊 데이터 개요 & 파이프라인":
+    st.header("📊 데이터 개요 & 파이프라인")
     
     # 실제 데이터에서 수치 추출
     total_sessions = 133368
@@ -418,18 +418,7 @@ elif page == "2️⃣ 데이터 파이프라인":
         | **데이터셋** | `bigquery-public-data.ga4_obfuscated_sample_ecommerce` |
         | **기간** | 2020년 12월 1일 ~ 31일 (31일) |
         | **대상** | Google Merchandise Store |
-        | **이벤트 수** | 약 4.5M 이벤트 |
-        | **사용 테이블** | stg_events → int_* → mart_* |
-        """)
-        
-        st.markdown("### 🔧 분석 환경")
-        st.markdown("""
-        | 항목 | 도구 |
-        |-----|------|
-        | **데이터 웨어하우스** | Google BigQuery |
-        | **데이터 변환** | dbt (Data Build Tool) |
-        | **시각화** | Streamlit + Plotly |
-        | **통계 분석** | Python (scipy, numpy) |
+        | **이벤트 수** | 약 2.1M 이벤트 |
         """)
     
     with col2:
@@ -437,131 +426,313 @@ elif page == "2️⃣ 데이터 파이프라인":
         st.markdown("""
         <div class="limitation-box">
         <strong>1. 시간적 한계</strong><br>
-        • 12월 한 달 데이터 → 계절성 반영 안됨<br>
-        • 홀리데이 시즌 특수성 존재<br><br>
+        • 12월 한 달 → 계절성 미반영<br><br>
         
         <strong>2. 샘플 한계</strong><br>
-        • 일부 세그먼트 샘플 크기 작음<br>
-        • 통계적 유의성 검증 필수<br><br>
+        • 일부 세그먼트 샘플 작음<br><br>
         
         <strong>3. 데이터 특성</strong><br>
-        • Obfuscated 데이터 (일부 값 마스킹)<br>
-        • 단일 스토어 → 일반화 제한
+        • Obfuscated 데이터 (일부 마스킹)
         </div>
         """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    # 데이터 파이프라인 아키텍처
+    st.markdown("### 🔧 데이터 파이프라인 아키텍처")
+    
+    col1, col2 = st.columns([1.2, 1])
+    
+    with col1:
+        # Plotly를 사용한 파이프라인 시각화
+        fig_pipeline = go.Figure()
         
-        st.markdown("### 📊 dbt 모델 구조")
+        # 노드 정의 - 실제 dbt 구조 반영
+        nodes = [
+            # Source Layer
+            {'x': 0.5, 'y': 6, 'text': '🗄️ <b>GA4 Raw Data</b><br>BigQuery Public Dataset<br><i>events_* (2.1M rows)</i>', 
+             'color': '#4285F4', 'width': 0.85},
+            
+            # Staging Layer
+            {'x': 0.5, 'y': 5, 'text': '🔧 <b>Staging Layer</b><br>stg_events.sql<br><i>session_unique_id 생성 • 타입 변환</i>', 
+             'color': '#FF6D01', 'width': 0.85},
+            
+            # Intermediate Layer - 8개 모델
+            {'x': 0.12, 'y': 4, 'text': 'int_browsing<br>_style', 'color': '#34A853', 'width': 0.18},
+            {'x': 0.31, 'y': 4, 'text': 'int_engage<br>_lift_score', 'color': '#34A853', 'width': 0.18},
+            {'x': 0.5, 'y': 4, 'text': 'int_session<br>_paths', 'color': '#34A853', 'width': 0.18},
+            {'x': 0.69, 'y': 4, 'text': 'int_session<br>_funnel', 'color': '#34A853', 'width': 0.18},
+            {'x': 0.88, 'y': 4, 'text': 'int_promo<br>+3 more', 'color': '#34A853', 'width': 0.18},
+            
+            # Mart Layer - 17개 모델
+            {'x': 0.5, 'y': 3, 'text': '📦 <b>Mart Layer (17 tables)</b><br>mart_browsing_style • mart_core_sessions • mart_funnel_*<br><i>mart_cart_abandon • mart_promo_quality</i>', 
+             'color': '#EA4335', 'width': 0.85},
+            
+            # Dashboard Layer
+            {'x': 0.5, 'y': 2, 'text': '📱 <b>Streamlit Dashboard</b><br>인터랙티브 분석 • 통계 검정<br><i>χ² Test • Cohen\'s h • Wilson CI</i>', 
+             'color': '#9C27B0', 'width': 0.85},
+        ]
+        
+        # 노드 그리기
+        for node in nodes:
+            fig_pipeline.add_shape(
+                type="rect",
+                x0=node['x'] - node['width']/2, x1=node['x'] + node['width']/2,
+                y0=node['y'] - 0.35, y1=node['y'] + 0.35,
+                fillcolor=node['color'],
+                opacity=0.9,
+                line=dict(color='white', width=2),
+                layer='below'
+            )
+            
+            fig_pipeline.add_annotation(
+                x=node['x'], y=node['y'],
+                text=node['text'],
+                showarrow=False,
+                font=dict(size=9, color='white'),
+                align='center'
+            )
+        
+        # 화살표
+        arrows = [
+            {'x0': 0.5, 'y0': 5.65, 'x1': 0.5, 'y1': 5.35},
+            {'x0': 0.5, 'y0': 4.65, 'x1': 0.12, 'y1': 4.35},
+            {'x0': 0.5, 'y0': 4.65, 'x1': 0.31, 'y1': 4.35},
+            {'x0': 0.5, 'y0': 4.65, 'x1': 0.5, 'y1': 4.35},
+            {'x0': 0.5, 'y0': 4.65, 'x1': 0.69, 'y1': 4.35},
+            {'x0': 0.5, 'y0': 4.65, 'x1': 0.88, 'y1': 4.35},
+            {'x0': 0.5, 'y0': 3.65, 'x1': 0.5, 'y1': 3.35},
+            {'x0': 0.5, 'y0': 2.65, 'x1': 0.5, 'y1': 2.35},
+        ]
+        
+        for arrow in arrows:
+            fig_pipeline.add_annotation(
+                x=arrow['x1'], y=arrow['y1'],
+                ax=arrow['x0'], ay=arrow['y0'],
+                xref='x', yref='y', axref='x', ayref='y',
+                showarrow=True, arrowhead=2, arrowsize=1.2, arrowwidth=1.5, arrowcolor='#666'
+            )
+        
+        fig_pipeline.update_layout(
+            title=dict(text='📊 dbt Data Pipeline', font=dict(size=16)),
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.1, 1.1]),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[1.3, 6.7]),
+            height=500,
+            plot_bgcolor='rgba(248,249,250,1)',
+            margin=dict(l=20, r=20, t=50, b=20)
+        )
+        
+        st.plotly_chart(fig_pipeline, use_container_width=True)
+    
+    with col2:
+        st.markdown("#### 📁 dbt 프로젝트 구조")
+        st.code("""
+models/
+├── staging/
+│   └── stg_events.sql
+│
+├── intermediate/
+│   ├── int_browsing_style.sql
+│   ├── int_engage_lift_score.sql
+│   ├── int_session_funnel.sql
+│   └── +5 more
+│
+└── marts/
+    ├── mart_browsing_style.sql
+    ├── mart_cart_abandon.sql
+    ├── mart_funnel_*.sql (7개)
+    └── +8 more
+        """, language="text")
+        
         st.markdown("""
-        ```
-        stg_events (Staging)
-            ↓
-        int_browsing_style    (세그먼트 분류)
-        int_engage_lift_score (Engagement Score)
-        int_session_funnel    (퍼널 단계)
-        int_session_paths     (경로 분석)
-            ↓
-        mart_* (17개 Mart 테이블)
-        ```
-        """)
+        <div class="methodology-box">
+        <strong>📐 레이어 설계 원칙</strong><br><br>
+        • <strong>Staging</strong>: 1:1 소스 미러링<br>
+        • <strong>Intermediate</strong>: 비즈니스 로직<br>
+        • <strong>Mart</strong>: 분석 목적별 집계
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # 기술 스택 카드
+    st.markdown("---")
+    st.markdown("### 🛠️ 기술 스택")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #4285F4 0%, #1a73e8 100%); 
+                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+            <div style="font-size: 2rem;">🗄️</div>
+            <div style="font-weight: bold; margin: 0.5rem 0;">데이터 저장</div>
+            <div style="font-size: 0.85rem; opacity: 0.9;">
+                Google BigQuery<br>
+                Cloud Storage
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #FF6D01 0%, #e55b00 100%); 
+                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+            <div style="font-size: 2rem;">🔧</div>
+            <div style="font-weight: bold; margin: 0.5rem 0;">데이터 변환</div>
+            <div style="font-size: 0.85rem; opacity: 0.9;">
+                dbt Core<br>
+                SQL + Jinja2
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #34A853 0%, #1e8e3e 100%); 
+                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+            <div style="font-size: 2rem;">📊</div>
+            <div style="font-weight: bold; margin: 0.5rem 0;">분석 & 통계</div>
+            <div style="font-size: 0.85rem; opacity: 0.9;">
+                Python · pandas<br>
+                scipy · numpy
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col4:
+        st.markdown("""
+        <div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); 
+                    padding: 1.2rem; border-radius: 12px; color: white; text-align: center;">
+            <div style="font-size: 2rem;">📱</div>
+            <div style="font-weight: bold; margin: 0.5rem 0;">시각화</div>
+            <div style="font-size: 0.85rem; opacity: 0.9;">
+                Streamlit<br>
+                Plotly
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-# ----- 3. 세그먼트 분석 (통계 검증) -----
-elif page == "3️⃣ 진성 유저 식별":
-    st.header("3️⃣ 진성 유저 식별: Engagement Scoring")
+# ----- 3. 진성 유저 식별 -----
+elif page == "🎯 진성 유저 식별":
+    st.header("🎯 진성 유저 식별: Engagement Scoring")
     
     st.markdown("""
     > **핵심 질문**: "133,368 세션 중 누가 **진짜** 구매할 유저인가?"
     """)
     
-    tab1, tab2, tab3 = st.tabs(["🎯 Engagement Score", "👥 세그먼트 분류", "📊 세그먼트별 분석"])
+    st.markdown("### Lift 기반 Engagement Score")
     
-    with tab1:
-        st.markdown("### Lift 기반 Engagement Score")
-        
+    st.markdown("""
+    단순히 "전환율 1.6%"로 끝내지 않고, **Lift (향상도)** 를 활용하여 
+    각 유저의 구매 가능성을 정량화했습니다.
+    """)
+    
+    col1, col2 = st.columns([1.5, 1])
+    
+    with col1:
         st.markdown("""
-        단순히 "전환율 1.6%"로 끝내지 않고, **Lift (향상도)** 를 활용하여 
-        각 유저의 구매 가능성을 정량화했습니다.
+        **Lift 정의**: "특정 행동을 하면 구매 확률이 몇 배로 뛰는가?"
+        
+        ```
+        Lift = P(Purchase | Action) / P(Purchase)
+        ```
+        
+        **예시**: 
+        - 전체 세션 구매율: **1.6%**
+        - 장바구니 담은 세션 구매율: **18.9%**
+        - **Lift = 11.8배** → 장바구니 담으면 구매 확률 11.8배
         """)
         
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            st.markdown("""
-            **Lift 정의**: "특정 행동을 하면 구매 확률이 몇 배로 뛰는가?"
-            
-            ```
-            Lift = P(Purchase | Action) / P(Purchase)
-            ```
-            
-            **예시**: 
-            - 전체 세션 구매율: **1.6%**
-            - 장바구니 담은 세션 구매율: **18.9%**
-            - **Lift = 11.8배** → 장바구니 담으면 구매 확률 11.8배
-            """)
-            
-            lift_data = {
-                '행동': ['view_item', 'add_to_cart', 'begin_checkout', 'add_payment_info'],
-                'Lift': ['4.6x', '11.8x', '30.6x', '46.5x'],
-                '점수': ['5점', '12점', '31점', '47점']
-            }
-            st.dataframe(pd.DataFrame(lift_data), use_container_width=True, hide_index=True)
-        
-        with col2:
-            st.markdown("""
-            <div class="success-box">
-            <strong>💡 Score 계산 예시</strong><br><br>
-            <strong>세션 A:</strong><br>
-            • view_item (5점)<br>
-            • add_to_cart (12점)<br>
-            • <strong>Total: 17점</strong><br><br>
-            
-            <strong>세션 B:</strong><br>
-            • view_item (5점)<br>
-            • add_to_cart (12점)<br>
-            • begin_checkout (31점)<br>
-            • <strong>Total: 48점</strong>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        st.markdown("### 등급 분류")
-        
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            grade_data = {
-                '등급': ['High Intent', 'Medium Intent', 'Low Intent'],
-                '기준': ['상위 20%', '상위 20~50%', '하위 50%'],
-                '특성': ['진성 유저 - 구매 가능성 높음', '탐색 유저 - 관심은 있으나 고민 중', '이탈 유저 - 구매 의도 낮음']
-            }
-            st.dataframe(pd.DataFrame(grade_data), use_container_width=True, hide_index=True)
-        
-        with col2:
-            fig = go.Figure(data=[go.Pie(
-                labels=['High Intent (20%)', 'Medium Intent (30%)', 'Low Intent (50%)'],
-                values=[20, 30, 50],
-                hole=.4,
-                marker_colors=['#27ae60', '#f39c12', '#e74c3c']
-            )])
-            fig.update_layout(height=250, margin=dict(t=20, b=20))
-            st.plotly_chart(fig, use_container_width=True)
+        lift_data = {
+            '행동': ['view_item', 'add_to_cart', 'begin_checkout', 'add_payment_info'],
+            'Lift': ['4.6x', '11.8x', '30.6x', '46.5x'],
+            '점수': ['5점', '12점', '31점', '47점']
+        }
+        st.dataframe(pd.DataFrame(lift_data), use_container_width=True, hide_index=True)
     
-    with tab2:
-        # ===== 방법론 설명 =====
-        st.markdown("### 세그먼테이션 프레임워크")
+    with col2:
+        st.markdown("""
+        <div class="success-box">
+        <strong>💡 Score 계산 예시</strong><br><br>
+        <strong>세션 A:</strong><br>
+        • view_item (5점)<br>
+        • add_to_cart (12점)<br>
+        • <strong>Total: 17점</strong><br><br>
+        
+        <strong>세션 B:</strong><br>
+        • view_item (5점)<br>
+        • add_to_cart (12점)<br>
+        • begin_checkout (31점)<br>
+        • <strong>Total: 48점</strong>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    
+    st.markdown("### 등급 분류 (PERCENT_RANK)")
+    
+    col1, col2 = st.columns([1.5, 1])
+    
+    with col1:
+        grade_data = {
+            '등급': ['High Intent', 'Medium Intent', 'Low Intent'],
+            '기준': ['상위 20%', '상위 20~50%', '하위 50%'],
+            '특성': ['진성 유저 - 구매 가능성 높음', '탐색 유저 - 관심은 있으나 고민 중', '이탈 유저 - 구매 의도 낮음'],
+            '활용': ['VIP 타겟팅, 프리미엄 서비스', '리마케팅, 쿠폰 제공', '이탈 방지 팝업']
+        }
+        st.dataframe(pd.DataFrame(grade_data), use_container_width=True, hide_index=True)
+        
+        st.code("""
+-- int_engage_lift_score.sql
+SELECT
+    session_unique_id,
+    SUM(CASE 
+        WHEN event_name = 'view_item' THEN 5
+        WHEN event_name = 'add_to_cart' THEN 12
+        WHEN event_name = 'begin_checkout' THEN 31
+        WHEN event_name = 'add_payment_info' THEN 47
+        ELSE 1
+    END) AS engagement_score
+FROM stg_events
+GROUP BY 1
+        """, language="sql")
+    
+    with col2:
+        fig = go.Figure(data=[go.Pie(
+            labels=['High Intent (20%)', 'Medium Intent (30%)', 'Low Intent (50%)'],
+            values=[20, 30, 50],
+            hole=.4,
+            marker_colors=['#27ae60', '#f39c12', '#e74c3c']
+        )])
+        fig.update_layout(height=300, margin=dict(t=20, b=20))
+        st.plotly_chart(fig, use_container_width=True)
         
         st.markdown("""
-        <strong>탐색 깊이 (Depth)</strong>와 <strong>탐색 넓이 (Breadth)</strong>를 두 축으로 
-        유저의 쇼핑 의도를 구조화했습니다.
+        <div class="insight-box">
+        <strong>💡 분석 활용</strong><br><br>
+        • <strong>프로모션 품질</strong>: 클릭 유저의 평균 Score<br>
+        • <strong>세그먼트 비교</strong>: High Intent 비율<br>
+        • <strong>이탈 분석</strong>: High Intent 미전환 = 기회 손실
+        </div>
         """, unsafe_allow_html=True)
-        
+
+# ----- 4. 세그먼트 분석 -----
+elif page == "🔍 세그먼트 분석":
+    st.header("🔍 세그먼트 분석")
+    
+    st.markdown("""
+    유저의 **탐색 깊이 (Depth)** 와 **탐색 넓이 (Breadth)** 를 기준으로 세그먼트를 분류하고,
+    각 세그먼트별 전환율과 특성을 분석했습니다.
+    """)
+    
+    tab1, tab2, tab3 = st.tabs(["📊 세그먼트 분류", "🔴 Deep Specialist 분석", "🟢 Variety Seeker 분석"])
+    
+    with tab1:
         col1, col2 = st.columns([1, 1.2])
         
         with col1:
             # 2x2 매트릭스 시각화
             fig_matrix = go.Figure()
             
-            # 배경 사분면
             fig_matrix.add_shape(type="rect", x0=0, y0=0, x1=1, y1=1, 
                                 fillcolor="rgba(149, 165, 166, 0.2)", line_width=0)
             fig_matrix.add_shape(type="rect", x0=0, y0=1, x1=1, y1=2, 
@@ -569,7 +740,6 @@ elif page == "3️⃣ 진성 유저 식별":
             fig_matrix.add_shape(type="rect", x0=1, y0=1, x1=2, y1=2, 
                                 fillcolor="rgba(46, 204, 113, 0.2)", line_width=0)
             
-            # 세그먼트 포인트
             fig_matrix.add_trace(go.Scatter(
                 x=[0.5, 0.5, 1.5],
                 y=[0.5, 1.5, 1.5],
@@ -581,7 +751,6 @@ elif page == "3️⃣ 진성 유저 식별":
                 hoverinfo='skip'
             ))
             
-            # 축 라벨
             fig_matrix.add_annotation(x=1, y=-0.15, text="탐색 넓이 (Breadth) →", showarrow=False, font=dict(size=12))
             fig_matrix.add_annotation(x=-0.15, y=1, text="탐색 깊이<br>(Depth) →", showarrow=False, font=dict(size=12), textangle=-90)
             
@@ -589,7 +758,7 @@ elif page == "3️⃣ 진성 유저 식별":
                 title="세그먼트 2x2 매트릭스",
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.3, 2.2]),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.3, 2.2]),
-                height=600,
+                height=450,
                 showlegend=False
             )
             
@@ -598,521 +767,209 @@ elif page == "3️⃣ 진성 유저 식별":
         with col2:
             st.markdown("#### 세그먼트 정의표")
             
-            st.markdown("""
-            <table style="width:100%; border-collapse: collapse; font-size: 0.9rem;">
-                <thead>
-                    <tr style="background-color: #f8f9fa; border-bottom: 2px solid #dee2e6;">
-                        <th style="padding: 12px 8px; text-align: left;">세그먼트</th>
-                        <th style="padding: 12px 8px; text-align: left;">SQL 조건</th>
-                        <th style="padding: 12px 8px; text-align: left;">데이터 근거</th>
-                        <th style="padding: 12px 8px; text-align: center;">CVR</th>
-                        <th style="padding: 12px 8px; text-align: left;">비즈니스 해석</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="border-bottom: 1px solid #dee2e6;">
-                        <td style="padding: 10px 8px;"><strong>Light Browser</strong><br><span style="color:#666;">(찍먹형)</span></td>
-                        <td style="padding: 10px 8px;"><code>Items ≤ 2</code></td>
-                        <td style="padding: 10px 8px;">전체의 2.4%<br>이탈 그룹</td>
-                        <td style="padding: 10px 8px; text-align: center;"><strong>5.45%</strong></td>
-                        <td style="padding: 10px 8px;">탐색 의도 미발현<br>리타겟팅 대상</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid #dee2e6;">
-                        <td style="padding: 10px 8px;"><strong>Deep Specialist</strong><br><span style="color:#666;">(한우물형)</span></td>
-                        <td style="padding: 10px 8px;"><code>Items > 2</code><br><code>Category = 1</code></td>
-                        <td style="padding: 10px 8px;">전체의 39.5%<br>P25-P75: 12-24</td>
-                        <td style="padding: 10px 8px; text-align: center; color: #dc3545;"><strong>2.55%</strong></td>
-                        <td style="padding: 10px 8px;"><strong>Depth 중심</strong><br>'선택의 역설' 취약</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 8px;"><strong>Variety Seeker</strong><br><span style="color:#666;">(다양성형)</span></td>
-                        <td style="padding: 10px 8px;"><code>Categories ≥ 2</code></td>
-                        <td style="padding: 10px 8px;">전체의 58.1%<br>평균 조회 75회</td>
-                        <td style="padding: 10px 8px; text-align: center; color: #28a745;"><strong>13.02%</strong></td>
-                        <td style="padding: 10px 8px;"><strong>Breadth 중심</strong><br>Cross-selling 최적</td>
-                    </tr>
-                </tbody>
-            </table>
-            """, unsafe_allow_html=True)
-            
-            st.markdown("<br>", unsafe_allow_html=True)
+            segment_data = {
+                '세그먼트': ['Light Browser', 'Deep Specialist', 'Variety Seeker'],
+                'SQL 조건': ['Items ≤ 2', 'Items > 2, Category = 1', 'Categories ≥ 2'],
+                '비중': ['2.4%', '39.5%', '58.1%'],
+                'CVR': ['5.45%', '2.55%', '13.02%'],
+                '특성': ['탐색 의도 미발현', '선택의 역설 취약', 'Cross-selling 최적']
+            }
+            st.dataframe(pd.DataFrame(segment_data), use_container_width=True, hide_index=True)
             
             st.markdown("""
             <div class="methodology-box">
-            <strong>💡 분류 기준의 근거</strong><br><br>
-            • <strong>전제 조건</strong>: total_items_viewed > 0<br>
-            &nbsp;&nbsp;(view_item 이벤트가 없는 세션 제외)<br>
-            • <strong>Items ≤ 2</strong>: 최소 탐색 행동 기준<br>
-            • <strong>Category = 1</strong>: 단일 니즈 집중 vs 복수 관심<br>
-            • 백분위 분석 (P25, P75) 으로 구간 설정
+            <strong>💡 핵심 발견</strong><br><br>
+            • <strong>Variety Seeker</strong>: 전환율 <strong>13.02%</strong> (가장 높음)<br>
+            • <strong>Deep Specialist</strong>: 전환율 <strong>2.55%</strong> (결정 마비)<br>
+            • 차이: <strong>5.1배</strong> (통계적으로 유의미)
             </div>
             """, unsafe_allow_html=True)
         
-        st.markdown("""
-        ```sql
-        -- int_browsing_style.sql 세그먼트 분류 로직
-        -- 전제: total_items_viewed > 0 (view_item 이벤트가 있는 세션만 대상)
-        
-        CASE
-            WHEN total_items_viewed <= 2 
-                THEN 'Light Browser'
-            WHEN total_items_viewed > 2 AND distinct_categories_viewed = 1 
-                THEN 'Deep Specialist (한우물형)'
-            WHEN distinct_categories_viewed >= 2 
-                THEN 'Variety Seeker (다양성 추구형)'
-            ELSE 'Others'
-        END AS browsing_style
-        ```
-        """)
-    
-    with tab3:
-        # 브라우징 스타일 분석
-        st.markdown("### 1️⃣ 브라우징 스타일별 전환율 분석")
-    
-    if 'browsing_style' in data:
-        df = data['browsing_style']
-        
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            # 신뢰구간 포함 차트
-            fig = go.Figure()
+        # 브라우징 스타일별 전환율 차트
+        if 'browsing_style' in data:
+            df = data['browsing_style']
             
-            colors = ['#3498db', '#e74c3c', '#95a5a6']
+            st.markdown("---")
+            st.markdown("### 📊 세그먼트별 전환율 비교")
             
-            for i, row in df.iterrows():
-                # 신뢰구간 계산 (실제 데이터 기반)
-                sessions = row['session_count']
-                cvr = row['conversion_rate']
-                conversions = int(sessions * cvr / 100)
+            col1, col2 = st.columns([1.5, 1])
+            
+            with col1:
+                fig = go.Figure()
+                colors = ['#27ae60', '#e74c3c', '#95a5a6']
                 
-                rate, ci_low, ci_high = calculate_confidence_interval(conversions, sessions)
+                for i, row in df.iterrows():
+                    sessions = row['session_count']
+                    cvr = row['conversion_rate']
+                    conversions = int(sessions * cvr / 100)
+                    
+                    rate, ci_low, ci_high = calculate_confidence_interval(conversions, sessions)
+                    
+                    fig.add_trace(go.Bar(
+                        name=row['browsing_style'],
+                        x=[row['browsing_style']],
+                        y=[cvr],
+                        marker_color=colors[i],
+                        error_y=dict(
+                            type='data',
+                            symmetric=False,
+                            array=[ci_high - cvr],
+                            arrayminus=[cvr - ci_low],
+                            color='black',
+                            thickness=2,
+                            width=6
+                        ),
+                        text=f"{cvr:.2f}%",
+                        textposition='outside'
+                    ))
+                
+                fig.update_layout(
+                    title="세그먼트별 전환율 (95% 신뢰구간)",
+                    xaxis_title="세그먼트",
+                    yaxis_title="전환율 (%)",
+                    showlegend=False,
+                    height=400
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+            
+            with col2:
+                variety = df[df['browsing_style'].str.contains('Variety')]
+                deep = df[df['browsing_style'].str.contains('Deep')]
+                
+                if len(variety) > 0 and len(deep) > 0:
+                    v_cvr = variety['conversion_rate'].values[0]
+                    d_cvr = deep['conversion_rate'].values[0]
+                    
+                    st.markdown(f"""
+                    <div class="stat-significant">
+                    <strong>통계적 유의성 검정</strong><br><br>
+                    • Variety: {v_cvr:.2f}% vs Deep: {d_cvr:.2f}%<br>
+                    • <strong>χ² 검정 p-value: 0.001 미만</strong> ✅<br>
+                    • Cohen's h = 0.42 (중간 효과)<br><br>
+                    <em>→ 유의미한 차이 확인</em>
+                    </div>
+                    """, unsafe_allow_html=True)
+    
+    with tab2:
+        st.markdown("### 🔴 Deep Specialist 결정 마비 분석")
+        
+        st.markdown("""
+        **핵심 문제**: 한 카테고리 내에서 12-24개 상품을 조회하는 구간에서 전환율이 급락
+        """)
+        
+        if 'deep_specialists' in data:
+            df_deep = data['deep_specialists']
+            
+            col1, col2 = st.columns([1.5, 1])
+            
+            with col1:
+                fig = go.Figure()
+                
+                colors = ['#27ae60' if r['conversion_rate'] > 3 else '#f39c12' if r['conversion_rate'] > 2 else '#e74c3c' 
+                          for _, r in df_deep.iterrows()]
                 
                 fig.add_trace(go.Bar(
-                    name=row['browsing_style'],
-                    x=[row['browsing_style']],
-                    y=[cvr],
-                    marker_color=colors[i],
-                    error_y=dict(
-                        type='data',
-                        symmetric=False,
-                        array=[ci_high - cvr],
-                        arrayminus=[cvr - ci_low],
-                        color='black',
-                        thickness=2,
-                        width=6
-                    ),
-                    text=f"{cvr:.2f}%<br>n={sessions:,}",
+                    x=df_deep['view_bucket'],
+                    y=df_deep['conversion_rate'],
+                    marker_color=colors,
+                    text=df_deep['conversion_rate'].apply(lambda x: f'{x:.2f}%'),
                     textposition='outside'
                 ))
+                
+                fig.update_layout(
+                    title="상품 조회 구간별 전환율",
+                    xaxis_title="상품 조회 수",
+                    yaxis_title="전환율 (%)",
+                    height=400
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
             
-            fig.update_layout(
-                title="브라우징 스타일별 전환율 (95% 신뢰구간)",
-                xaxis_title="브라우징 스타일",
-                yaxis_title="전환율 (%)",
-                showlegend=False,
-                height=600
-            )
-            
-            st.plotly_chart(fig, use_container_width=True)
+            with col2:
+                st.markdown("""
+                <div class="critical-box">
+                <strong>🚨 결정 마비 구간</strong><br><br>
+                <strong>12-24개 조회 구간</strong><br>
+                • 전환율: <strong>1.88%</strong><br>
+                • 세션 비중: <strong>81.4%</strong><br>
+                • 대다수가 이 구간에서 이탈<br><br>
+                
+                <strong>통계 검정 결과</strong><br>
+                • χ² = 156.3, p 값 0.001 미만
+                </div>
+                """, unsafe_allow_html=True)
+                
+                st.markdown("""
+                <div class="success-box">
+                <strong>💡 액션 플랜</strong><br><br>
+                1. 10개+ 조회 시 <strong>비교표</strong> 자동 제공<br>
+                2. 15개+ 조회 시 <strong>한정 쿠폰</strong> 트리거<br>
+                3. <strong>"Best for You"</strong> 추천 강조
+                </div>
+                """, unsafe_allow_html=True)
+    
+    with tab3:
+        st.markdown("### 🟢 Variety Seeker VIP 세그먼트")
         
-        with col2:
-            st.markdown("#### 📊 통계적 유의성 검정")
+        st.markdown("""
+        **핵심 발견**: 다양한 카테고리를 탐색하는 유저가 전환율 13.02%로 가장 높음
+        """)
+        
+        if 'variety_seekers' in data:
+            df_variety = data['variety_seekers']
             
-            # Variety Seeker vs Deep Specialist 비교
-            variety = df[df['browsing_style'].str.contains('Variety')]
-            deep = df[df['browsing_style'].str.contains('Deep')]
+            col1, col2 = st.columns([1.5, 1])
             
-            if len(variety) > 0 and len(deep) > 0:
-                v_sessions = variety['session_count'].values[0]
-                v_cvr = variety['conversion_rate'].values[0]
-                v_conv = int(v_sessions * v_cvr / 100)
+            with col1:
+                fig = go.Figure()
                 
-                d_sessions = deep['session_count'].values[0]
-                d_cvr = deep['conversion_rate'].values[0]
-                d_conv = int(d_sessions * d_cvr / 100)
+                fig.add_trace(go.Scatter(
+                    x=df_variety['items_bucket'],
+                    y=df_variety['conversion_rate'],
+                    mode='lines+markers',
+                    marker=dict(size=12, color='#27ae60'),
+                    line=dict(color='#27ae60', width=3),
+                    text=df_variety['conversion_rate'].apply(lambda x: f'{x:.1f}%'),
+                    textposition='top center'
+                ))
                 
-                chi2, p_value = chi_square_test(v_conv, v_sessions, d_conv, d_sessions)
-                cohens_h = effect_size_cohens_h(v_cvr/100, d_cvr/100)
+                fig.update_layout(
+                    title="Variety Seeker 조회 구간별 전환율",
+                    xaxis_title="상품 조회 수",
+                    yaxis_title="전환율 (%)",
+                    height=400
+                )
                 
-                st.markdown(f"""
-                <div class="stat-significant">
-                <strong>Variety Seeker vs Deep Specialist</strong><br><br>
-                • 전환율 차이: {v_cvr:.2f}% vs {d_cvr:.2f}%<br>
-                • <strong>χ² = {chi2:.2f}</strong><br>
-                • <strong>p-value: 0.001 미만</strong> ✅<br>
-                • Cohen's h = {cohens_h:.3f} (중간 효과)<br><br>
-                <em>→ 통계적으로 유의미한 차이</em>
+                st.plotly_chart(fig, use_container_width=True)
+            
+            with col2:
+                st.markdown("""
+                <div class="success-box">
+                <strong>⭐ VIP 세그먼트 발견</strong><br><br>
+                <strong>Heavy Seeker (37-84개)</strong><br>
+                • 전환율: <strong>32.2%</strong><br>
+                • 평균 카테고리: 6.4개<br>
+                • 세션 비중: 24.8%<br><br>
+                
+                <strong>vs Light Seeker</strong><br>
+                • 전환율 차이: 8.0x<br>
+                • Cohen's h = 0.72 (대형 효과)
                 </div>
                 """, unsafe_allow_html=True)
                 
                 st.markdown("""
                 <div class="insight-box">
-                <strong>💡 해석</strong><br><br>
-                • 효과 크기 0.2~0.5: 중간 수준<br>
-                • 실무적으로 의미 있는 차이<br>
-                • 세그먼트별 차별화 전략 유효
+                <strong>💡 타겟팅 전략</strong><br><br>
+                • 크로스셀링 최적 타겟<br>
+                • 개인화 추천 강화<br>
+                • VIP 전용 혜택 제공
                 </div>
                 """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # Deep Specialist 심층 분석
-    st.markdown("### 2️⃣ Deep Specialist 결정 마비 구간 분석")
-    
-    # 구간 설정 근거 설명
-    with st.expander("📐 구간 설정 근거 (Quantile-based Segmentation)"):
-        st.markdown("""
-        **Deep Specialist 그룹의 조회수 분포 분석 결과:**
-        
-        | 백분위 | 조회수 | 의미 |
-        |:-------|:-------|:-----|
-        | P25 (25분위) | **12회** | 하위 25%의 최대값 |
-        | P50 (중앙값) | **18회** | 전체의 중간값 |
-        | P75 (75분위) | **24회** | 상위 25%의 시작점 |
-        | P90 (90분위) | **36회** | 극소수 헤비 유저 |
-        
-        **IQR (Interquartile Range: 12-24회)** 구간에 대다수의 유저 (81.4%) 가 집중되어 있음에도 
-        불구하고 전환율이 최저점을 기록하는 현상을 발견했습니다.
-        
-        이를 **'집중 비교 구간의 병목 (Decision Paralysis Zone)'** 으로 정의하고, 
-        해당 구간에 진입한 유저에게 의사결정 보조 도구 (비교표, 추천) 를 제공하는 전략을 수립했습니다.
-        """)
-        
-        st.code("""
--- mart_deep_specialists.sql 구간 분류 로직
--- P25(12), P75(24), P90(36) 기준으로 구간화
 
-SELECT
-    CASE
-        WHEN total_items_viewed < 12 THEN '1. 탐색 초기 (3-11개)'
-        WHEN total_items_viewed BETWEEN 12 AND 24 THEN '2. 집중 비교 (12-24개)'
-        WHEN total_items_viewed BETWEEN 25 AND 36 THEN '3. 고민 심화 (25-36개)'
-        WHEN total_items_viewed > 36 THEN '4. 결정 마비 (37개 이상)'
-    END AS depth_segment,
-    
-    COUNT(session_unique_id) AS session_count,
-    ROUND(AVG(is_converted) * 100, 2) AS conversion_rate
-    
-FROM int_browsing_style
-WHERE browsing_style = 'Deep Specialist (한우물형)'
-GROUP BY 1
-        """, language="sql")
-    
-    if 'deep_specialists' in data:
-        df_deep = data['deep_specialists']
-        
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            fig = make_subplots(specs=[[{"secondary_y": True}]])
-            
-            # 전환율 바
-            colors = ['#27ae60', '#e74c3c', '#f39c12', '#f39c12']
-            
-            fig.add_trace(
-                go.Bar(
-                    x=df_deep['depth_segment'],
-                    y=df_deep['conversion_rate'],
-                    name='전환율',
-                    marker_color=colors,
-                    text=df_deep.apply(lambda x: f"{x['conversion_rate']:.2f}%<br>n={x['session_count']:,}", axis=1),
-                    textposition='outside'
-                ),
-                secondary_y=False
-            )
-            
-            # 세션 비중 라인
-            fig.add_trace(
-                go.Scatter(
-                    x=df_deep['depth_segment'],
-                    y=df_deep['share_percent'],
-                    name='세션 비중 (%)',
-                    mode='lines+markers+text',
-                    marker=dict(size=12, color='#3498db'),
-                    line=dict(width=3),
-                    text=df_deep['share_percent'].apply(lambda x: f'{x:.1f}%'),
-                    textposition='top center'
-                ),
-                secondary_y=True
-            )
-            
-            fig.update_layout(
-                title="Deep Specialist: 조회 구간별 전환율 vs 세션 비중",
-                height=600,
-                legend=dict(orientation='h', yanchor='bottom', y=1.02)
-            )
-            fig.update_yaxes(title_text="전환율 (%)", secondary_y=False)
-            fig.update_yaxes(title_text="세션 비중 (%)", secondary_y=True, range=[0, 100])
-            
-            st.plotly_chart(fig, use_container_width=True)
-        
-        with col2:
-            st.markdown("""
-            <div class="critical-box">
-            <strong>🚨 Critical Finding</strong><br><br>
-            <strong>12-24개 조회 구간</strong><br>
-            • 전환율: <strong>1.88%</strong> (급락)<br>
-            • 세션 비중: <strong>81.4%</strong><br>
-            • 대다수가 이 구간에서 이탈<br><br>
-            
-            <strong>통계 검정 결과</strong><br>
-            • χ² = 156.3<br>
-            • p 값: 0.001 미만 ✅<br>
-            • 다른 구간 대비 유의미하게 낮음
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.markdown("""
-            <div class="success-box">
-            <strong>💡 액션 아이템</strong><br><br>
-            1. 10개+ 조회 시 <strong>비교표</strong> 자동 제공<br>
-            2. 15개+ 조회 시 <strong>한정 쿠폰</strong> 트리거<br>
-            3. "인기 상품 TOP 3" 추천<br><br>
-            <em>KPI: 3-11개 구간 수준(5.26%) 달성</em>
-            </div>
-            """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # Variety Seeker 분석
-    st.markdown("### 3️⃣ Variety Seeker VIP 세그먼트 발견")
-    
-    if 'variety_seekers' in data:
-        df_var = data['variety_seekers']
-        
-        col1, col2 = st.columns([2, 1])
-        
-        with col1:
-            fig = px.scatter(
-                df_var,
-                x='avg_total_views',
-                y='conversion_rate',
-                size='session_count',
-                color='intensity_segment',
-                text='intensity_segment',
-                color_discrete_sequence=['#bdc3c7', '#f1c40f', '#e67e22', '#27ae60'],
-                size_max=60
-            )
-            
-            fig.update_traces(textposition='top center')
-            fig.update_layout(
-                title='Variety Seeker: 조회량 vs 전환율 (버블 크기 = 세션 수)',
-                xaxis_title='평균 상품 조회수',
-                yaxis_title='전환율 (%)',
-                height=600
-            )
-            
-            st.plotly_chart(fig, use_container_width=True)
-        
-        with col2:
-            st.markdown("""
-            <div class="success-box">
-            <strong>⭐ VIP 세그먼트 발견</strong><br><br>
-            <strong>Super Heavy Seeker</strong><br>
-            (85개+ 상품 조회)<br><br>
-            • 전환율: <strong>31.53%</strong><br>
-            • 평균 카테고리: 6.4개<br>
-            • 세션 비중: 24.8%<br><br>
-            
-            <strong>vs Light Seeker</strong><br>
-            • 전환율 차이: 8.0x<br>
-            • χ² = 892.4, p 값 0.001 미만<br>
-            • Cohen's h = 0.72 (대형 효과)
-            </div>
-            """, unsafe_allow_html=True)
-            
-            st.markdown("""
-            <div class="insight-box">
-            <strong>💡 타겟팅 전략</strong><br><br>
-            • 크로스셀링 최적 타겟<br>
-            • 개인화 추천 강화<br>
-            • VIP 전용 혜택 제공<br><br>
-            <em>예상 LTV 증가: +15%</em>
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # 상세 테이블
-        st.dataframe(
-            df_var.style.format({
-                'share_percent': '{:.1f}%',
-                'avg_total_views': '{:.1f}',
-                'avg_categories': '{:.1f}',
-                'conversion_rate': '{:.2f}%'
-            }).background_gradient(subset=['conversion_rate'], cmap='Greens'),
-            use_container_width=True,
-            hide_index=True
-        )
-
-# ----- 4. 전환 퍼널 분석 -----
-elif page == "4️⃣ 문제1: 결정 마비":
-    st.header("4️⃣ 문제1: Deep Specialist 결정 마비")
-    
-    # 실제 데이터 로드
-    if 'funnel_overall' in data and 'funnel_dropoff' in data:
-        df_overall = data['funnel_overall']
-        df_dropoff = data['funnel_dropoff']
-        
-        # 핵심 지표 표시
-        total_sessions = int(df_overall['total_sessions'].values[0])
-        total_purchases = int(df_overall['step5_purchase'].values[0])
-        overall_cvr = float(df_overall['pct_purchase'].values[0])
-        
-        col1, col2, col3, col4 = st.columns(4)
-        with col1:
-            st.metric("총 세션", f"{total_sessions:,}")
-        with col2:
-            st.metric("상품 조회", f"{int(df_overall['step1_view_item'].values[0]):,}", 
-                     f"{df_overall['pct_view'].values[0]}%")
-        with col3:
-            st.metric("장바구니", f"{int(df_overall['step2_add_to_cart'].values[0]):,}", 
-                     f"{df_overall['pct_cart'].values[0]}%")
-        with col4:
-            st.metric("구매 완료", f"{total_purchases:,}", f"{overall_cvr}%")
-        
-        # 퍼센트 의미 설명
-        st.markdown("""
-        <div style="background-color: #f8f9fa; padding: 12px 16px; border-radius: 8px; margin: 10px 0; font-size: 0.85rem; color: #666;">
-        📌 <strong>퍼센트 해석</strong>: 모든 비율은 <strong>총 세션({:,}) 대비 전환율</strong>입니다.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;• 상품 조회 {}% = {:,} / {:,}<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;• 장바구니 {}% = {:,} / {:,}<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;• 구매 완료 {}% = {:,} / {:,}
-        </div>
-        """.format(
-            total_sessions,
-            df_overall['pct_view'].values[0], int(df_overall['step1_view_item'].values[0]), total_sessions,
-            df_overall['pct_cart'].values[0], int(df_overall['step2_add_to_cart'].values[0]), total_sessions,
-            overall_cvr, total_purchases, total_sessions
-        ), unsafe_allow_html=True)
-        
-        st.markdown("---")
-        
-        # 퍼널 차트
-        st.markdown("### 📊 전환 퍼널 시각화")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            # Funnel 차트 (실제 데이터)
-            funnel_stages = ['세션 시작', '상품 조회', '장바구니 추가', '결제 시작', '결제 정보', '구매 완료']
-            funnel_values = [
-                total_sessions,
-                int(df_overall['step1_view_item'].values[0]),
-                int(df_overall['step2_add_to_cart'].values[0]),
-                int(df_overall['step3_begin_checkout'].values[0]),
-                int(df_overall['step4_add_payment_info'].values[0]),
-                total_purchases
-            ]
-            
-            fig_funnel = go.Figure(go.Funnel(
-                y=funnel_stages,
-                x=funnel_values,
-                textposition="inside",
-                textinfo="value+percent initial",
-                opacity=0.85,
-                marker=dict(
-                    color=['#3498db', '#2980b9', '#f39c12', '#e74c3c', '#c0392b', '#27ae60'],
-                    line=dict(width=2, color='white')
-                ),
-                connector=dict(line=dict(color="royalblue", dash="dot", width=2))
-            ))
-            
-            fig_funnel.update_layout(
-                title="전환 퍼널 (전체 세션 기준)",
-                height=600
-            )
-            
-            st.plotly_chart(fig_funnel, use_container_width=True)
-        
-        with col2:
-            # 이탈률 바 차트 (실제 데이터)
-            fig_drop = go.Figure(go.Bar(
-                x=df_dropoff['step'],
-                y=df_dropoff['drop_rate'],
-                marker_color=['#f39c12', '#e74c3c', '#e74c3c', '#f39c12', '#f39c12'],
-                text=df_dropoff['drop_rate'].apply(lambda x: f'{x}%'),
-                textposition='outside'
-            ))
-            
-            fig_drop.update_layout(
-                title="단계별 이탈률 (낮을수록 좋음)",
-                xaxis_title="",
-                yaxis_title="이탈률 (%)",
-                height=600,
-                xaxis_tickangle=-25
-            )
-            
-            st.plotly_chart(fig_drop, use_container_width=True)
-        
-        # 이탈률 상세 테이블
-        st.markdown("### 📉 단계별 이탈 상세")
-        
-        df_dropoff_display = df_dropoff.copy()
-        df_dropoff_display['dropped'] = df_dropoff_display['from_count'] - df_dropoff_display['to_count']
-        df_dropoff_display['conversion_rate'] = 100 - df_dropoff_display['drop_rate']
-        df_dropoff_display.columns = ['순서', '단계', '이전 단계', '다음 단계', '이탈률(%)', '이탈 수', '전환율(%)']
-        
-        st.dataframe(df_dropoff_display, use_container_width=True, hide_index=True)
-        
-        st.markdown("---")
-        
-        # 병목 지점 분석
-        st.markdown("### 🔍 핵심 병목 지점 분석")
-        
-        # 가장 이탈률 높은 단계 찾기
-        max_drop_idx = df_dropoff['drop_rate'].idxmax()
-        max_drop_step = df_dropoff.loc[max_drop_idx, 'step']
-        max_drop_rate = df_dropoff.loc[max_drop_idx, 'drop_rate']
-        max_drop_count = df_dropoff.loc[max_drop_idx, 'from_count'] - df_dropoff.loc[max_drop_idx, 'to_count']
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown(f"""
-            <div class="critical-box">
-            <strong>🚨 1순위 병목: {max_drop_step}</strong><br><br>
-            
-            • 이탈률: <strong>{max_drop_rate}%</strong><br>
-            • 이탈 세션: <strong>{max_drop_count:,}건</strong><br><br>
-            
-            <strong>가능한 원인:</strong><br>
-            • 상품 상세 정보 부족<br>
-            • 가격 대비 가치 불명확<br>
-            • 배송비/배송 기간 우려<br>
-            • 리뷰/평점 부재<br><br>
-            
-            <strong>개선 방안:</strong><br>
-            1. 상품 상세 페이지 UX 강화<br>
-            2. 배송 정보 명확화<br>
-            3. 소셜 프루프 (리뷰, 구매 수) 노출
-            </div>
-            """, unsafe_allow_html=True)
-        
-        with col2:
-            # 두 번째 병목
-            second_drop = df_dropoff.nlargest(2, 'drop_rate').iloc[1]
-            st.markdown(f"""
-            <div class="warning-box">
-            <strong>⚠️ 2순위 병목: {second_drop['step']}</strong><br><br>
-            
-            • 이탈률: <strong>{second_drop['drop_rate']}%</strong><br>
-            • 이탈 세션: <strong>{int(second_drop['from_count'] - second_drop['to_count']):,}건</strong><br><br>
-            
-            <strong>가능한 원인:</strong><br>
-            • 결제 프로세스 복잡<br>
-            • 회원가입 강제<br>
-            • 결제 수단 제한<br><br>
-            
-            <strong>개선 방안:</strong><br>
-            1. 게스트 결제 허용<br>
-            2. 원클릭 결제 도입<br>
-            3. 장바구니 리마케팅 자동화
-            </div>
-            """, unsafe_allow_html=True)
-    
 # ----- 6. 이탈 & 기회 분석 -----
-elif page == "5️⃣ 문제2: 장바구니 이탈":
-    st.header("5️⃣ 문제2: 장바구니 이탈 & 프로모션")
+elif page == "🛒 장바구니 & 프로모션":
+    st.header("🛒 장바구니 & 프로모션 분석")
     
     tab1, tab2 = st.tabs(["🛒 장바구니 이탈", "📢 프로모션 품질"])
     
@@ -1701,8 +1558,8 @@ END AS promo_status
                 """, unsafe_allow_html=True)
 
 # ----- 7. 액션 우선순위 -----
-elif page == "6️⃣ 해결책 & 액션플랜":
-    st.header("6️⃣ 해결책: 액션 플랜 & 우선순위")
+elif page == "📋 액션 플랜":
+    st.header("📋 액션 플랜")
     
     st.markdown("""
     > 📌 **분석가 노트**: 분석 결과를 실행 가능한 액션으로 전환하고, Impact-Effort 기준으로 우선순위를 정합니다.
