@@ -1,0 +1,33 @@
+# 1. 보안/인증 정보 (가장 중요! 절대 올리면 안 됨)
+*.json
+!dbt_project.yml
+!package.json
+dbt-key.json
+profiles.yml
+secrets/
+.env
+
+# 2. dbt 빌드 아티팩트 (자동 생성되는 파일들)
+target/
+dbt_packages/
+dbt_modules/
+logs/
+
+# 3. Python 가상환경 및 캐시
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# 4. OS 및 IDE 설정 파일
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# 5. 데이터 파일 (Seed 제외한 대용량 추출 파일 등)
+# seeds 폴더의 csv는 올려야 하므로 제외하지 않음
+*.csv
+!seeds/*.csv
