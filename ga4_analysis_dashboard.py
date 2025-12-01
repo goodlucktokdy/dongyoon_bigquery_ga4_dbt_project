@@ -1174,10 +1174,7 @@ GROUP BY 1
             # Rain Shell 이상치 제거
             df_cart = df_cart_raw[~df_cart_raw['item_name'].str.contains('Rain Shell', case=False, na=False)].copy()
             
-            # 제거 후 상위 15개
-            df_cart = df_cart.head(15).copy()
-            
-            # 핵심 지표 계산
+            # 핵심 지표 계산 (전체 데이터 사용)
             total_loss = df_cart['total_lost_revenue'].sum()
             total_abandon = df_cart['abandoned_session_count'].sum() if 'abandoned_session_count' in df_cart.columns else 0
             
@@ -1213,7 +1210,7 @@ GROUP BY 1
             
             with col1:
                 st.metric("총 이탈 손실", f"${total_loss/1000:.0f}K", 
-                         help="상위 15개 상품 (Rain Shell 제외)")
+                         help="Rain Shell 이상치 제외")
             with col2:
                 st.metric("총 이탈 건수", f"{total_abandon:,}건",
                          help="장바구니 담고 미구매")
