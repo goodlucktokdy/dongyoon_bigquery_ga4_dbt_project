@@ -1237,6 +1237,29 @@ GROUP BY 1
             apparel_avg = apparel_loss / apparel_count if apparel_count > 0 else 0
             apparel_pct_count = apparel_count / total_abandon * 100 if total_abandon > 0 else 0
             
+            # 카테고리별 상위 상품 추출
+            bags_items = df_cart[df_cart['main_category'] == 'Bags'].nlargest(2, 'abandoned_session_count')
+            apparel_items = df_cart[df_cart['main_category'] == 'Apparel'].nlargest(2, 'abandoned_session_count')
+            
+            # Bags 상위 상품 텍스트 생성
+            bags_top_text = ""
+            for _, row in bags_items.iterrows():
+                item_short = row['item_name'].replace('Google ', '')[:25]
+                item_count = int(row['abandoned_session_count'])
+                item_avg = int(row['avg_lost_value']) if 'avg_lost_value' in row else int(row['total_lost_revenue'] / row['abandoned_session_count'])
+                bags_top_text += f"• {item_short}: {item_count:,}건, ${item_avg}/건<br>"
+            if not bags_top_text:
+                bags_top_text = "• 데이터 없음<br>"
+            
+            # Apparel 상위 상품 텍스트 생성
+            apparel_top_text = ""
+            for _, row in apparel_items.iterrows():
+                item_short = row['item_name'].replace('Google ', '')[:25]
+                item_count = int(row['abandoned_session_count'])
+                apparel_top_text += f"• {item_short}: {item_count:,}건<br>"
+            if not apparel_top_text:
+                apparel_top_text = "• 데이터 없음<br>"
+            
             col1, col2 = st.columns(2)
             
             with col1:
@@ -1250,8 +1273,7 @@ GROUP BY 1
                 • 손실 금액: <strong>${bags_loss_k}K</strong> (전체의 {bags_pct:.0f}%)<br>
                 • 건당 평균 손실: <strong>${bags_avg_int}</strong><br><br>
                 <strong>상위 상품:</strong><br>
-                • Utility BackPack: 316건, $371/건<br>
-                • Flat Front Bag: 437건, $71/건<br><br>
+                {bags_top_text}<br>
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>분할결제</strong> 3/6개월 옵션<br>
                 2. <strong>가격 보장</strong> 배지 표시<br>
@@ -1270,8 +1292,7 @@ GROUP BY 1
                 • 손실 금액: <strong>${apparel_loss_k}K</strong><br>
                 • 건당 평균 손실: <strong>${apparel_avg_int}</strong><br><br>
                 <strong>상위 상품:</strong><br>
-                • Heathered Pom Beanie: 1,742건<br>
-                • Super G Unisex Joggers: 1,731건<br><br>
+                {apparel_top_text}<br>
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>Guest Checkout</strong> 원클릭 결제<br>
                 2. <strong>리마인더 이메일</strong> 1h/24h/72h<br>
@@ -2347,6 +2368,6 @@ st.markdown("""
 <div style="text-align: center; color: #666; font-size: 0.85rem;">
     <strong>GA4 이커머스 전환 최적화 분석</strong><br>
     Built with Python, dbt, BigQuery, Streamlit<br>
-    <em>데이터: ga4_obfuscated_sample_ecommerce</em>
+    <em>분석 기간: 2020.12.01 ~ 12.31 | 데이터: ga4_obfuscated_sample_ecommerce</em>
 </div>
 """, unsafe_allow_html=True)
