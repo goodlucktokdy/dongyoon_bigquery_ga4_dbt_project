@@ -377,7 +377,7 @@ if page == "🏠 Executive Summary":
         st.markdown("""
         ### 시뮬레이션 가정 명세
         
-        ROI 추정치는 **업계 벤치마크(Industry Benchmark)**와 **보수적/공격적 시나리오**를 기반으로 산출했습니다.
+        ROI 추정치는 <strong>업계 벤치마크(Industry Benchmark)</strong>와 <strong>보수적/공격적 시나리오</strong>를 기반으로 산출했습니다.
         
         #### 1. 장바구니 리마케팅 회수율 (5%)
         
@@ -388,7 +388,7 @@ if page == "🏠 Executive Summary":
         | 전환율 (CVR) | 10% | Barilliance 2023 Report |
         | **종합 회수율** | **0.8% ~ 2.0%** | 보수적 추정치 |
         
-        > 본 시뮬레이션은 **공격적 마케팅 시나리오(5%)**를 가정하여 최대 잠재력을 산출했습니다.
+        > 본 시뮬레이션은 <strong>공격적 마케팅 시나리오(5%)</strong>를 가정하여 최대 잠재력을 산출했습니다.
         > 보수적 시나리오(2%) 적용 시: $15.9K/월
         
         #### 2. Deep Specialist 비교표 효과 (+361건)
@@ -599,10 +599,10 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
         st.markdown("""
         ### 세그먼테이션 프레임워크
         
-        전체 유저를 획일적으로 분석하는 오류를 범하지 않기 위해, **행동 패턴(Behavioral Pattern)**에 기반한 세그먼트를 정의했습니다.
-        특히 **탐색 깊이(Depth: 상품 조회 수)**와 **탐색 넓이(Breadth: 카테고리 다양성)**를 두 축으로 활용하여 
+        전체 유저를 획일적으로 분석하는 오류를 범하지 않기 위해, <strong>행동 패턴(Behavioral Pattern)</strong>에 기반한 세그먼트를 정의했습니다.
+        특히 <strong>탐색 깊이(Depth: 상품 조회 수)</strong>와 <strong>탐색 넓이(Breadth: 카테고리 다양성)</strong>를 두 축으로 활용하여 
         유저의 쇼핑 의도(Intent)를 구조화했습니다.
-        """)
+        """, unsafe_allow_html=True)
         
         col1, col2 = st.columns([1, 1.2])
         
@@ -813,10 +813,10 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
         | P75 (75분위) | **24회** | 상위 25%의 시작점 |
         | P90 (90분위) | **36회** | 극소수 헤비 유저 |
         
-        **IQR(Interquartile Range: 12-24회)** 구간에 대다수의 유저(81.4%)가 집중되어 있음에도 
+        <strong>IQR(Interquartile Range: 12-24회)</strong> 구간에 대다수의 유저(81.4%)가 집중되어 있음에도 
         불구하고 전환율이 최저점을 기록하는 현상을 발견했습니다.
         
-        이를 **'집중 비교 구간의 병목(Decision Paralysis Zone)'**으로 정의하고, 
+        이를 <strong>'집중 비교 구간의 병목(Decision Paralysis Zone)'</strong>으로 정의하고, 
         해당 구간에 진입한 유저에게 의사결정 보조 도구(비교표, 추천)를 제공하는 전략을 수립했습니다.
         """)
         
@@ -1153,8 +1153,8 @@ elif page == "📈 전환 퍼널 분석":
         ### 핵심 인사이트
         
         > "High Intent 유저(Engagement Score 상위 20%)의 경우에도 모바일 전환율이 Desktop 대비 낮다면,
-        > 이는 **유저의 구매 의지 부족이 아니라 모바일 결제 환경의 구조적 불편함(UI/UX Friction)** 때문입니다."
-        """)
+        > 이는 <strong>유저의 구매 의지 부족이 아니라 모바일 결제 환경의 구조적 불편함(UI/UX Friction)</strong> 때문입니다."
+        """, unsafe_allow_html=True)
         
         st.code("""
 -- High Intent 유저 디바이스별 전환율
@@ -2374,9 +2374,9 @@ SELECT ROUND(cart_cv / base_cv, 1) as lift_cart
         st.markdown("""
         **"왜 $20가 Low이고 $50가 High인가요?"** 라는 질문에 대한 답변:
         
-        > 자의적 기준이 아니라, **상품 가격의 분포(Price Distribution)**를 분석하여 
-        > **백분위 기반 동적 티어링(Percentile-based Dynamic Tiering)**을 적용했습니다.
-        """)
+        > 자의적 기준이 아니라, <strong>상품 가격의 분포(Price Distribution)</strong>를 분석하여 
+        > <strong>백분위 기반 동적 티어링(Percentile-based Dynamic Tiering)</strong>을 적용했습니다.
+        """, unsafe_allow_html=True)
         
         st.code("""
 -- 가격 티어 분류 SQL (int_price_tier.sql)
