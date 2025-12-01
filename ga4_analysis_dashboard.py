@@ -198,11 +198,11 @@ else:
 page = st.sidebar.radio(
     "분석 섹션",
     ["🏠 Executive Summary",
-     "📊 데이터 개요 & 품질",
+     "📊 데이터 개요",
      "🔍 세그먼트 분석",
      "📈 전환 퍼널 분석",
      "📱 디바이스 & 시간 분석",
-     "🛒 이탈 & 기회 분석",
+     "🛒 장바구니 & 프로모션 분석",
      "🎯 액션 우선순위",
      "📐 방법론 & 한계점"]
 )
@@ -480,7 +480,7 @@ if page == "🏠 Executive Summary":
     st.info("💡 **검증 방법**: 각 액션은 A/B 테스트로 효과 검증 후 전체 적용 권장")
 
 # ----- 2. 데이터 개요 & 품질 -----
-elif page == "📊 데이터 개요 & 품질":
+elif page == "📊 데이터 개요":
     st.header("📊 데이터 개요 & 품질 리포트")
     
     
@@ -843,11 +843,11 @@ elif page == "🔍 세그먼트 분석":
         | P75 (75분위) | **24회** | 상위 25%의 시작점 |
         | P90 (90분위) | **36회** | 극소수 헤비 유저 |
         
-        <strong>IQR(Interquartile Range: 12-24회)</strong> 구간에 대다수의 유저(81.4%)가 집중되어 있음에도 
+        **IQR (Interquartile Range: 12-24회)** 구간에 대다수의 유저 (81.4%) 가 집중되어 있음에도 
         불구하고 전환율이 최저점을 기록하는 현상을 발견했습니다.
         
-        이를 <strong>'집중 비교 구간의 병목(Decision Paralysis Zone)'</strong>으로 정의하고, 
-        해당 구간에 진입한 유저에게 의사결정 보조 도구(비교표, 추천)를 제공하는 전략을 수립했습니다.
+        이를 **'집중 비교 구간의 병목 (Decision Paralysis Zone)'** 으로 정의하고, 
+        해당 구간에 진입한 유저에게 의사결정 보조 도구 (비교표, 추천) 를 제공하는 전략을 수립했습니다.
         """)
         
         st.code("""
@@ -1583,7 +1583,7 @@ elif page == "📱 디바이스 & 시간 분석":
                 """, unsafe_allow_html=True)
 
 # ----- 6. 이탈 & 기회 분석 -----
-elif page == "🛒 이탈 & 기회 분석":
+elif page == "🛒 장바구니 & 프로모션 분석":
     st.header("🛒 장바구니 이탈 & 📢 프로모션 기회 분석")
     
     tab1, tab2 = st.tabs(["🛒 장바구니 이탈", "📢 프로모션 품질"])
@@ -1852,20 +1852,26 @@ elif page == "🛒 이탈 & 기회 분석":
         if 'promo_quality' in data:
             df_promo = data['promo_quality']
             
+            # CVR을 텍스트에 포함
+            df_promo['label'] = df_promo.apply(
+                lambda x: f"{x['promotion_name']}<br>CVR: {x['promo_cvr']:.1f}%", axis=1
+            )
+            
             fig = px.scatter(
                 df_promo,
                 x='ctr_percent',
                 y='avg_session_score',
                 size='click_sessions',
                 color='promo_status',
-                text='promotion_name',
+                text='label',
                 color_discrete_map={
                     'Star (확대)': '#27ae60',
                     'Hidden Gem (숨은 보석)': '#f39c12',
                     'Clickbait (낚시성)': '#e74c3c',
                     'Poor (제거 대상)': '#95a5a6'
                 },
-                size_max=50
+                size_max=50,
+                hover_data={'promo_cvr': ':.2f'}
             )
             
             # 기준선
@@ -1878,13 +1884,27 @@ elif page == "🛒 이탈 & 기회 분석":
             
             fig.update_traces(textposition='top center')
             fig.update_layout(
-                title='프로모션 4분면 분석 (CTR vs 유저 품질)',
+                title='프로모션 4분면 분석 (CTR vs 유저 품질) - CVR 표시',
                 xaxis_title='CTR (%) - 클릭률',
                 yaxis_title='평균 유저 Engagement Score',
                 height=600
             )
             
             st.plotly_chart(fig, use_container_width=True)
+            
+            # 프로모션별 CVR 테이블 추가
+            st.markdown("#### 📊 프로모션별 성과 요약")
+            promo_summary = df_promo[['promotion_name', 'ctr_percent', 'promo_cvr', 'click_sessions', 'promo_status']].copy()
+            promo_summary.columns = ['프로모션', 'CTR (%)', 'CVR (%)', '클릭 세션', '분류']
+            st.dataframe(
+                promo_summary.style.format({
+                    'CTR (%)': '{:.2f}',
+                    'CVR (%)': '{:.2f}',
+                    '클릭 세션': '{:,.0f}'
+                }).background_gradient(subset=['CVR (%)'], cmap='Greens'),
+                use_container_width=True,
+                hide_index=True
+            )
             
             # 4분면 설명
             with st.expander("📐 4분면 분류 기준 설명"):
