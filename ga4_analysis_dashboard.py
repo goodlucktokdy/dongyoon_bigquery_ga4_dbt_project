@@ -475,11 +475,9 @@ elif page == "📊 데이터 개요 & 품질":
         <strong>1. 시간적 한계</strong><br>
         • 12월 한 달 데이터 → 계절성 반영 안됨<br>
         • 홀리데이 시즌 특수성 존재<br><br>
-        
         <strong>2. 샘플 한계</strong><br>
         • 일부 세그먼트 샘플 크기 작음 (n<100)<br>
         • 60분+ 구매자: 102명 → 신뢰구간 넓음<br><br>
-        
         <strong>3. 데이터 특성</strong><br>
         • Obfuscated 데이터 (일부 값 마스킹)<br>
         • 단일 스토어 → 일반화 제한
@@ -608,8 +606,8 @@ elif page == "🔍 세그먼트 분석":
         st.markdown("""
         ### 세그먼테이션 프레임워크
         
-        전체 유저를 획일적으로 분석하는 오류를 범하지 않기 위해, <strong>행동 패턴(Behavioral Pattern)</strong>에 기반한 세그먼트를 정의했습니다.
-        특히 <strong>탐색 깊이(Depth: 상품 조회 수)</strong>와 <strong>탐색 넓이(Breadth: 카테고리 다양성)</strong>를 두 축으로 활용하여 
+        전체 유저를 획일적으로 분석하는 오류를 범하지 않기 위해, 행동 패턴(Behavioral Pattern)에 기반한 세그먼트를 정의했습니다.
+        특히 탐색 깊이(Depth: 상품 조회 수)와 탐색 넓이(Breadth: 카테고리 다양성)를 두 축으로 활용하여 
         유저의 쇼핑 의도(Intent)를 구조화했습니다.
         """, unsafe_allow_html=True)
         
@@ -822,10 +820,9 @@ elif page == "🔍 세그먼트 분석":
         | P75 (75분위) | **24회** | 상위 25%의 시작점 |
         | P90 (90분위) | **36회** | 극소수 헤비 유저 |
         
-        <strong>IQR(Interquartile Range: 12-24회)</strong> 구간에 대다수의 유저(81.4%)가 집중되어 있음에도 
+        IQR(Interquartile Range: 12-24회) 구간에 대다수의 유저(81.4%)가 집중되어 있음에도 
         불구하고 전환율이 최저점을 기록하는 현상을 발견했습니다.
-        
-        이를 <strong>'집중 비교 구간의 병목(Decision Paralysis Zone)'</strong>으로 정의하고, 
+        이를 '집중 비교 구간의 병목(Decision Paralysis Zone)'으로 정의하고, 
         해당 구간에 진입한 유저에게 의사결정 보조 도구(비교표, 추천)를 제공하는 전략을 수립했습니다.
         """)
         
@@ -896,14 +893,13 @@ WHERE browsing_style = 'Deep Specialist'
             • 전환율: <strong>1.88%</strong> (급락)<br>
             • 세션 비중: <strong>81.4%</strong><br>
             • 대다수가 이 구간에서 이탈<br><br>
-            
             <strong>통계 검정 결과</strong><br>
             • χ² = 156.3<br>
             • p < 0.001 ✅<br>
             • 다른 구간 대비 유의미하게 낮음
             </div>
             """, unsafe_allow_html=True)
-            
+        
             st.markdown("""
             <div class="success-box">
             <strong>💡 액션 아이템</strong><br><br>
@@ -955,7 +951,6 @@ WHERE browsing_style = 'Deep Specialist'
             • 전환율: <strong>31.53%</strong><br>
             • 평균 카테고리: 6.4개<br>
             • 세션 비중: 24.8%<br><br>
-            
             <strong>vs Light Seeker</strong><br>
             • 전환율 차이: 8.0x<br>
             • χ² = 892.4, p < 0.001<br>
@@ -1112,16 +1107,13 @@ elif page == "📈 전환 퍼널 분석":
             st.markdown(f"""
             <div class="critical-box">
             <strong>🚨 1순위 병목: {max_drop_step}</strong><br><br>
-            
             • 이탈률: <strong>{max_drop_rate}%</strong><br>
             • 이탈 세션: <strong>{max_drop_count:,}건</strong><br><br>
-            
             <strong>가능한 원인:</strong><br>
             • 상품 상세 정보 부족<br>
             • 가격 대비 가치 불명확<br>
             • 배송비/배송 기간 우려<br>
             • 리뷰/평점 부재<br><br>
-            
             <strong>개선 방안:</strong><br>
             1. 상품 상세 페이지 UX 강화<br>
             2. 배송 정보 명확화<br>
@@ -1135,15 +1127,12 @@ elif page == "📈 전환 퍼널 분석":
             st.markdown(f"""
             <div class="warning-box">
             <strong>⚠️ 2순위 병목: {second_drop['step']}</strong><br><br>
-            
             • 이탈률: <strong>{second_drop['drop_rate']}%</strong><br>
             • 이탈 세션: <strong>{int(second_drop['from_count'] - second_drop['to_count']):,}건</strong><br><br>
-            
             <strong>가능한 원인:</strong><br>
             • 결제 프로세스 복잡<br>
             • 회원가입 강제<br>
             • 결제 수단 제한<br><br>
-            
             <strong>개선 방안:</strong><br>
             1. 게스트 결제 허용<br>
             2. 원클릭 결제 도입<br>
@@ -1514,12 +1503,10 @@ elif page == "📱 디바이스 & 시간 분석":
                 <strong>⚠️ Tablet UX 개선 필요</strong><br><br>
                 • 효율지수: 90 (PC 대비 -10%)<br>
                 • High Intent 전환율: 22.7%<br><br>
-                
                 <strong>개선 방안:</strong><br>
                 • 반응형 레이아웃 최적화<br>
                 • 터치 영역 확대<br>
                 • 원클릭 결제 도입<br><br>
-                
                 <em>KPI: Tablet CVR 0.8% → 1.5%</em>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1589,10 +1576,8 @@ elif page == "📱 디바이스 & 시간 분석":
                 <div class="stat-significant">
                 <strong>📊 H4 가설 검증</strong><br><br>
                 구매 시간 ↑ = 객단가 ↑<br><br>
-                
                 • 상관계수: <strong>r = 0.89</strong><br>
                 • p-value < 0.001 ✅<br><br>
-                
                 <strong>AOV 비교:</strong><br>
                 • 0-5분: $241<br>
                 • 60분+: $1,847<br>
@@ -1709,10 +1694,8 @@ elif page == "🛒 이탈 & 기회 분석":
                 • Utility BackPack: 302건, <strong>$251/건</strong><br>
                 • Flat Front Bag: 306건, <strong>$64/건</strong><br>
                 • Super G Joggers: 154건, <strong>$38/건</strong><br><br>
-                
                 <strong>문제점:</strong><br>
                 건당 손실 높음 = 고가 상품에서 결제 직전 이탈<br><br>
-                
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>분할결제</strong> 3/6개월 옵션<br>
                 2. <strong>가격 보장</strong> 배지 표시<br>
@@ -1728,10 +1711,8 @@ elif page == "🛒 이탈 & 기회 분석":
                 • Heathered Pom Beanie: <strong>1,391건</strong>, $14/건<br>
                 • Zip Hoodie F/C: <strong>1,237건</strong>, $4/건<br>
                 • Navy Speckled Tee: <strong>1,248건</strong>, $2/건<br><br>
-                
                 <strong>문제점:</strong><br>
                 이탈 건수 많음 = 결제 과정 마찰 존재<br><br>
-                
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>Guest Checkout</strong> 원클릭 결제<br>
                 2. <strong>리마인더 이메일</strong> 1h/24h/72h<br>
@@ -1917,7 +1898,6 @@ elif page == "🛒 이탈 & 기회 분석":
                 • CTR: 2.56% (전체 최저)<br>
                 • 클릭 유저 Engagement: 400.2 (최고)<br>
                 • 클릭 유저 전환율: 4.63% (최고)<br><br>
-                
                 <strong>→ 배너 노출만 개선하면<br>
                 고품질 유저 유입 증가</strong>
                 </div>
@@ -2015,15 +1995,12 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="success-box">
         <strong>🚀 Phase 1: Quick Win (1-2주)</strong><br><br>
-        
         <strong>1. 장바구니 리마케팅</strong><br>
         • 1/24/72시간 이메일 자동화<br>
         • KPI: 장바구니 완료율 +10%<br><br>
-        
         <strong>2. Hidden Gem 프로모션 배너 A/B 테스트</strong><br>
         • 새 디자인/위치 테스트<br>
         • KPI: CTR 2.6% → 10%<br><br>
-        
         <strong>담당</strong>: 마케팅팀<br>
         <strong>검증</strong>: A/B 테스트 2주
         </div>
@@ -2033,15 +2010,12 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="warning-box">
         <strong>📊 Phase 2: 구조 개선 (1-2개월)</strong><br><br>
-        
         <strong>3. Deep Specialist 비교표</strong><br>
         • 10개+ 조회 시 트리거<br>
         • KPI: 12-24개 구간 CVR 1.88% → 3.5%<br><br>
-        
         <strong>4. VIP 세그먼트 타겟팅</strong><br>
         • Super Heavy 전용 혜택<br>
         • KPI: VIP 재구매율 측정<br><br>
-        
         <strong>담당</strong>: 개발팀 + CRM팀<br>
         <strong>검증</strong>: 코호트 분석
         </div>
@@ -2051,15 +2025,12 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="insight-box">
         <strong>🎯 Phase 3: 전략 과제 (3-6개월)</strong><br><br>
-        
         <strong>5. 실시간 세션 스코어링</strong><br>
         • ML 기반 구매 확률 예측<br>
         • KPI: 예측 정확도 80%+<br><br>
-        
         <strong>6. CDP 구축</strong><br>
         • 통합 고객 프로파일<br>
         • KPI: 크로스셀 전환율<br><br>
-        
         <strong>담당</strong>: 데이터팀 + IT팀<br>
         <strong>검증</strong>: 모델 성능 모니터링
         </div>
@@ -2338,7 +2309,6 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
             <strong>📈 결과 해석</strong><br><br>
             • χ² = <strong>722.27</strong><br>
             • p-value < <strong>0.001</strong> ✅<br><br>
-            
             <strong>의미:</strong><br>
             두 변수는 독립적이지 않음.<br>
             즉, <strong>"탐색 스타일이 구매 전환에<br>
@@ -2438,15 +2408,11 @@ def wilson_ci(successes, total, confidence=0.95):
             st.markdown("""
             <div class="success-box">
             <strong>📈 결과 해석</strong><br><br>
-            
             <strong>Variety Seeker</strong><br>
             95% CI: [12.5%, 13.6%]<br><br>
-            
             <strong>Deep Specialist</strong><br>
             95% CI: [2.2%, 2.9%]<br><br>
-            
             <strong>→ 신뢰구간이 전혀 겹치지 않음!</strong><br><br>
-            
             이는 데이터가 우연히 좋게 나온 게 아니라,<br>
             <strong>아무리 못해도 Specialist보다는<br>
             무조건 높다</strong>는 통계적 보증
@@ -2557,15 +2523,12 @@ CROSS JOIN price_quantiles
             st.markdown("""
             <div class="limitation-box">
             <strong>1. 데이터 한계</strong><br><br>
-            
             • <strong>시간적 제한</strong><br>
             12월 한 달 → 계절성 미반영<br>
             홀리데이 시즌 특수성<br><br>
-            
             • <strong>샘플 크기</strong><br>
             일부 세그먼트 n < 100<br>
             (60분+ 구매자: 102명)<br><br>
-            
             • <strong>데이터 특성</strong><br>
             Obfuscated 처리<br>
             단일 스토어 한정
@@ -2576,15 +2539,12 @@ CROSS JOIN price_quantiles
             st.markdown("""
             <div class="limitation-box">
             <strong>2. 분석 한계</strong><br><br>
-            
             • <strong>인과관계 vs 상관관계</strong><br>
             "조회 많으면 전환 높다"<br>
             → 역인과 가능성 존재<br><br>
-            
             • <strong>외부 요인 미통제</strong><br>
             광고 캠페인, 가격 변동 등<br>
             Confounding 가능<br><br>
-            
             • <strong>일반화 제한</strong><br>
             Google Store 특수성<br>
             다른 이커머스 적용 시 검증 필요
@@ -2623,16 +2583,12 @@ CROSS JOIN price_quantiles
         <div class="success-box">
         <strong>1. 가설 기반 분석</strong><br>
         단순 EDA가 아닌, 비즈니스 가설 → 통계 검증 → 액션 도출 구조<br><br>
-        
         <strong>2. 통계적 엄밀성</strong><br>
         χ² 검정, 효과 크기(Cohen's h), 신뢰구간 등 통계적 근거 제시<br><br>
-        
         <strong>3. 한계점 인지</strong><br>
         데이터/분석 한계를 정직하게 인정하고 향후 개선 방향 제시<br><br>
-        
         <strong>4. 데이터 기반 의사결정</strong><br>
         모든 액션에 구체적 데이터 근거 제시 (예: BackPack $251/건, Beanie 1,391건)<br><br>
-        
         <strong>5. 실행 가능성</strong><br>
         Impact-Effort 매트릭스로 우선순위화, 검증 가능한 KPI 설정
         </div>
