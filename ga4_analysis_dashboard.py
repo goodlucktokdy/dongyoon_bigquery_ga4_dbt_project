@@ -80,14 +80,14 @@ st.markdown("""
 def load_data():
     data = {}
     try:
-        data['browsing_style'] = pd.read_csv('.mart_tables/mart_browsing_style.csv')
-        data['deep_specialists'] = pd.read_csv('.mart_tables/mart_deep_specialists.csv')
-        data['variety_seekers'] = pd.read_csv('.mart_tables/mart_variety_seekers.csv')
-        data['device_friction'] = pd.read_csv('.mart_tables/mart_device_friction.csv')
-        data['cart_abandon'] = pd.read_csv('.mart_tables/mart_cart_abandon.csv')
-        data['promo_quality'] = pd.read_csv('.mart_tables/mart_promo_quality.csv')
-        data['time_conversion'] = pd.read_csv('.mart_tables/mart_time_to_conversion.csv')
-        data['bundle_strategy'] = pd.read_csv('.mart_tables/mart_bundle_strategy.csv')
+        data['browsing_style'] = pd.read_csv('mart_tables/mart_browsing_style.csv')
+        data['deep_specialists'] = pd.read_csv('mart_tables/mart_deep_specialists.csv')
+        data['variety_seekers'] = pd.read_csv('mart_tables/mart_variety_seekers.csv')
+        data['device_friction'] = pd.read_csv('mart_tables/mart_device_friction.csv')
+        data['cart_abandon'] = pd.read_csv('mart_tables/mart_cart_abandon.csv')
+        data['promo_quality'] = pd.read_csv('mart_tables/mart_promo_quality.csv')
+        data['time_conversion'] = pd.read_csv('mart_tables/mart_time_to_conversion.csv')
+        data['bundle_strategy'] = pd.read_csv('mart_tables/mart_bundle_strategy.csv')
     except Exception as e:
         st.error(f"데이터 로드 오류: {e}")
     return data
