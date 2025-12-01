@@ -79,17 +79,52 @@ st.markdown("""
 @st.cache_data
 def load_data():
     data = {}
-    try:
-        data['browsing_style'] = pd.read_csv('mart_tables/mart_browsing_style.csv')
-        data['deep_specialists'] = pd.read_csv('mart_tables/mart_deep_specialists.csv')
-        data['variety_seekers'] = pd.read_csv('mart_tables/mart_variety_seekers.csv')
-        data['device_friction'] = pd.read_csv('mart_tables/mart_device_friction.csv')
-        data['cart_abandon'] = pd.read_csv('mart_tables/mart_cart_abandon.csv')
-        data['promo_quality'] = pd.read_csv('mart_tables/mart_promo_quality.csv')
-        data['time_conversion'] = pd.read_csv('mart_tables/mart_time_to_conversion.csv')
-        data['bundle_strategy'] = pd.read_csv('mart_tables/mart_bundle_strategy.csv')
-    except Exception as e:
-        st.error(f"데이터 로드 오류: {e}")
+    
+    # 로컬 PC OneDrive 경로
+    BASE_PATH = r"C:\Users\동윤\OneDrive\Documents\ga_events\dongyoon_bigquery_ga4_dbt_project\mart_tables"
+    
+    # 대체 경로들 (다른 환경 대비)
+    alt_paths = [
+        BASE_PATH,
+        r".\mart_tables",
+        r"mart_tables",
+        r"/mnt/user-data/uploads"
+    ]
+    
+    files = {
+        'browsing_style': 'mart_browsing_style.csv',
+        'deep_specialists': 'mart_deep_specialists.csv',
+        'variety_seekers': 'mart_variety_seekers.csv',
+        'device_friction': 'mart_device_friction.csv',
+        'cart_abandon': 'mart_cart_abandon.csv',
+        'promo_quality': 'mart_promo_quality.csv',
+        'time_conversion': 'mart_time_to_conversion.csv',
+        'bundle_strategy': 'mart_bundle_strategy.csv',
+        'core_sessions': 'mart_core_sessions.csv'
+    }
+    
+    import os
+    
+    # 작동하는 경로 찾기
+    working_path = None
+    for path in alt_paths:
+        test_file = os.path.join(path, 'mart_browsing_style.csv')
+        if os.path.exists(test_file):
+            working_path = path
+            break
+    
+    if working_path is None:
+        st.error(f"❌ 데이터 폴더를 찾을 수 없습니다. 다음 경로를 확인해주세요:\n{BASE_PATH}")
+        return data
+    
+    for key, filename in files.items():
+        try:
+            filepath = os.path.join(working_path, filename)
+            data[key] = pd.read_csv(filepath)
+        except Exception as e:
+            if key != 'core_sessions':  # core_sessions는 선택적
+                st.warning(f"⚠️ {filename} 로드 실패: {e}")
+    
     return data
 
 data = load_data()
