@@ -1633,7 +1633,7 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             
             # 핵심 지표 계산
             total_loss = df_cart['total_lost_revenue'].sum()
-            total_abandon = df_cart['abandoned_count'].sum() if 'abandoned_count' in df_cart.columns else 0
+            total_abandon = df_cart['abandoned_session_count'].sum() if 'abandoned_session_count' in df_cart.columns else 0
             
             # 고가 상품 (건당 $50 이상) vs 저가 대량 이탈 분류
             df_high_value = df_cart[df_cart['avg_lost_value'] >= 50]
@@ -1652,7 +1652,7 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                 st.metric("고가 상품 손실", f"${high_loss/1000:.0f}K",
                          delta="건당 $50+", delta_color="off")
             with col4:
-                low_count = df_low_value['abandoned_count'].sum() if 'abandoned_count' in df_low_value.columns else 0
+                low_count = df_low_value['abandoned_session_count'].sum() if 'abandoned_session_count' in df_low_value.columns else 0
                 st.metric("저가 대량 이탈", f"{low_count:,}건",
                          delta="건당 $50 미만", delta_color="off")
             
@@ -1743,12 +1743,12 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             
             with col2:
                 # 이탈 건수 TOP 10 또는 건당 손실 TOP 10
-                if 'abandoned_count' in df_cart.columns:
-                    df_top_count = df_cart.nlargest(10, 'abandoned_count')
+                if 'abandoned_session_count' in df_cart.columns:
+                    df_top_count = df_cart.nlargest(10, 'abandoned_session_count')
                     
                     fig2 = px.bar(
                         df_top_count,
-                        x='abandoned_count',
+                        x='abandoned_session_count',
                         y='item_name',
                         orientation='h',
                         color='avg_lost_value',
@@ -1757,7 +1757,7 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                     )
                     
                     fig2.update_traces(
-                        text=[f'{x:,}건' for x in df_top_count['abandoned_count']],
+                        text=[f'{x:,}건' for x in df_top_count['abandoned_session_count']],
                         textposition='outside',
                         textfont=dict(size=10),
                         hovertemplate='%{y}<br>이탈: %{x:,}건<extra></extra>'
