@@ -1660,8 +1660,6 @@ elif page == "📋 액션 플랜":
             v_cvr = variety_row['conversion_rate'].values[0]
             variety_text = f"Variety Seeker CVR {v_cvr:.0f}%"
     
-    # Impact-Effort 매트릭스
-    st.markdown("### 📊 Impact-Effort 매트릭스")
     
     actions = {
         'action': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너 개선', 'Deep Specialist 비교표', 
