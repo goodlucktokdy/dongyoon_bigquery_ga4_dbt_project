@@ -187,7 +187,7 @@ def effect_size_cohens_h(p1, p2):
     return abs(phi1 - phi2)
 
 # ===== 사이드바 =====
-st.sidebar.markdown("## 김동윤의 GA4 행동 로그 분석")
+st.sidebar.markdown("## 김동윤의 GA4 로그 분석")
 st.sidebar.markdown("포트폴리오 대시보드")
 st.sidebar.markdown("---")
 
@@ -463,11 +463,9 @@ elif page == "📊 데이터 개요 & 품질":
         <strong>1. 시간적 한계</strong><br>
         • 12월 한 달 데이터 → 계절성 반영 안됨<br>
         • 홀리데이 시즌 특수성 존재<br><br>
-        
         <strong>2. 샘플 한계</strong><br>
         • 일부 세그먼트 샘플 크기 작음 (n<100)<br>
         • 60분+ 구매자: 102명 → 신뢰구간 넓음<br><br>
-        
         <strong>3. 데이터 특성</strong><br>
         • Obfuscated 데이터 (일부 값 마스킹)<br>
         • 단일 스토어 → 일반화 제한
@@ -508,7 +506,7 @@ elif page == "📊 데이터 개요 & 품질":
         
         fig_funnel.update_layout(
             title="전환 퍼널 (Session → Purchase)",
-            height=450
+            height=600
         )
         
         st.plotly_chart(fig_funnel, use_container_width=True)
@@ -638,7 +636,7 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
                 title="세그먼트 2x2 매트릭스",
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.3, 2.2]),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.3, 2.2]),
-                height=350,
+                height=600,
                 showlegend=False
             )
             
@@ -658,6 +656,8 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
             st.markdown("""
             <div class="methodology-box">
             <strong>💡 분류 기준의 근거</strong><br><br>
+            • <strong>전제 조건</strong>: total_items_viewed > 0<br>
+            &nbsp;&nbsp;(view_item 이벤트가 없는 세션 제외)<br>
             • <strong>Items ≤ 2</strong>: 최소 탐색 행동 기준<br>
             • <strong>Category = 1</strong>: 단일 니즈 집중 vs 복수 관심<br>
             • 백분위 분석(P25, P75)으로 구간 설정
@@ -667,6 +667,7 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
         st.markdown("""
         ```sql
         -- 세그먼트 분류 SQL 로직
+        -- 전제: total_items_viewed > 0 (view_item 이벤트가 있는 세션만 대상)
         CASE
             WHEN total_items_viewed <= 2 THEN 'Light Browser (찍먹형)'
             WHEN total_items_viewed > 2 AND distinct_categories = 1 THEN 'Deep Specialist (한우물형)'
@@ -722,7 +723,7 @@ elif page == "🔍 세그먼트 분석 (통계 검증)":
                 xaxis_title="브라우징 스타일",
                 yaxis_title="전환율 (%)",
                 showlegend=False,
-                height=450
+                height=600
             )
             
             st.plotly_chart(fig, use_container_width=True)
@@ -841,7 +842,7 @@ WHERE browsing_style = 'Deep Specialist'
             
             fig.update_layout(
                 title="Deep Specialist: 조회 구간별 전환율 vs 세션 비중",
-                height=450,
+                height=600,
                 legend=dict(orientation='h', yanchor='bottom', y=1.02)
             )
             fig.update_yaxes(title_text="전환율 (%)", secondary_y=False)
@@ -857,7 +858,6 @@ WHERE browsing_style = 'Deep Specialist'
             • 전환율: <strong>1.88%</strong> (급락)<br>
             • 세션 비중: <strong>81.4%</strong><br>
             • 대다수가 이 구간에서 이탈<br><br>
-            
             <strong>통계 검정 결과</strong><br>
             • χ² = 156.3<br>
             • p < 0.001 ✅<br>
@@ -902,7 +902,7 @@ WHERE browsing_style = 'Deep Specialist'
                 title='Variety Seeker: 조회량 vs 전환율 (버블 크기 = 세션 수)',
                 xaxis_title='평균 상품 조회수',
                 yaxis_title='전환율 (%)',
-                height=450
+                height=600
             )
             
             st.plotly_chart(fig, use_container_width=True)
@@ -916,7 +916,6 @@ WHERE browsing_style = 'Deep Specialist'
             • 전환율: <strong>31.53%</strong><br>
             • 평균 카테고리: 6.4개<br>
             • 세션 비중: 24.8%<br><br>
-            
             <strong>vs Light Seeker</strong><br>
             • 전환율 차이: 8.0x<br>
             • χ² = 892.4, p < 0.001<br>
@@ -1006,7 +1005,7 @@ elif page == "📈 전환 퍼널 분석":
             
             fig_funnel.update_layout(
                 title="전환 퍼널 (전체 세션 기준)",
-                height=450
+                height=600
             )
             
             st.plotly_chart(fig_funnel, use_container_width=True)
@@ -1025,7 +1024,7 @@ elif page == "📈 전환 퍼널 분석":
                 title="단계별 이탈률 (낮을수록 좋음)",
                 xaxis_title="",
                 yaxis_title="이탈률 (%)",
-                height=450,
+                height=600,
                 xaxis_tickangle=-25
             )
             
@@ -1058,16 +1057,13 @@ elif page == "📈 전환 퍼널 분석":
             st.markdown(f"""
             <div class="critical-box">
             <strong>🚨 1순위 병목: {max_drop_step}</strong><br><br>
-            
             • 이탈률: <strong>{max_drop_rate}%</strong><br>
             • 이탈 세션: <strong>{max_drop_count:,}건</strong><br><br>
-            
             <strong>가능한 원인:</strong><br>
             • 상품 상세 정보 부족<br>
             • 가격 대비 가치 불명확<br>
             • 배송비/배송 기간 우려<br>
             • 리뷰/평점 부재<br><br>
-            
             <strong>개선 방안:</strong><br>
             1. 상품 상세 페이지 UX 강화<br>
             2. 배송 정보 명확화<br>
@@ -1081,15 +1077,12 @@ elif page == "📈 전환 퍼널 분석":
             st.markdown(f"""
             <div class="warning-box">
             <strong>⚠️ 2순위 병목: {second_drop['step']}</strong><br><br>
-            
             • 이탈률: <strong>{second_drop['drop_rate']}%</strong><br>
             • 이탈 세션: <strong>{int(second_drop['from_count'] - second_drop['to_count']):,}건</strong><br><br>
-            
             <strong>가능한 원인:</strong><br>
             • 결제 프로세스 복잡<br>
             • 회원가입 강제<br>
             • 결제 수단 제한<br><br>
-            
             <strong>개선 방안:</strong><br>
             1. 게스트 결제 허용<br>
             2. 원클릭 결제 도입<br>
@@ -1165,7 +1158,7 @@ GROUP BY device_category
             fig_device.update_layout(
                 title="디바이스별 퍼널 단계 세션 수",
                 barmode='group',
-                height=400,
+                height=600,
                 legend=dict(orientation='h', yanchor='bottom', y=1.02)
             )
             
@@ -1184,7 +1177,7 @@ GROUP BY device_category
             fig_cvr.update_layout(
                 title="디바이스별 전체 전환율",
                 yaxis_title="전환율 (%)",
-                height=400
+                height=600
             )
             
             st.plotly_chart(fig_cvr, use_container_width=True)
@@ -1245,7 +1238,7 @@ GROUP BY device_category
                     yaxis=dict(title="세션 수", side='left'),
                     yaxis2=dict(title="전환율 (%)", side='right', overlaying='y', range=[0, 3]),
                     legend=dict(orientation='h', yanchor='bottom', y=1.02),
-                    height=400
+                    height=600
                 )
                 
                 st.plotly_chart(fig_day, use_container_width=True)
@@ -1297,7 +1290,7 @@ GROUP BY device_category
                     title="시간대별 전환율 (0-23시)",
                     xaxis_title="시간 (UTC)",
                     yaxis_title="전환율 (%)",
-                    height=400
+                    height=600
                 )
                 
                 st.plotly_chart(fig_hour, use_container_width=True)
@@ -1363,7 +1356,7 @@ GROUP BY device_category
                 title="트래픽 소스별 세션 수 vs 전환율 (버블 크기 = 구매 수)",
                 xaxis_title="세션 수",
                 yaxis_title="전환율 (%)",
-                height=450
+                height=600
             )
             
             st.plotly_chart(fig_source, use_container_width=True)
@@ -1449,7 +1442,7 @@ elif page == "📱 디바이스 & 시간 분석":
                 fig.update_layout(
                     title='디바이스별 High Intent 전환율',
                     yaxis_title='전환율 (%)',
-                    height=400
+                    height=600
                 )
                 
                 st.plotly_chart(fig, use_container_width=True)
@@ -1460,7 +1453,6 @@ elif page == "📱 디바이스 & 시간 분석":
                 <strong>⚠️ Tablet UX 개선 필요</strong><br><br>
                 • 효율지수: 90 (PC 대비 -10%)<br>
                 • High Intent 전환율: 22.7%<br><br>
-                
                 <strong>개선 방안:</strong><br>
                 • 반응형 레이아웃 최적화<br>
                 • 터치 영역 확대<br>
@@ -1522,7 +1514,7 @@ elif page == "📱 디바이스 & 시간 분석":
                 
                 fig.update_layout(
                     title='구매 소요 시간별 객단가 & 세션 수',
-                    height=450,
+                    height=600,
                     legend=dict(orientation='h', yanchor='bottom', y=1.02)
                 )
                 fig.update_yaxes(title_text="평균 객단가 ($)", secondary_y=False)
@@ -1535,10 +1527,8 @@ elif page == "📱 디바이스 & 시간 분석":
                 <div class="stat-significant">
                 <strong>📊 H4 가설 검증</strong><br><br>
                 구매 시간 ↑ = 객단가 ↑<br><br>
-                
                 • 상관계수: <strong>r = 0.89</strong><br>
                 • p-value < 0.001 ✅<br><br>
-                
                 <strong>AOV 비교:</strong><br>
                 • 0-5분: $241<br>
                 • 60분+: $1,847<br>
@@ -1653,16 +1643,16 @@ elif page == "🛒 이탈 & 기회 분석":
                     xaxis_title='손실 매출 ($)',
                     yaxis_title='',
                     yaxis={'categoryorder': 'total ascending'},
-                    height=500,
+                    height=600,
                     coloraxis_colorbar_title='평균 금액'
                 )
                 
                 st.plotly_chart(fig, use_container_width=True)
             
             with col2:
-                # TOP 1 상품 분석 (이상치 제외 후)
+                # TOP 1 상품 분석 (이상치 제외 후) - nlargest로 정렬되어 있으므로 iloc[0]이 최대
                 if len(df_top) > 0:
-                    top_item = df_top.iloc[-1]  # 가장 손실 큰 상품
+                    top_item = df_top.iloc[0]  # 가장 손실 큰 상품 (nlargest 첫 번째)
                     st.markdown(f"""
                     <div class="critical-box">
                     <strong>🚨 최대 이탈 상품 분석</strong><br><br>
@@ -1670,7 +1660,6 @@ elif page == "🛒 이탈 & 기회 분석":
                     • 이탈: {int(top_item.get('abandon_count', 0))}건<br>
                     • 손실: <strong>${top_item['total_lost_revenue']:,.0f}</strong><br>
                     • 평균: ${top_item['avg_lost_value']:,.0f}/건<br><br>
-                    
                     <strong>원인 추정:</strong><br>
                     • 고가 상품 결제 허들<br>
                     • 가격 비교 후 이탈<br>
@@ -1685,7 +1674,6 @@ elif page == "🛒 이탈 & 기회 분석":
                 2. <strong>가격 보장</strong> 정책<br>
                 3. 리마케팅 이메일 자동화<br>
                 4. 장바구니 만료 알림<br><br>
-                
                 <em>예상 회수: 5% 기준</em>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1734,7 +1722,7 @@ elif page == "🛒 이탈 & 기회 분석":
                 title='프로모션 4분면 분석',
                 xaxis_title='CTR (%)',
                 yaxis_title='평균 유저 점수',
-                height=500
+                height=600
             )
             
             st.plotly_chart(fig, use_container_width=True)
@@ -1749,7 +1737,6 @@ elif page == "🛒 이탈 & 기회 분석":
                 • CTR: 2.56% (최저)<br>
                 • 클릭 유저 점수: 400.2 (최고)<br>
                 • 전환율: 4.63% (최고)<br><br>
-                
                 → 배너 디자인만 개선하면<br>
                 높은 ROI 기대
                 </div>
@@ -1831,7 +1818,7 @@ elif page == "🎯 액션 우선순위":
         yaxis_title='← 비즈니스 임팩트 (Impact)',
         xaxis=dict(range=[0, 100]),
         yaxis=dict(range=[0, 100]),
-        height=550
+        height=600
     )
     
     st.plotly_chart(fig, use_container_width=True)
@@ -1847,15 +1834,12 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="success-box">
         <strong>🚀 Phase 1: Quick Win (1-2주)</strong><br><br>
-        
         <strong>1. 장바구니 리마케팅</strong><br>
         • 1/24/72시간 이메일 자동화<br>
         • 예상: $39.7K/월<br><br>
-        
         <strong>2. Hidden Gem 배너 A/B</strong><br>
         • 새 디자인 테스트<br>
         • 예상: +50건/월<br><br>
-        
         <strong>담당</strong>: 마케팅팀<br>
         <strong>KPI</strong>: 회수율 5%
         </div>
@@ -1865,15 +1849,12 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="warning-box">
         <strong>📊 Phase 2: 구조 개선 (1-2개월)</strong><br><br>
-        
         <strong>3. Deep Specialist 비교표</strong><br>
         • 10개+ 조회 시 트리거<br>
         • 예상: +361건/월<br><br>
-        
         <strong>4. VIP 세그먼트 타겟팅</strong><br>
         • Super Heavy 전용 혜택<br>
         • 예상: +15% LTV<br><br>
-        
         <strong>담당</strong>: 개발팀 + CRM팀<br>
         <strong>KPI</strong>: CVR 10%
         </div>
@@ -1883,15 +1864,12 @@ elif page == "🎯 액션 우선순위":
         st.markdown("""
         <div class="insight-box">
         <strong>🎯 Phase 3: 전략 과제 (3-6개월)</strong><br><br>
-        
         <strong>5. 실시간 세션 스코어링</strong><br>
         • ML 기반 구매 확률 예측<br>
         • 예상: +2% 전체 CVR<br><br>
-        
         <strong>6. CDP 구축</strong><br>
         • 통합 고객 프로파일<br>
         • 예상: +20% LTV<br><br>
-        
         <strong>담당</strong>: 데이터팀 + IT팀<br>
         <strong>KPI</strong>: 개인화 정확도
         </div>
@@ -2000,7 +1978,7 @@ elif page == "📐 방법론 & 한계점":
                 title=dict(text='📊 dbt Data Pipeline', font=dict(size=16)),
                 xaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[-0.1, 1.1]),
                 yaxis=dict(showgrid=False, zeroline=False, showticklabels=False, range=[1.3, 6.7]),
-                height=500,
+                height=600,
                 plot_bgcolor='rgba(248,249,250,1)',
                 margin=dict(l=20, r=20, t=50, b=20)
             )
@@ -2170,7 +2148,6 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
             <strong>📈 결과 해석</strong><br><br>
             • χ² = <strong>722.27</strong><br>
             • p-value < <strong>0.001</strong> ✅<br><br>
-            
             <strong>의미:</strong><br>
             두 변수는 독립적이지 않음.<br>
             즉, <strong>"탐색 스타일이 구매 전환에<br>
@@ -2215,13 +2192,11 @@ def cohens_h(p1, p2):
             st.markdown("""
             <div class="insight-box">
             <strong>📊 효과 크기 해석 기준</strong><br><br>
-            
             | Cohen's h | 해석 |
             |:----------|:-----|
             | 0.2 | 작은 효과 (Small) |
             | 0.5 | 중간 효과 (Medium) |
             | 0.8 | 큰 효과 (Large) |
-            
             <br>
             <strong>우리의 결과: h = 0.42</strong><br>
             → <strong>중간 정도(Medium)</strong>의 효과 크기<br>
@@ -2270,15 +2245,11 @@ def wilson_ci(successes, total, confidence=0.95):
             st.markdown("""
             <div class="success-box">
             <strong>📈 결과 해석</strong><br><br>
-            
             <strong>Variety Seeker</strong><br>
             95% CI: [12.5%, 13.6%]<br><br>
-            
             <strong>Deep Specialist</strong><br>
             95% CI: [2.2%, 2.9%]<br><br>
-            
             <strong>→ 신뢰구간이 전혀 겹치지 않음!</strong><br><br>
-            
             이는 데이터가 우연히 좋게 나온 게 아니라,<br>
             <strong>아무리 못해도 Specialist보다는<br>
             무조건 높다</strong>는 통계적 보증
@@ -2389,15 +2360,12 @@ CROSS JOIN price_quantiles
             st.markdown("""
             <div class="limitation-box">
             <strong>1. 데이터 한계</strong><br><br>
-            
             • <strong>시간적 제한</strong><br>
             12월 한 달 → 계절성 미반영<br>
             홀리데이 시즌 특수성<br><br>
-            
             • <strong>샘플 크기</strong><br>
             일부 세그먼트 n < 100<br>
             (60분+ 구매자: 102명)<br><br>
-            
             • <strong>데이터 특성</strong><br>
             Obfuscated 처리<br>
             단일 스토어 한정
@@ -2408,15 +2376,12 @@ CROSS JOIN price_quantiles
             st.markdown("""
             <div class="limitation-box">
             <strong>2. 분석 한계</strong><br><br>
-            
             • <strong>인과관계 vs 상관관계</strong><br>
             "조회 많으면 전환 높다"<br>
             → 역인과 가능성 존재<br><br>
-            
             • <strong>외부 요인 미통제</strong><br>
             광고 캠페인, 가격 변동 등<br>
             Confounding 가능<br><br>
-            
             • <strong>일반화 제한</strong><br>
             Google Store 특수성<br>
             다른 이커머스 적용 시 검증 필요
@@ -2449,22 +2414,18 @@ CROSS JOIN price_quantiles
         
         st.markdown("---")
         
-        st.markdown("### 💡 면접관에게 강조할 포인트")
+        st.markdown("### 💡강조 포인트")
         
         st.markdown("""
         <div class="success-box">
         <strong>1. 가설 기반 분석</strong><br>
         단순 EDA가 아닌, 비즈니스 가설 → 통계 검증 → 액션 도출 구조<br><br>
-        
         <strong>2. 통계적 엄밀성</strong><br>
         χ² 검정, 효과 크기(Cohen's h), 신뢰구간 등 통계적 근거 제시<br><br>
-        
         <strong>3. 한계점 인지</strong><br>
         데이터/분석 한계를 정직하게 인정하고 향후 개선 방향 제시<br><br>
-        
         <strong>4. 비즈니스 임팩트</strong><br>
         모든 인사이트를 정량적 ROI로 환산 ($500K+ 연간 효과)<br><br>
-        
         <strong>5. 실행 가능성</strong><br>
         Impact-Effort 매트릭스로 우선순위화, 담당팀/기간 명시
         </div>
