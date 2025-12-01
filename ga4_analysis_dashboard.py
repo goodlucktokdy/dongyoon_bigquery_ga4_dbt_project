@@ -384,15 +384,22 @@ if page == "🏠 Executive Summary":
         </div>
         """, unsafe_allow_html=True)
     
-    # Bags 카테고리 데이터 동적 추출
+    # Bags 카테고리 데이터 동적 추출 (장바구니 페이지와 동일한 전처리)
     bags_loss_pct = "48%"
     bags_avg_loss = "$216"
     if 'cart_abandon' in data:
-        df_cart = data['cart_abandon']
+        df_cart_raw = data['cart_abandon'].copy()
+        
+        # Rain Shell 이상치 제거 (장바구니 페이지와 동일)
+        df_cart = df_cart_raw[~df_cart_raw['item_name'].str.contains('Rain Shell', case=False, na=False)].copy()
+        
+        # 전체 데이터 기준 (상위 15개 제한 없이)
+        total_lost = df_cart['total_lost_revenue'].sum()
+        
+        # Bags 카테고리 필터링
         bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
         if len(bags_row) > 0:
-            total_lost = df_cart['total_lost_revenue'].sum()
-            bags_lost = bags_row['total_lost_revenue'].sum()  # 여러 행일 수 있으므로 sum()
+            bags_lost = bags_row['total_lost_revenue'].sum()
             bags_loss_pct = f"{bags_lost / total_lost * 100:.0f}%" if total_lost > 0 else "48%"
             bags_count = bags_row['abandoned_session_count'].sum()
             bags_avg_loss = f"${bags_lost / bags_count:.0f}" if bags_count > 0 else "$216"
@@ -402,7 +409,8 @@ if page == "🏠 Executive Summary":
         <div class="warning-box">
         <strong>발견 3</strong><br><br>
         <strong>Bags 카테고리</strong><br>
-        이탈 손실의 <strong>{bags_loss_pct}</strong> 차지<br><br>
+        이탈 손실의 <strong>{bags_loss_pct}</strong> 차지<br>
+        <small>(이상치 제외)</small><br><br>
         건당 평균 손실 <strong>{bags_avg_loss}</strong><br>
         고가 상품 결제 부담
         </div>
@@ -1267,7 +1275,8 @@ GROUP BY 1
                 bags_avg_int = int(bags_avg)
                 st.markdown(f"""
                 <div class="critical-box">
-                <strong>🔴 패턴 1: Bags 카테고리 집중 손실</strong><br><br>
+                <strong>🔴 패턴 1: Bags 카테고리 집중 손실</strong><br>
+                <small>(Rain Shell 이상치 제외)</small><br><br>
                 <strong>데이터 근거:</strong><br>
                 • 이탈 건수: <strong>{bags_count:,}건</strong> (전체의 {bags_pct_count:.1f}%)<br>
                 • 손실 금액: <strong>${bags_loss_k}K</strong> (전체의 {bags_pct:.0f}%)<br>
@@ -1606,23 +1615,26 @@ elif page == "📋 액션 플랜":
     """)
     
     # 동적 데이터 추출
-    bags_loss_text = "Bags 48% 손실 집중"
+    bags_loss_text = "Bags 48% 손실 (이상치 제외)"
     hg_text = "CTR 2.6% but CVR 4.63%"
     deep_text = "81.4% 결정마비"
     variety_text = "Variety Seeker CVR 13%"
-    bags_detail = "Bags 753건, 손실 48%"
+    bags_detail = "Bags 753건, 손실 48% (이상치 제외)"
     deep_kpi = "3-11개 수준(5.26%) 달성"
     
     if 'cart_abandon' in data:
-        df_cart = data['cart_abandon']
+        df_cart_raw = data['cart_abandon'].copy()
+        # Rain Shell 이상치 제거 (일관성 유지)
+        df_cart = df_cart_raw[~df_cart_raw['item_name'].str.contains('Rain Shell', case=False, na=False)].copy()
+        
         bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
         if len(bags_row) > 0:
             total_lost = df_cart['total_lost_revenue'].sum()
             bags_lost = bags_row['total_lost_revenue'].sum()
             bags_pct = bags_lost / total_lost * 100 if total_lost > 0 else 48
             bags_count = bags_row['abandoned_session_count'].sum()
-            bags_loss_text = f"Bags {bags_pct:.0f}% 손실 집중"
-            bags_detail = f"Bags {bags_count:.0f}건, 손실 {bags_pct:.0f}%"
+            bags_loss_text = f"Bags {bags_pct:.0f}% 손실 (이상치 제외)"
+            bags_detail = f"Bags {bags_count:.0f}건, 손실 {bags_pct:.0f}% (이상치 제외)"
     
     if 'promo_quality' in data:
         df_promo_act = data['promo_quality']
