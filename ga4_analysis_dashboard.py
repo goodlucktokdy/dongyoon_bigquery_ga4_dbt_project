@@ -1583,7 +1583,7 @@ END AS promo_status
                 <strong>💎 Hidden Gem 프로모션 발견!</strong><br><br>
                 <strong>'{hg_name}' 프로모션 배너</strong><br><br>
                 • CTR: {hg_ctr:.2f}% (전체 최저)<br>
-                • 클릭 유저 Engagement: {hg_score:.1f} (최고)<br>
+                • 클릭 유저 Engagement Score: {hg_score:.1f} (최고)<br>
                 • 클릭 유저 전환율: {hg_cvr:.2f}% (최고)<br><br>
                 
                 <strong>→ 배너 노출만 개선하면<br>
