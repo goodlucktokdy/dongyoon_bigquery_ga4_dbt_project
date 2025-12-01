@@ -648,6 +648,38 @@ elif page == "🎯 진성 유저 식별":
             '점수': ['5점', '12점', '31점', '47점']
         }
         st.dataframe(pd.DataFrame(lift_data), use_container_width=True, hide_index=True)
+        
+        # SQL Expander 추가
+        with st.expander("📐 SQL: Lift 계산 쿼리 (int_lift_weight.sql)"):
+            st.code("""
+-- int_lift_weight.sql
+-- Lift = P(Purchase | Event) / P(Purchase)
+
+WITH base_rate AS (
+    SELECT COUNT(DISTINCT CASE WHEN is_converted = 1 THEN session_unique_id END) 
+           / COUNT(DISTINCT session_unique_id) AS overall_purchase_rate
+    FROM {{ ref('int_session_funnel') }}
+),
+
+event_rates AS (
+    SELECT
+        e.event_name,
+        COUNT(DISTINCT CASE WHEN f.is_converted = 1 THEN e.session_unique_id END) 
+            / COUNT(DISTINCT e.session_unique_id) AS conditional_purchase_rate
+    FROM {{ ref('stg_events') }} e
+    JOIN {{ ref('int_session_funnel') }} f USING (session_unique_id)
+    WHERE e.event_name IN ('view_item', 'add_to_cart', 'begin_checkout', 'add_payment_info')
+    GROUP BY 1
+)
+
+SELECT
+    event_name,
+    conditional_purchase_rate,
+    conditional_purchase_rate / overall_purchase_rate AS lift,
+    ROUND(conditional_purchase_rate / overall_purchase_rate) AS score_weight
+FROM event_rates, base_rate
+ORDER BY lift DESC
+            """, language="sql")
     
     with col2:
         st.markdown("""
@@ -860,54 +892,64 @@ elif page == "🔍 세그먼트 분석":
         
         if 'deep_specialists' in data:
             df_deep = data['deep_specialists']
+        else:
+            # 샘플 데이터 (mart_deep_specialists.csv 구조 기반)
+            deep_data = {
+                'depth_segment': ['1. 탐색 초기 (3-11개)', '2. 집중 비교 (12-24개)', '3. 고민 심화 (25-36개)', '4. 결정 마비 (37개 이상)'],
+                'session_count': [678, 7244, 539, 437],
+                'share_percent': [7.6, 81.4, 6.1, 4.9],
+                'avg_views': [7.4, 14.4, 35.6, 65.5],
+                'conversion_rate': [6.49, 1.88, 4.82, 4.81]
+            }
+            df_deep = pd.DataFrame(deep_data)
+        
+        col1, col2 = st.columns([1.5, 1])
+        
+        with col1:
+            fig = go.Figure()
             
-            col1, col2 = st.columns([1.5, 1])
+            colors = ['#27ae60' if r['conversion_rate'] > 4 else '#f39c12' if r['conversion_rate'] > 2 else '#e74c3c' 
+                      for _, r in df_deep.iterrows()]
             
-            with col1:
-                fig = go.Figure()
-                
-                colors = ['#27ae60' if r['conversion_rate'] > 3 else '#f39c12' if r['conversion_rate'] > 2 else '#e74c3c' 
-                          for _, r in df_deep.iterrows()]
-                
-                fig.add_trace(go.Bar(
-                    x=df_deep['view_bucket'],
-                    y=df_deep['conversion_rate'],
-                    marker_color=colors,
-                    text=df_deep['conversion_rate'].apply(lambda x: f'{x:.2f}%'),
-                    textposition='outside'
-                ))
-                
-                fig.update_layout(
-                    title="상품 조회 구간별 전환율",
-                    xaxis_title="상품 조회 수",
-                    yaxis_title="전환율 (%)",
-                    height=400
-                )
-                
-                st.plotly_chart(fig, use_container_width=True)
+            fig.add_trace(go.Bar(
+                x=df_deep['depth_segment'],
+                y=df_deep['conversion_rate'],
+                marker_color=colors,
+                text=df_deep['conversion_rate'].apply(lambda x: f'{x:.2f}%'),
+                textposition='outside'
+            ))
             
-            with col2:
-                st.markdown("""
-                <div class="critical-box">
-                <strong>🚨 결정 마비 구간</strong><br><br>
-                <strong>12-24개 조회 구간</strong><br>
-                • 전환율: <strong>1.88%</strong><br>
-                • 세션 비중: <strong>81.4%</strong><br>
-                • 대다수가 이 구간에서 이탈<br><br>
-                
-                <strong>통계 검정 결과</strong><br>
-                • χ² = 156.3, p 값 0.001 미만
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="success-box">
-                <strong>💡 액션 플랜</strong><br><br>
-                1. 10개+ 조회 시 <strong>비교표</strong> 자동 제공<br>
-                2. 15개+ 조회 시 <strong>한정 쿠폰</strong> 트리거<br>
-                3. <strong>"Best for You"</strong> 추천 강조
-                </div>
-                """, unsafe_allow_html=True)
+            fig.update_layout(
+                title="상품 조회 구간별 전환율",
+                xaxis_title="조회 구간",
+                yaxis_title="전환율 (%)",
+                height=400
+            )
+            
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            st.markdown("""
+            <div class="critical-box">
+            <strong>🚨 결정 마비 구간</strong><br><br>
+            <strong>집중 비교 (12-24개)</strong><br>
+            • 전환율: <strong>1.88%</strong><br>
+            • 세션 비중: <strong>81.4%</strong><br>
+            • 대다수가 이 구간에서 이탈<br><br>
+            
+            <strong>통계 검정 결과</strong><br>
+            • χ² = 156.3, p 값 0.001 미만
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("""
+            <div class="success-box">
+            <strong>💡 액션 플랜</strong><br><br>
+            1. 10개+ 조회 시 <strong>비교표</strong> 자동 제공<br>
+            2. 15개+ 조회 시 <strong>한정 쿠폰</strong> 트리거<br>
+            3. <strong>"Best for You"</strong> 추천 강조
+            </div>
+            """, unsafe_allow_html=True)
     
     with tab3:
         st.markdown("### 🟢 Variety Seeker VIP 세그먼트")
@@ -918,54 +960,63 @@ elif page == "🔍 세그먼트 분석":
         
         if 'variety_seekers' in data:
             df_variety = data['variety_seekers']
+        else:
+            # 샘플 데이터 (mart_variety_seekers.csv 구조 기반)
+            variety_data = {
+                'intensity_segment': ['1. Light Seeker (24개 이하)', '2. Moderate Seeker (25-36개)', '3. Heavy Seeker (37-84개)', '4. Super Heavy Seeker (85개 이상)'],
+                'session_count': [4707, 1922, 3214, 3248],
+                'share_percent': [36.0, 14.7, 24.6, 24.8],
+                'avg_total_views': [17.8, 33.4, 60.9, 197.1],
+                'avg_categories': [2.2, 2.6, 3.5, 6.4],
+                'conversion_rate': [3.93, 5.67, 12.04, 31.53]
+            }
+            df_variety = pd.DataFrame(variety_data)
+        
+        col1, col2 = st.columns([1.5, 1])
+        
+        with col1:
+            fig = go.Figure()
             
-            col1, col2 = st.columns([1.5, 1])
+            fig.add_trace(go.Bar(
+                x=df_variety['intensity_segment'],
+                y=df_variety['conversion_rate'],
+                marker_color=['#95a5a6', '#f39c12', '#27ae60', '#2ecc71'],
+                text=df_variety['conversion_rate'].apply(lambda x: f'{x:.1f}%'),
+                textposition='outside'
+            ))
             
-            with col1:
-                fig = go.Figure()
-                
-                fig.add_trace(go.Scatter(
-                    x=df_variety['items_bucket'],
-                    y=df_variety['conversion_rate'],
-                    mode='lines+markers',
-                    marker=dict(size=12, color='#27ae60'),
-                    line=dict(color='#27ae60', width=3),
-                    text=df_variety['conversion_rate'].apply(lambda x: f'{x:.1f}%'),
-                    textposition='top center'
-                ))
-                
-                fig.update_layout(
-                    title="Variety Seeker 조회 구간별 전환율",
-                    xaxis_title="상품 조회 수",
-                    yaxis_title="전환율 (%)",
-                    height=400
-                )
-                
-                st.plotly_chart(fig, use_container_width=True)
+            fig.update_layout(
+                title="Variety Seeker 조회 강도별 전환율",
+                xaxis_title="조회 강도",
+                yaxis_title="전환율 (%)",
+                height=400
+            )
             
-            with col2:
-                st.markdown("""
-                <div class="success-box">
-                <strong>⭐ VIP 세그먼트 발견</strong><br><br>
-                <strong>Heavy Seeker (37-84개)</strong><br>
-                • 전환율: <strong>32.2%</strong><br>
-                • 평균 카테고리: 6.4개<br>
-                • 세션 비중: 24.8%<br><br>
-                
-                <strong>vs Light Seeker</strong><br>
-                • 전환율 차이: 8.0x<br>
-                • Cohen's h = 0.72 (대형 효과)
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="insight-box">
-                <strong>💡 타겟팅 전략</strong><br><br>
-                • 크로스셀링 최적 타겟<br>
-                • 개인화 추천 강화<br>
-                • VIP 전용 혜택 제공
-                </div>
-                """, unsafe_allow_html=True)
+            st.plotly_chart(fig, use_container_width=True)
+        
+        with col2:
+            st.markdown("""
+            <div class="success-box">
+            <strong>⭐ VIP 세그먼트 발견</strong><br><br>
+            <strong>Super Heavy Seeker (85개+)</strong><br>
+            • 전환율: <strong>31.53%</strong><br>
+            • 평균 카테고리: 6.4개<br>
+            • 세션 비중: 24.8%<br><br>
+            
+            <strong>vs Light Seeker</strong><br>
+            • 전환율 차이: 8.0x<br>
+            • Cohen's h = 0.72 (대형 효과)
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.markdown("""
+            <div class="insight-box">
+            <strong>💡 타겟팅 전략</strong><br><br>
+            • 크로스셀링 최적 타겟<br>
+            • 개인화 추천 강화<br>
+            • VIP 전용 혜택 제공
+            </div>
+            """, unsafe_allow_html=True)
 
 # ----- 6. 이탈 & 기회 분석 -----
 elif page == "🛒 장바구니 & 프로모션":
