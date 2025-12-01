@@ -491,7 +491,6 @@ elif page == "📊 데이터 개요":
         <strong>2. 샘플 한계</strong><br>
         • 일부 세그먼트 샘플 크기 작음<br>
         • 통계적 유의성 검증 필수<br>
-        • 60분+ 구매자: 102명 (신뢰구간 넓음)<br><br>
         
         <strong>3. 데이터 특성</strong><br>
         • Obfuscated 데이터 (일부 값 마스킹)<br>
@@ -735,7 +734,7 @@ elif page == "🔍 세그먼트 분석":
             
             segment_data = {
                 '세그먼트': ['Light Browser', 'Deep Specialist', 'Variety Seeker'],
-                'SQL 조건': ['Items ≤ 2', 'Items > 2, Category = 1', 'Categories ≥ 2'],
+                'SQL 조건': ['1 < Items ≤ 2', 'Items > 2, Category = 1', 'Categories ≥ 2'],
                 '비중': [light_share, deep_share, variety_share],
                 'CVR': [light_cvr, deep_cvr, variety_cvr],
                 '특성': ['탐색 의도 미발현', '선택의 역설 취약', 'Cross-selling 최적']
