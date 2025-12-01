@@ -307,7 +307,7 @@ if page == "🏠 Executive Summary":
                 'H6: 고가 상품에서 장바구니 이탈 집중'
             ],
             '검증 결과': ['✅ 검증 (p<0.001)', '✅ 검증 (p<0.001)', '⚠️ 부분 검증', '✅ 검증 (r=0.89)', '✅ 검증', '✅ 검증'],
-            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Tablet만 -10%", "7.7x AOV 차이", "Hidden Gem 발견", "상위 10개 집중*"],
+            '효과 크기': ["Cohen's h=0.42", "81.4% 세션 집중", "Tablet만 -10%", "7.7x AOV 차이", "Hidden Gem 프로모션 발견", "상위 10개 집중*"],
             '액션': ['VIP 세그먼트 타겟팅', '비교표/쿠폰 트리거', 'Tablet 반응형 개선', 'VIP 전용 서비스', '배너 A/B 테스트', '분할결제 도입']
         }
         
@@ -348,11 +348,11 @@ if page == "🏠 Executive Summary":
     with col2:
         st.markdown("""
         <div class="warning-box">
-        <strong>💎 #2. Hidden Gem 프로모션</strong><br><br>
-        'Reach New Heights' 배너<br>
+        <strong>💎 #2. Hidden Gem 프로모션 발견</strong><br><br>
+        'Reach New Heights' <strong>프로모션 배너</strong><br>
         CTR 2.6% (최저) but<br>
         클릭 유저 전환율 <strong>4.63%</strong> (최고)<br><br>
-        <em>배너 개선 시 +50건/월 전환</em>
+        <em>배너 노출 개선 시 +50건/월 전환</em>
         </div>
         """, unsafe_allow_html=True)
     
@@ -410,7 +410,7 @@ if page == "🏠 Executive Summary":
         """)
     
     roi_data = {
-        '개선 항목': ['장바구니 리마케팅 (5% 회수)*', 'Deep Specialist 비교표 제공', 'Hidden Gem 배너 개선', 'Tablet UX 최적화', 'VIP 세그먼트 타겟팅'],
+        '개선 항목': ['장바구니 리마케팅 (5% 회수)*', 'Deep Specialist 비교표 제공', 'Hidden Gem 프로모션 배너 개선', 'Tablet UX 최적화', 'VIP 세그먼트 타겟팅'],
         '예상 효과': ['+$15K/월', '+361건 전환/월', '+50건 전환/월', '+2.5%p 전환율', '+15% LTV'],
         '구현 난이도': ['⭐ 낮음', '⭐⭐ 중간', '⭐ 낮음', '⭐⭐⭐ 높음', '⭐⭐ 중간'],
         '우선순위': ['🥇 1순위', '🥈 2순위', '🥇 1순위', '🥉 3순위', '🥈 2순위']
@@ -584,7 +584,7 @@ elif page == "📊 데이터 개요 & 품질":
     st.dataframe(pd.DataFrame(quality_checks), use_container_width=True, hide_index=True)
 
 # ----- 3. 세그먼트 분석 (통계 검증) -----
-elif page == "🔍 세그먼트 분석 (통계 검증)":
+elif page == "🔍 세그먼트 분석":
     st.header("🔍 세그먼트 분석 with 통계적 검증")
     
     
@@ -1658,98 +1658,198 @@ elif page == "🛒 이탈 & 기회 분석":
             total_loss_before = df_cart_raw['total_lost_revenue'].sum() if 'total_lost_revenue' in df_cart_raw.columns else 0
             total_loss_after = df_cart['total_lost_revenue'].sum() if 'total_lost_revenue' in df_cart.columns else 0
             
-            col1, col2, col3 = st.columns(3)
+            col1, col2, col3, col4 = st.columns(4)
             
             with col1:
-                st.metric("상위 10개 손실", f"${total_loss_after/1000:.0f}K", 
-                         help="Rain Shell 이상치 제외 후")
+                st.metric("총 손실 (이상치 제외)", f"${total_loss_after/1000:.0f}K", 
+                         help="Rain Shell 이상치 제외 후 상위 15개 상품")
             with col2:
-                st.metric("5% 회수 시", f"${total_loss_after*0.05/1000:.1f}K/월")
+                recovery_5pct = total_loss_after * 0.05
+                st.metric("5% 회수 시 (월)", f"${recovery_5pct/1000:.1f}K",
+                         help="리마케팅으로 5% 회수 가정")
             with col3:
+                recovery_annual = recovery_5pct * 12
+                st.metric("연간 ROI 예상", f"${recovery_annual/1000:.0f}K",
+                         help="5% 회수 × 12개월")
+            with col4:
                 st.metric("이상치 제외", "Rain Shell", 
                          delta="quantity 이상치", delta_color="off")
             
+            # ROI 계산 근거
+            with st.expander("📊 ROI 계산 근거 및 가정"):
+                st.markdown("""
+                ### 💰 장바구니 리마케팅 ROI 계산식
+                
+                **1. 기본 공식:**
+                ```
+                월간 회수 가능 매출 = 총 이탈 손실 × 회수율(%)
+                연간 ROI = 월간 회수 가능 매출 × 12
+                ```
+                
+                **2. 회수율 5% 산출 근거:**
+                
+                | 단계 | 벤치마크 | 출처 |
+                |:-----|:---------|:-----|
+                | 이메일 오픈율 | 40% | Klaviyo 2023 Benchmark |
+                | 클릭률 (CTR) | 20% | Mailchimp Industry Average |
+                | 전환율 (CVR) | 10% | Barilliance 2023 Report |
+                | **종합 회수율** | **0.8% ~ 2.0%** | 40% × 20% × 10% = 0.8% |
+                
+                > ⚠️ 본 분석에서는 **공격적 시나리오(5%)**를 가정했습니다.
+                > 리마케팅 최적화, 다채널 푸시, 쿠폰 제공 등 추가 전략 적용 시 달성 가능합니다.
+                
+                **3. 시나리오별 예상 ROI:**
+                """)
+                
+                scenario_data = {
+                    '시나리오': ['🔴 보수적', '🟡 기본', '🟢 공격적'],
+                    '회수율': ['2%', '5%', '10%'],
+                    '월간 회수': [f'${total_loss_after*0.02/1000:.1f}K', f'${total_loss_after*0.05/1000:.1f}K', f'${total_loss_after*0.10/1000:.1f}K'],
+                    '연간 ROI': [f'${total_loss_after*0.02*12/1000:.0f}K', f'${total_loss_after*0.05*12/1000:.0f}K', f'${total_loss_after*0.10*12/1000:.0f}K'],
+                    '가정': ['이메일만', '이메일+푸시+쿠폰', '풀스택 리마케팅']
+                }
+                st.dataframe(pd.DataFrame(scenario_data), use_container_width=True, hide_index=True)
+            
             st.markdown("---")
             
-            col1, col2 = st.columns([1.5, 1])
+            # 그래프 2개: 총 손실 + 건당 손실
+            st.markdown("### 📊 장바구니 이탈 상품 분석")
+            
+            col1, col2 = st.columns(2)
             
             with col1:
                 df_top = df_cart.nlargest(10, 'total_lost_revenue')
                 
-                fig = px.bar(
+                fig1 = px.bar(
                     df_top,
                     x='total_lost_revenue',
                     y='item_name',
                     orientation='h',
                     color='avg_lost_value',
                     color_continuous_scale='Reds',
-                    text_auto=False  # 자동 텍스트 비활성화
+                    text_auto=False
                 )
                 
-                # 텍스트 레이블 설정 (손실 금액만 표시)
-                fig.update_traces(
+                fig1.update_traces(
                     text=[f'${x:,.0f}' for x in df_top['total_lost_revenue']],
                     textposition='outside',
-                    textfont=dict(size=11),
-                    hovertemplate='%{y}<br>손실: $%{x:,.0f}<extra></extra>'
+                    textfont=dict(size=10),
+                    hovertemplate='%{y}<br>총 손실: $%{x:,.0f}<extra></extra>'
                 )
                 
-                fig.update_layout(
-                    title='장바구니 이탈 손실 TOP 10 (이상치 제외)',
-                    xaxis_title='손실 매출 ($)',
+                fig1.update_layout(
+                    title='📦 총 손실 금액 TOP 10',
+                    xaxis_title='총 손실 매출 ($)',
                     yaxis_title='',
                     yaxis={'categoryorder': 'total ascending'},
-                    height=600,
-                    coloraxis_colorbar_title='평균 금액',
-                    uniformtext_minsize=10,
-                    uniformtext_mode='hide'
+                    height=500,
+                    coloraxis_colorbar_title='건당 손실',
+                    margin=dict(l=10, r=80, t=50, b=50)
                 )
                 
-                st.plotly_chart(fig, use_container_width=True)
+                st.plotly_chart(fig1, use_container_width=True)
+                
+                st.caption("📌 총 손실 = 이탈 건수 × 건당 손실 금액")
             
             with col2:
-                # TOP 1 상품 분석 (이상치 제외 후) - nlargest로 정렬되어 있으므로 iloc[0]이 최대
+                # 건당 손실 금액 그래프
+                df_top_avg = df_cart.nlargest(10, 'avg_lost_value')
+                
+                fig2 = px.bar(
+                    df_top_avg,
+                    x='avg_lost_value',
+                    y='item_name',
+                    orientation='h',
+                    color='total_lost_revenue',
+                    color_continuous_scale='Blues',
+                    text_auto=False
+                )
+                
+                fig2.update_traces(
+                    text=[f'${x:,.0f}' for x in df_top_avg['avg_lost_value']],
+                    textposition='outside',
+                    textfont=dict(size=10),
+                    hovertemplate='%{y}<br>건당 손실: $%{x:,.0f}<extra></extra>'
+                )
+                
+                fig2.update_layout(
+                    title='💵 건당 손실 금액 TOP 10',
+                    xaxis_title='건당 손실 금액 ($)',
+                    yaxis_title='',
+                    yaxis={'categoryorder': 'total ascending'},
+                    height=500,
+                    coloraxis_colorbar_title='총 손실',
+                    margin=dict(l=10, r=80, t=50, b=50)
+                )
+                
+                st.plotly_chart(fig2, use_container_width=True)
+                
+                st.caption("📌 건당 손실 높은 상품 = 고가 상품 결제 허들 존재")
+            
+            st.markdown("---")
+            
+            # 분석 요약
+            col1, col2 = st.columns([1.2, 1])
+            
+            with col1:
+                st.markdown("### 🔍 주요 발견사항")
+                
                 if len(df_top) > 0:
-                    top_item = df_top.iloc[0]  # 가장 손실 큰 상품 (nlargest 첫 번째)
-                    # abandoned_count 컬럼 확인 (abandon_count 또는 abandoned_count)
+                    top_total = df_top.iloc[0]
+                    top_avg = df_top_avg.iloc[0]
+                    
+                    st.markdown(f"""
+                    <div class="insight-box">
+                    <strong>📊 총 손실 TOP 1</strong><br>
+                    <strong>{top_total['item_name'][:35]}...</strong><br>
+                    총 손실: <strong>${top_total['total_lost_revenue']:,.0f}</strong><br><br>
+                    
+                    <strong>💵 건당 손실 TOP 1</strong><br>
+                    <strong>{top_avg['item_name'][:35]}...</strong><br>
+                    건당 손실: <strong>${top_avg['avg_lost_value']:,.0f}</strong>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    st.markdown("""
+                    <div class="methodology-box">
+                    <strong>💡 인사이트</strong><br><br>
+                    • <strong>총 손실 TOP</strong>: 이탈 건수가 많은 인기 상품<br>
+                    &nbsp;&nbsp;→ 리마케팅 우선순위 높음<br><br>
+                    • <strong>건당 손실 TOP</strong>: 고가 상품 결제 마찰<br>
+                    &nbsp;&nbsp;→ 분할결제, 가격 보장 정책 필요
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            with col2:
+                # TOP 1 상품 상세 분석
+                if len(df_top) > 0:
+                    top_item = df_top.iloc[0]
                     abandon_cnt = int(top_item.get('abandoned_count', top_item.get('abandon_count', 0)))
-                    # 이탈건수가 0이면 total/avg로 역산
                     if abandon_cnt == 0 and top_item['avg_lost_value'] > 0:
                         abandon_cnt = int(top_item['total_lost_revenue'] / top_item['avg_lost_value'])
                     
                     st.markdown(f"""
                     <div class="critical-box">
-                    <strong>🚨 최대 이탈 상품 분석</strong><br><br>
+                    <strong>🚨 최우선 개선 대상</strong><br><br>
                     <strong>{top_item['item_name'][:30]}...</strong><br><br>
-                    • 이탈: {abandon_cnt:,}건<br>
-                    • 손실: <strong>${top_item['total_lost_revenue']:,.0f}</strong><br>
-                    • 평균: ${top_item['avg_lost_value']:,.0f}/건<br><br>
+                    • 이탈 건수: <strong>{abandon_cnt:,}건</strong><br>
+                    • 총 손실: <strong>${top_item['total_lost_revenue']:,.0f}</strong><br>
+                    • 건당 손실: ${top_item['avg_lost_value']:,.0f}<br><br>
                     
-                    <strong>원인 추정:</strong><br>
-                    • 고가 상품 결제 허들<br>
-                    • 가격 비교 후 이탈<br>
-                    • 결제 수단 제한
+                    <strong>권장 액션:</strong><br>
+                    1. 장바구니 리마인더 이메일 발송<br>
+                    2. 한정 시간 쿠폰 제공<br>
+                    3. 재입고 알림 기능 추가
                     </div>
                     """, unsafe_allow_html=True)
                 
                 st.markdown("""
                 <div class="success-box">
-                <strong>💡 개선 방안</strong><br><br>
-                1. <strong>분할결제</strong> 옵션 제공<br>
-                2. <strong>가격 보장</strong> 정책<br>
+                <strong>💡 개선 방안 우선순위</strong><br><br>
+                1. <strong>분할결제</strong> 옵션 (고가 상품)<br>
+                2. <strong>가격 보장</strong> 정책 안내<br>
                 3. 리마케팅 이메일 자동화<br>
-                4. 장바구니 만료 알림<br><br>
-                
-                <em>예상 회수: 5% 기준</em>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.markdown("""
-                <div class="limitation-box">
-                <strong>📌 이상치 처리 근거</strong><br><br>
-                Rain Shell 상품은 평균 손실 금액이<br>
-                다른 상품 대비 <strong>10배 이상</strong>으로<br>
-                quantity 이상치로 판단하여 제외했습니다.
+                4. 장바구니 만료 카운트다운
                 </div>
                 """, unsafe_allow_html=True)
     
@@ -1780,45 +1880,61 @@ elif page == "🛒 이탈 & 기회 분석":
             fig.add_vline(x=5, line_dash="dash", line_color="gray", opacity=0.5)
             
             # 사분면 라벨
-            fig.add_annotation(x=50, y=400, text="⭐ Star", showarrow=False, font=dict(size=14, color='#27ae60'))
-            fig.add_annotation(x=2, y=400, text="💎 Hidden Gem", showarrow=False, font=dict(size=14, color='#f39c12'))
+            fig.add_annotation(x=50, y=400, text="⭐ Star 프로모션", showarrow=False, font=dict(size=14, color='#27ae60'))
+            fig.add_annotation(x=2, y=400, text="💎 Hidden Gem 프로모션", showarrow=False, font=dict(size=14, color='#f39c12'))
             
             fig.update_traces(textposition='top center')
             fig.update_layout(
-                title='프로모션 4분면 분석',
-                xaxis_title='CTR (%)',
-                yaxis_title='평균 유저 점수',
+                title='프로모션 4분면 분석 (CTR vs 유저 품질)',
+                xaxis_title='CTR (%) - 클릭률',
+                yaxis_title='평균 유저 Engagement Score',
                 height=600
             )
             
             st.plotly_chart(fig, use_container_width=True)
+            
+            # 4분면 설명
+            with st.expander("📐 4분면 분류 기준 설명"):
+                st.markdown("""
+                ### 프로모션 4분면 분류 기준
+                
+                | 분류 | CTR | 유저 품질 | 해석 |
+                |:-----|:----|:----------|:-----|
+                | ⭐ **Star** | 높음 (>5%) | 높음 | 확대 투자 대상 |
+                | 💎 **Hidden Gem** | 낮음 (<5%) | 높음 | 배너 개선 시 잠재력 높음 |
+                | ⚠️ **Clickbait** | 높음 | 낮음 | 낚시성 - 전환 기여 낮음 |
+                | 🔘 **Poor** | 낮음 | 낮음 | 제거/교체 대상 |
+                
+                > **Hidden Gem 프로모션**: CTR은 낮지만 클릭한 유저의 구매 전환율이 높은 프로모션.  
+                > 배너 디자인, 위치, 카피 개선으로 CTR만 높이면 ROI 극대화 가능.
+                """)
             
             col1, col2 = st.columns(2)
             
             with col1:
                 st.markdown("""
                 <div class="warning-box">
-                <strong>💎 Hidden Gem 발견!</strong><br><br>
-                <strong>Reach New Heights</strong><br><br>
-                • CTR: 2.56% (최저)<br>
-                • 클릭 유저 점수: 400.2 (최고)<br>
-                • 전환율: 4.63% (최고)<br><br>
+                <strong>💎 Hidden Gem 프로모션 발견!</strong><br><br>
+                <strong>'Reach New Heights' 프로모션 배너</strong><br><br>
+                • CTR: 2.56% (전체 최저)<br>
+                • 클릭 유저 Engagement: 400.2 (최고)<br>
+                • 클릭 유저 전환율: 4.63% (최고)<br><br>
                 
-                → 배너 디자인만 개선하면<br>
-                높은 ROI 기대
+                <strong>→ 배너 디자인/위치만 개선하면<br>
+                높은 ROI 기대</strong>
                 </div>
                 """, unsafe_allow_html=True)
             
             with col2:
                 st.markdown("""
                 <div class="insight-box">
-                <strong>🎯 액션 플랜</strong><br><br>
-                1. Hidden Gem A/B 테스트<br>
+                <strong>🎯 Hidden Gem 프로모션 액션 플랜</strong><br><br>
+                1. <strong>A/B 테스트</strong> 진행<br>
                    목표: CTR 2.6% → 10%<br><br>
-                2. Star 프로모션 확대<br>
-                   메인 배너 위치 배정<br><br>
+                2. <strong>배너 위치</strong> 상향 조정<br>
+                   메인 페이지 상단 배치<br><br>
                 3. 월간 성과 모니터링<br><br>
-                <em>예상: +50건 전환/월</em>
+                <em>예상 효과: +50건 전환/월</em>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -1834,7 +1950,7 @@ elif page == "🎯 액션 우선순위":
     st.markdown("### 📊 Impact-Effort 매트릭스")
     
     actions = {
-        'action': ['장바구니 리마케팅', 'Hidden Gem 배너 개선', 'Deep Specialist 비교표', 
+        'action': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너 개선', 'Deep Specialist 비교표', 
                    'VIP 세그먼트 타겟팅', 'Tablet UX 개선', '분할결제 도입', 
                    '실시간 세션 스코어링', 'CDP 구축'],
         'impact': [85, 70, 80, 75, 60, 70, 90, 95],
@@ -1906,7 +2022,7 @@ elif page == "🎯 액션 우선순위":
         • 1/24/72시간 이메일 자동화<br>
         • 예상: $39.7K/월<br><br>
         
-        <strong>2. Hidden Gem 배너 A/B</strong><br>
+        <strong>2. Hidden Gem 프로모션 배너 A/B 테스트</strong><br>
         • 새 디자인 테스트<br>
         • 예상: +50건/월<br><br>
         
@@ -1958,7 +2074,7 @@ elif page == "🎯 액션 우선순위":
     
     action_detail = {
         '우선순위': ['🥇 1', '🥇 1', '🥈 2', '🥈 2', '🥉 3', '🥉 3'],
-        '액션': ['장바구니 리마케팅', 'Hidden Gem 배너', 'Deep Specialist 비교표', 
+        '액션': ['장바구니 리마케팅', 'Hidden Gem 프로모션 배너', 'Deep Specialist 비교표', 
                  'VIP 타겟팅', 'Tablet UX', '분할결제'],
         '예상 효과': ['$39.7K/월', '+50건/월', '+361건/월', '+15% LTV', '+2.5%p', '$100K+'],
         '구현 난이도': ['낮음 ⭐', '낮음 ⭐', '중간 ⭐⭐', '중간 ⭐⭐', '높음 ⭐⭐⭐', '중간 ⭐⭐'],
