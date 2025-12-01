@@ -483,12 +483,10 @@ elif page == "📊 데이터 개요":
         <strong>2. 샘플 한계</strong><br>
         • 일부 세그먼트 샘플 크기 작음<br>
         • 통계적 유의성 검증 필수<br>
-        • 60분+ 구매자: 102명 (신뢰구간 넓음)<br><br>
         
         <strong>3. 데이터 특성</strong><br>
         • Obfuscated 데이터 (일부 값 마스킹)<br>
-        • 단일 스토어 → 일반화 제한<br>
-        • 가격 정보 일부 누락
+        • Google Merchandise Store 단일 스토어 데이터 → 일반화 제한<br>
         </div>
         """, unsafe_allow_html=True)
         
