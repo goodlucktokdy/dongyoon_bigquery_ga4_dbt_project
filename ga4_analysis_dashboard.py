@@ -131,8 +131,7 @@ def load_data():
         'funnel_dropoff': 'mart_funnel_dropoff.csv',
         'funnel_device': 'mart_funnel_device.csv',
         'funnel_day': 'mart_funnel_daycsv.csv',
-        'funnel_hour': 'mart_funnel_hour.csv',
-        'funnel_source': 'mart_funnel_source.csv'
+        'funnel_hour': 'mart_funnel_hour.csv'
     }
     
     working_path = None
@@ -389,7 +388,7 @@ if page == "🏠 Executive Summary":
         st.markdown("""
         ### χ² (카이제곱) 검정이란?
         
-        "상품 조회 구간별 전환율 차이가 **우연인지 vs 실제 차이인지**"를 검증하는 통계 방법
+        "상품 조회 구간별 전환율 차이가 **우연인지 vs 실제 차이인지** 를 검증하는 통계 방법"
         
         | 지표 | 값 | 의미 |
         |:-----|:---|:-----|
@@ -1197,7 +1196,7 @@ elif page == "📈 전환 퍼널 분석":
         
         ### ✅ 해결: High Intent 유저만 비교
         
-        **"살 마음이 있는 유저"**가 각 디바이스에서 얼마나 구매를 완료하는지 비교해야
+        **"살 마음이 있는 유저"** 가 각 디바이스에서 얼마나 구매를 완료하는지 비교해야
         **순수 UX 마찰**을 측정할 수 있습니다.
         
         | 디바이스 | High Intent CVR | vs Desktop | 해석 |
@@ -1422,83 +1421,6 @@ GROUP BY device_category
                 • 시간대별 가격 전략 검토
                 </div>
                 """, unsafe_allow_html=True)
-    
-    st.markdown("---")
-    
-    # 트래픽 소스별 분석
-    st.markdown("### 🔗 트래픽 소스별 전환율")
-    
-    if 'funnel_source' in data:
-        df_source = data['funnel_source']
-        
-        col1, col2 = st.columns([1.5, 1])
-        
-        with col1:
-            # 상위 10개 소스만
-            df_source_top = df_source.head(10)
-            
-            fig_source = px.scatter(
-                df_source_top,
-                x='sessions',
-                y='cvr',
-                size='purchased',
-                color='medium',
-                text='source',
-                size_max=50,
-                hover_data=['sessions', 'purchased', 'cvr']
-            )
-            
-            fig_source.update_traces(textposition='top center')
-            fig_source.update_layout(
-                title="트래픽 소스별 세션 수 vs 전환율 (버블 크기 = 구매 수)",
-                xaxis_title="세션 수",
-                yaxis_title="전환율 (%)",
-                height=600
-            )
-            
-            st.plotly_chart(fig_source, use_container_width=True)
-        
-        with col2:
-            # 전환율 TOP 5
-            df_source_cvr = df_source[df_source['sessions'] >= 100].nlargest(5, 'cvr')
-            
-            st.markdown("#### 🏆 전환율 TOP 5 (세션 100+ 기준)")
-            
-            for i, row in df_source_cvr.iterrows():
-                st.markdown(f"""
-                **{row['source']} / {row['medium']}**  
-                전환율: {row['cvr']}% | 세션: {int(row['sessions']):,} | 구매: {int(row['purchased']):,}
-                """)
-            
-            st.markdown("---")
-            
-            # 최고 전환율 소스 하이라이트
-            best_source = df_source[df_source['sessions'] >= 100].loc[
-                df_source[df_source['sessions'] >= 100]['cvr'].idxmax()
-            ]
-            
-            st.markdown(f"""
-            <div class="success-box">
-            <strong>⭐ 최고 효율 채널</strong><br><br>
-            <strong>{best_source['source']}</strong><br>
-            ({best_source['medium']})<br><br>
-            • 전환율: <strong>{best_source['cvr']}%</strong><br>
-            • 구매: {int(best_source['purchased']):,}건<br><br>
-            → 이 채널 투자 확대 권장
-            </div>
-            """, unsafe_allow_html=True)
-        
-        # 소스 상세 테이블
-        with st.expander("📋 전체 소스 데이터 보기"):
-            st.dataframe(
-                df_source.style.format({
-                    'sessions': '{:,.0f}',
-                    'purchased': '{:,.0f}',
-                    'cvr': '{:.2f}%'
-                }).background_gradient(subset=['cvr'], cmap='Greens'),
-                use_container_width=True,
-                hide_index=True
-            )
 
 # ----- 5. 디바이스 & 시간 분석 -----
 elif page == "📱 디바이스 & 시간 분석":
@@ -2385,7 +2307,7 @@ models/
             
             **📐 왜 이 기법을 선택했는가?**
             - 데이터가 모두 **범주형** (Categorical) → 평균 비교 불가
-            - **"그룹 간 비율의 차이"**가 우연인지 아닌지 판별 필요
+            - **"그룹 간 비율의 차이"** 가 우연인지 아닌지 판별 필요
             - 관측 빈도(Observed)와 기대 빈도(Expected) 간의 차이 측정
             """)
             
@@ -2434,7 +2356,7 @@ def chi_square_test(g1_success, g1_total, g2_success, g2_total):
             **📐 왜 효과 크기가 필요한가?**
             - **통계적으로 유의하다** (Significant) ≠ **중요하다** (Important)
             - 빅데이터에서는 아주 작은 차이도 p < 0.001이 나옴
-            - **"실질적인 중요성"**을 측정하기 위해 사용
+            - **"실질적인 중요성"** 을 측정하기 위해 사용
             
             **🔬 Cohen's h 특징**
             - 두 **비율** (Proportion) 간의 차이를 아크사인 변환
