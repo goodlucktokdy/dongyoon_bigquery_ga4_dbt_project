@@ -729,12 +729,17 @@ elif page == "🔍 세그먼트 분석":
         
         st.markdown("""
         ```sql
-        -- 세그먼트 분류 SQL 로직
+        -- int_browsing_style.sql 세그먼트 분류 로직
         -- 전제: total_items_viewed > 0 (view_item 이벤트가 있는 세션만 대상)
+        
         CASE
-            WHEN total_items_viewed <= 2 THEN 'Light Browser (찍먹형)'
-            WHEN total_items_viewed > 2 AND distinct_categories = 1 THEN 'Deep Specialist (한우물형)'
-            WHEN distinct_categories >= 2 THEN 'Variety Seeker (다양성형)'
+            WHEN total_items_viewed <= 2 
+                THEN 'Light Browser'
+            WHEN total_items_viewed > 2 AND distinct_categories_viewed = 1 
+                THEN 'Deep Specialist (한우물형)'
+            WHEN distinct_categories_viewed >= 2 
+                THEN 'Variety Seeker (다양성 추구형)'
+            ELSE 'Others'
         END AS browsing_style
         ```
         """)
@@ -855,14 +860,23 @@ elif page == "🔍 세그먼트 분석":
         """)
         
         st.code("""
--- 백분위 기반 구간 분류 SQL
+-- mart_deep_specialists.sql 구간 분류 로직
+-- P25(12), P75(24), P90(36) 기준으로 구간화
+
 SELECT
-    APPROX_QUANTILES(total_items_viewed, 100)[OFFSET(25)] AS p25,  -- 결과: 12
-    APPROX_QUANTILES(total_items_viewed, 100)[OFFSET(50)] AS p50,  -- 결과: 18
-    APPROX_QUANTILES(total_items_viewed, 100)[OFFSET(75)] AS p75,  -- 결과: 24
-    APPROX_QUANTILES(total_items_viewed, 100)[OFFSET(90)] AS p90   -- 결과: 36
+    CASE
+        WHEN total_items_viewed < 12 THEN '1. 탐색 초기 (3-11개)'
+        WHEN total_items_viewed BETWEEN 12 AND 24 THEN '2. 집중 비교 (12-24개)'
+        WHEN total_items_viewed BETWEEN 25 AND 36 THEN '3. 고민 심화 (25-36개)'
+        WHEN total_items_viewed > 36 THEN '4. 결정 마비 (37개 이상)'
+    END AS depth_segment,
+    
+    COUNT(session_unique_id) AS session_count,
+    ROUND(AVG(is_converted) * 100, 2) AS conversion_rate
+    
 FROM int_browsing_style
-WHERE browsing_style = 'Deep Specialist'
+WHERE browsing_style = 'Deep Specialist (한우물형)'
+GROUP BY 1
         """, language="sql")
     
     if 'deep_specialists' in data:
@@ -1426,15 +1440,31 @@ elif page == "📱 디바이스 & 시간 분석":
             """, unsafe_allow_html=True)
             
             st.code("""
--- High Intent 유저 디바이스별 전환율 (실제 쿼리)
+-- mart_device_friction.sql 핵심 로직
+WITH device_stats AS (
+    SELECT
+        e.device_category,
+        COUNT(DISTINCT e.session_unique_id) AS total_sessions,
+        COUNTIF(s.engagement_grade = 'High Intent') AS high_intent_users,
+        COUNTIF(s.engagement_grade = 'High Intent' AND p.is_converted = 1) AS high_intent_converters
+    FROM stg_events e
+    JOIN int_engage_lift_score s ON e.session_unique_id = s.session_unique_id
+    JOIN int_session_paths p ON e.session_unique_id = p.session_unique_id
+    GROUP BY 1
+)
 SELECT
     device_category,
-    COUNT(DISTINCT session_unique_id) AS high_intent_sessions,
-    SUM(is_converted) AS conversions,
-    ROUND(SUM(is_converted) / COUNT(*) * 100, 2) AS high_intent_cvr
-FROM mart_core_sessions
-WHERE engagement_grade = 'High Intent'  -- Engagement Score 상위 20%
-GROUP BY device_category
+    ROUND(SAFE_DIVIDE(high_intent_converters, high_intent_users) * 100, 1) AS high_intent_cvr_percent,
+    
+    -- [핵심] PC 대비 상대 효율 (Efficiency Index)
+    -- 공식: (내 CVR / Desktop CVR) * 100
+    ROUND(
+        SAFE_DIVIDE(
+            high_intent_cvr, 
+            MAX(CASE WHEN device_category = 'desktop' THEN high_intent_cvr END) OVER()
+        ) * 100, 0
+    ) AS efficiency_index_vs_pc
+FROM device_stats
             """, language="sql")
         
         if 'device_friction' in data:
@@ -1597,6 +1627,59 @@ elif page == "🛒 장바구니 & 프로모션 분석":
     with tab1:
         st.markdown("### 장바구니 이탈 분석")
         
+        # 이탈 세션 정의 방법론
+        with st.expander("📐 이탈 세션 정의 방법론 (mart_cart_abandon.sql)"):
+            st.markdown("""
+            ### 🎯 장바구니 이탈 세션 정의
+            
+            **이탈 세션 조건** (OR 조건):
+            1. `is_missed_opportunity = TRUE` (놓친 기회 플래그)
+            2. `full_path`에 'add_to_cart' 포함 AND `is_converted = 0`
+            
+            ---
+            
+            ### 📊 데이터 흐름
+            
+            ```
+            mart_core_sessions (is_missed_opportunity, full_path)
+                    ↓
+            abandoned_sessions (이탈 세션 ID 추출)
+                    ↓
+            cart_items (stg_events와 JOIN → 상품 정보)
+                    ↓
+            mart_cart_abandon (상품별 집계)
+            ```
+            """)
+            
+            st.code("""
+-- mart_cart_abandon.sql 이탈 세션 추출 로직
+WITH abandoned_sessions AS (
+    SELECT session_unique_id
+    FROM mart_core_sessions
+    WHERE 
+        (is_missed_opportunity = TRUE) OR 
+        (REGEXP_CONTAINS(full_path, r'add_to_cart') AND is_converted = 0)
+),
+cart_items AS (
+    SELECT
+        e.session_unique_id,
+        e.item_name,
+        MIN(e.item_category) AS item_category,
+        e.item_revenue_calc AS potential_revenue
+    FROM stg_events e
+    INNER JOIN abandoned_sessions s 
+        ON e.session_unique_id = s.session_unique_id
+    WHERE e.event_name = 'add_to_cart'
+    GROUP BY 1, 2, 4
+)
+SELECT
+    item_name,
+    COUNT(DISTINCT session_unique_id) AS abandoned_session_count,
+    SUM(potential_revenue) AS total_lost_revenue
+FROM cart_items
+GROUP BY 1
+            """, language="sql")
+        
         # 이상치 제거 설명
         with st.expander("⚠️ 데이터 전처리: 이상치 제거 (Rain Shell)"):
             st.markdown("""
@@ -1717,8 +1800,8 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                 • 건당 평균 손실: <strong>${bags_avg:.0f}</strong><br><br>
                 
                 <strong>상위 상품:</strong><br>
-                • Utility BackPack: 302건, $251/건<br>
-                • Flat Front Bag: 306건, $64/건<br><br>
+                • Utility BackPack: 316건, $371/건<br>
+                • Flat Front Bag: 437건, $71/건<br><br>
                 
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>분할결제</strong> 3/6개월 옵션<br>
@@ -1737,8 +1820,8 @@ elif page == "🛒 장바구니 & 프로모션 분석":
                 • 건당 평균 손실: <strong>${apparel_avg:.0f}</strong><br><br>
                 
                 <strong>상위 상품:</strong><br>
-                • Heathered Pom Beanie: 1,391건<br>
-                • Zip Hoodie: 1,237건<br><br>
+                • Heathered Pom Beanie: 1,742건<br>
+                • Super G Unisex Joggers: 1,731건<br><br>
                 
                 <strong>📋 액션 플랜:</strong><br>
                 1. <strong>Guest Checkout</strong> 원클릭 결제<br>
@@ -1895,6 +1978,117 @@ elif page == "🛒 장바구니 & 프로모션 분석":
     with tab2:
         st.markdown("### 프로모션 품질 4분면 분석")
         
+        # Lift 기반 Engagement Score 설명
+        with st.expander("📐 Engagement Score 산출 방법론 (Lift 기반)"):
+            st.markdown("""
+            ### 🎯 유저 품질 평가: Lift 기반 Engagement Score
+            
+            프로모션을 클릭한 유저의 **품질(구매 가능성)**을 평가하기 위해 
+            **Lift(향상도)** 기반의 Engagement Score를 사용합니다.
+            
+            ---
+            
+            ### 📊 Lift란?
+            
+            > **"이 행동을 하면 구매 확률이 몇 배로 뛰는가?"**
+            
+            ```
+            Lift = P(Purchase | Action) / P(Purchase)
+                 = 조건부 확률 / 베이스라인
+            ```
+            
+            ---
+            
+            ### 🔢 행동별 Lift 가중치 (실제 데이터 기반)
+            
+            | 행동 | Lift | 해석 |
+            |:-----|:-----|:-----|
+            | view_item | **4.6x** | 상품 조회 시 구매 확률 4.6배 |
+            | view_search_results | **2.9x** | 검색 시 구매 확률 2.9배 |
+            | add_to_cart | **11.8x** | 장바구니 추가 시 11.8배 |
+            | begin_checkout | **30.6x** | 결제 시작 시 30.6배 |
+            | add_payment_info | **46.5x** | 결제정보 입력 시 46.5배 |
+            
+            ---
+            
+            ### 💡 Engagement Score 계산 (int_engage_lift_score.sql)
+            
+            Lift 값을 반올림하여 점수로 변환:
+            
+            | 행동 | Lift | **점수** |
+            |:-----|:-----|:---------|
+            | view_item | 4.6x | **5점** |
+            | view_search_results | 2.9x | **3점** |
+            | add_to_cart | 11.8x | **12점** |
+            | begin_checkout | 30.6x | **31점** |
+            | add_payment_info | 46.5x | **47점** |
+            | 기타 이벤트 | - | **1점** |
+            
+            ```sql
+            Engagement Score = Σ (이벤트별 점수)
+            ```
+            
+            **예시**: 유저가 view_item + add_to_cart를 했다면
+            - Score = 5 + 12 = **17점**
+            
+            ---
+            
+            ### 📈 등급 분류 (PERCENT_RANK 기반)
+            
+            | 등급 | 기준 | 해석 |
+            |:-----|:-----|:-----|
+            | **High Intent** | 상위 20% (pct_rank ≤ 0.2) | 진성 유저 |
+            | **Medium Intent** | 상위 20~50% (pct_rank ≤ 0.5) | 탐색 유저 |
+            | **Low Intent** | 하위 50% (나머지) | 이탈 가능성 |
+            
+            > 이 Score를 기반으로 프로모션 클릭 유저의 **평균 품질**을 측정합니다.
+            """)
+            
+            st.code("""
+-- 1. Lift 가중치 산출 (int_lift_weight.sql)
+WITH session_stats AS (
+    SELECT
+        session_unique_id,
+        MAX(IF(event_name = 'purchase', 1, 0)) as is_converted,
+        MAX(IF(event_name = 'view_item', 1, 0)) as has_view_item,
+        MAX(IF(event_name = 'add_to_cart', 1, 0)) as has_cart
+    FROM stg_events
+    GROUP BY 1
+),
+rates AS (
+    SELECT
+        SAFE_DIVIDE(SUM(is_converted), COUNT(*)) as base_cv,
+        SAFE_DIVIDE(COUNTIF(has_cart=1 AND is_converted=1), COUNTIF(has_cart=1)) as cart_cv
+    FROM session_stats
+)
+SELECT ROUND(cart_cv / base_cv, 1) as score_cart  -- 결과: 11.8
+
+-- 2. Engagement Score 계산 (int_engage_lift_score.sql)  
+SELECT
+    session_unique_id,
+    SUM(CASE 
+        WHEN event_name = 'view_item' THEN 5
+        WHEN event_name = 'view_search_results' THEN 3
+        WHEN event_name = 'add_to_cart' THEN 12
+        WHEN event_name = 'begin_checkout' THEN 31
+        WHEN event_name = 'add_payment_info' THEN 47
+        ELSE 1
+    END) AS engagement_score
+FROM stg_events
+GROUP BY 1
+
+-- 3. 등급 분류
+SELECT *,
+    CASE 
+        WHEN PERCENT_RANK() OVER (ORDER BY engagement_score DESC) <= 0.2 
+            THEN 'High Intent'
+        WHEN PERCENT_RANK() OVER (ORDER BY engagement_score DESC) <= 0.5 
+            THEN 'Medium Intent'
+        ELSE 'Low Intent'
+    END AS engagement_grade
+FROM session_scores
+            """, language="sql")
+        
         if 'promo_quality' in data:
             df_promo = data['promo_quality']
             
@@ -1953,20 +2147,37 @@ elif page == "🛒 장바구니 & 프로모션 분석":
             )
             
             # 4분면 설명
-            with st.expander("📐 4분면 분류 기준 설명"):
+            with st.expander("📐 4분면 분류 기준 설명 (mart_promo_quality.sql)"):
                 st.markdown("""
                 ### 프로모션 4분면 분류 기준
                 
-                | 분류 | CTR | 유저 품질 | 해석 |
-                |:-----|:----|:----------|:-----|
-                | ⭐ **Star** | 높음 (>5%) | 높음 | 확대 투자 대상 |
-                | 💎 **Hidden Gem** | 낮음 (<5%) | 높음 | 배너 개선 시 잠재력 높음 |
-                | ⚠️ **Clickbait** | 높음 | 낮음 | 낚시성 - 전환 기여 낮음 |
-                | 🔘 **Poor** | 낮음 | 낮음 | 제거/교체 대상 |
+                **분류 기준값:**
+                - CTR 기준: **5.0%**
+                - Engagement Score 기준: **50점**
                 
-                > **Hidden Gem 프로모션**: CTR은 낮지만 클릭한 유저의 구매 전환율이 높은 프로모션.  
+                | 분류 | CTR | Engagement Score | SQL 조건 |
+                |:-----|:----|:-----------------|:---------|
+                | ⭐ **Star** | ≥ 5% | ≥ 50 | `ctr >= 5.0 AND score >= 50` |
+                | 💎 **Hidden Gem** | < 5% | ≥ 50 | `ctr < 5.0 AND score >= 50` |
+                | ⚠️ **Clickbait** | ≥ 5% | < 50 | `ctr >= 5.0 AND score < 50` |
+                | 🔘 **Poor** | < 5% | < 50 | `ctr < 5.0 AND score < 50` |
+                
+                > **Hidden Gem 프로모션**: CTR은 낮지만 클릭한 유저의 Engagement Score(구매 가능성)가 높은 프로모션.  
                 > 배너 디자인, 위치, 카피 개선으로 CTR만 높이면 고품질 유저 유입 증가.
                 """)
+                
+                st.code("""
+-- mart_promo_quality.sql 4분면 분류 로직
+CASE
+    WHEN perf.ctr_percent >= 5.0 AND q.avg_session_score >= 50 
+        THEN 'Star (확대)'
+    WHEN perf.ctr_percent >= 5.0 AND q.avg_session_score < 50 
+        THEN 'Clickbait (낚시성)'
+    WHEN perf.ctr_percent < 5.0 AND q.avg_session_score >= 50 
+        THEN 'Hidden Gem (숨은 보석)'
+    ELSE 'Poor (제거 대상)'
+END AS promo_status
+                """, language="sql")
             
             col1, col2 = st.columns(2)
             
