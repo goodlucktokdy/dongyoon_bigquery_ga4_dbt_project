@@ -2381,6 +2381,6 @@ st.markdown("""
 <div style="text-align: center; color: #666; font-size: 0.85rem;">
     <strong>GA4 이커머스 전환 최적화 분석</strong><br>
     Built with Python, dbt, BigQuery, Streamlit<br>
-    <em>분석 기간: 2020.12.01 ~ 12.31 | 데이터: ga4_obfuscated_sample_ecommerce</em>
+    데이터: ga4_obfuscated_sample_ecommerce</em>
 </div>
 """, unsafe_allow_html=True)
