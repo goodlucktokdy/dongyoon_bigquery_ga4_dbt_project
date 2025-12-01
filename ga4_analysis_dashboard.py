@@ -212,9 +212,6 @@ page = st.sidebar.radio(
 
 st.sidebar.markdown("---")
 st.sidebar.info("""
-**분석 기간**  
-2020.12.01 ~ 12.31 (31일)
-
 **데이터 소스**  
 BigQuery Public Dataset  
 `ga4_obfuscated_sample_ecommerce`
