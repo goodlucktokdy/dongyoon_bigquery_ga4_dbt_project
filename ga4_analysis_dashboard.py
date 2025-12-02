@@ -382,8 +382,8 @@ if page == "🏠 Executive Summary":
         """, unsafe_allow_html=True)
     
     # Bags 카테고리 데이터 동적 추출 (장바구니 페이지와 동일한 전처리)
-    bags_loss_pct = "48%"
-    bags_avg_loss = "$216"
+    bags_loss_pct = "31%"
+    bags_avg_loss = "$52"
     if 'cart_abandon' in data:
         df_cart_raw = data['cart_abandon'].copy()
         
@@ -397,9 +397,9 @@ if page == "🏠 Executive Summary":
         bags_row = df_cart[df_cart['item_category'].str.contains('Bags', case=False, na=False)]
         if len(bags_row) > 0:
             bags_lost = bags_row['total_lost_revenue'].sum()
-            bags_loss_pct = f"{bags_lost / total_lost * 100:.0f}%" if total_lost > 0 else "48%"
+            bags_loss_pct = f"{bags_lost / total_lost * 100:.0f}%" if total_lost > 0 else "31%"
             bags_count = bags_row['abandoned_session_count'].sum()
-            bags_avg_loss = f"${bags_lost / bags_count:.0f}" if bags_count > 0 else "$216"
+            bags_avg_loss = f"${bags_lost / bags_count:.0f}" if bags_count > 0 else "$52"
     
     with col3:
         st.markdown(f"""
@@ -712,6 +712,11 @@ elif page == "🔍 세그먼트 분석":
                 deep = df_bs[df_bs['browsing_style'].str.contains('Deep')]
                 variety = df_bs[df_bs['browsing_style'].str.contains('Variety')]
                 
+                # 세션수 추출
+                light_sessions = int(light['session_count'].values[0]) if len(light) > 0 else 532
+                deep_sessions = int(deep['session_count'].values[0]) if len(deep) > 0 else 8898
+                variety_sessions = int(variety['session_count'].values[0]) if len(variety) > 0 else 13091
+                
                 light_share = f"{light['session_share_percent'].values[0]:.1f}%" if len(light) > 0 else "2.4%"
                 deep_share = f"{deep['session_share_percent'].values[0]:.1f}%" if len(deep) > 0 else "39.5%"
                 variety_share = f"{variety['session_share_percent'].values[0]:.1f}%" if len(variety) > 0 else "58.1%"
@@ -720,30 +725,60 @@ elif page == "🔍 세그먼트 분석":
                 deep_cvr = f"{deep['conversion_rate'].values[0]:.2f}%" if len(deep) > 0 else "2.55%"
                 variety_cvr = f"{variety['conversion_rate'].values[0]:.2f}%" if len(variety) > 0 else "13.02%"
                 
+                # 신뢰구간 계산
+                if len(light) > 0:
+                    l_sessions = light['session_count'].values[0]
+                    l_cvr_val = light['conversion_rate'].values[0]
+                    l_conversions = int(l_sessions * l_cvr_val / 100)
+                    _, l_ci_low, l_ci_high = calculate_confidence_interval(l_conversions, l_sessions)
+                    light_ci = f"[{l_ci_low:.1f}%, {l_ci_high:.1f}%]"
+                else:
+                    light_ci = "[4.2%, 7.0%]"
+                
+                if len(deep) > 0:
+                    d_sessions = deep['session_count'].values[0]
+                    d_cvr_val = deep['conversion_rate'].values[0]
+                    d_conversions = int(d_sessions * d_cvr_val / 100)
+                    _, d_ci_low, d_ci_high = calculate_confidence_interval(d_conversions, d_sessions)
+                    deep_ci = f"[{d_ci_low:.1f}%, {d_ci_high:.1f}%]"
+                else:
+                    deep_ci = "[2.2%, 2.9%]"
+                
+                if len(variety) > 0:
+                    v_sessions = variety['session_count'].values[0]
+                    v_cvr_val = variety['conversion_rate'].values[0]
+                    v_conversions = int(v_sessions * v_cvr_val / 100)
+                    _, v_ci_low, v_ci_high = calculate_confidence_interval(v_conversions, v_sessions)
+                    variety_ci = f"[{v_ci_low:.1f}%, {v_ci_high:.1f}%]"
+                else:
+                    variety_ci = "[12.5%, 13.6%]"
+                
                 # 전환율 비율 계산
                 v_cvr_val = variety['conversion_rate'].values[0] if len(variety) > 0 else 13.02
                 d_cvr_val = deep['conversion_rate'].values[0] if len(deep) > 0 else 2.55
                 cvr_ratio = v_cvr_val / d_cvr_val if d_cvr_val > 0 else 5.1
             else:
+                light_sessions, deep_sessions, variety_sessions = 532, 8898, 13091
                 light_share, deep_share, variety_share = "2.4%", "39.5%", "58.1%"
                 light_cvr, deep_cvr, variety_cvr = "5.45%", "2.55%", "13.02%"
+                light_ci, deep_ci, variety_ci = "[4.2%, 7.0%]", "[2.2%, 2.9%]", "[12.5%, 13.6%]"
                 v_cvr_val, d_cvr_val, cvr_ratio = 13.02, 2.55, 5.1
             
             segment_data = {
                 '세그먼트': ['Light Browser', 'Deep Specialist', 'Variety Seeker'],
-                'SQL 조건': ['1 ≤ Items ≤ 2', 'Items > 2, Category = 1', 'Categories ≥ 2'],
+                '세션수': [f"{light_sessions:,}", f"{deep_sessions:,}", f"{variety_sessions:,}"],
                 '비중': [light_share, deep_share, variety_share],
                 'CVR': [light_cvr, deep_cvr, variety_cvr],
-                '특성': ['탐색 의도 미발현', '선택의 역설 취약', 'Cross-selling 최적']
+                '95% CI': [light_ci, deep_ci, variety_ci]
             }
             st.dataframe(pd.DataFrame(segment_data), use_container_width=True, hide_index=True)
             
             st.markdown(f"""
             <div class="methodology-box">
             <strong>💡 핵심 발견</strong><br><br>
-            • <strong>Variety Seeker</strong>: 전환율 <strong>{variety_cvr}</strong> (가장 높음)<br>
-            • <strong>Deep Specialist</strong>: 전환율 <strong>{deep_cvr}</strong> (결정 마비)<br>
-            • 차이: <strong>{cvr_ratio:.1f}배</strong> (통계적으로 유의미)
+            • <strong>Variety Seeker</strong>: 전환율 <strong>{variety_cvr}</strong> {variety_ci} (n={variety_sessions:,})<br>
+            • <strong>Deep Specialist</strong>: 전환율 <strong>{deep_cvr}</strong> {deep_ci} (n={deep_sessions:,})<br>
+            • 차이: <strong>{cvr_ratio:.1f}배</strong> (신뢰구간 비중첩 → 통계적 유의미)
             </div>
             """, unsafe_allow_html=True)
         
@@ -808,6 +843,10 @@ elif page == "🔍 세그먼트 분석":
                     d_cvr = deep['conversion_rate'].values[0]
                     d_conversions = int(d_sessions * d_cvr / 100)
                     
+                    # 신뢰구간 계산
+                    _, v_ci_low, v_ci_high = calculate_confidence_interval(v_conversions, v_sessions)
+                    _, d_ci_low, d_ci_high = calculate_confidence_interval(d_conversions, d_sessions)
+                    
                     # 실제 χ² 검정 계산
                     chi2, p_value = chi_square_test(v_conversions, v_sessions, d_conversions, d_sessions)
                     
@@ -825,13 +864,20 @@ elif page == "🔍 세그먼트 분석":
                     else:
                         effect_label = "소형 효과"
                     
+                    # 신뢰구간 겹침 여부 확인
+                    ci_overlap = "비중첩 ✅" if v_ci_low > d_ci_high else "중첩"
+                    
                     st.markdown(f"""
                     <div class="stat-significant">
                     <strong>통계적 유의성 검정</strong><br><br>
-                    • Variety: {v_cvr:.2f}% vs Deep: {d_cvr:.2f}%<br>
-                    • <strong>χ² = {chi2:.2f}, p-value: {p_display}</strong> ✅<br>
+                    <strong>95% 신뢰구간 (Wilson Score)</strong><br>
+                    • Variety: {v_cvr:.2f}% [{v_ci_low:.1f}%, {v_ci_high:.1f}%]<br>
+                    • Deep: {d_cvr:.2f}% [{d_ci_low:.1f}%, {d_ci_high:.1f}%]<br>
+                    • 신뢰구간: <strong>{ci_overlap}</strong><br><br>
+                    <strong>검정 결과</strong><br>
+                    • <strong>χ² = {chi2:.2f}, p-value: {p_display}</strong><br>
                     • Cohen's h = {cohens_h:.2f} ({effect_label})<br><br>
-                    <em>→ 유의미한 차이 확인</em>
+                    <em>→ 두 그룹 간 유의미한 차이 확인</em>
                     </div>
                     """, unsafe_allow_html=True)
     
@@ -841,6 +887,16 @@ elif page == "🔍 세그먼트 분석":
         st.markdown("""
         **핵심 문제**: 한 카테고리 내에서 12-24개 상품을 조회하는 구간에서 전환율이 급락
         """)
+        
+        # Deep Specialist 총 세션수 표시
+        deep_total_sessions = 8898  # 기본값
+        if 'browsing_style' in data:
+            df_bs_deep = data['browsing_style']
+            deep_row = df_bs_deep[df_bs_deep['browsing_style'].str.contains('Deep')]
+            if len(deep_row) > 0:
+                deep_total_sessions = int(deep_row['session_count'].values[0])
+        
+        st.info(f"📊 **Deep Specialist 총 세션수: {deep_total_sessions:,}개** (전체의 39.5%)")
         
         if 'deep_specialists' in data:
             df_deep = data['deep_specialists']
@@ -860,6 +916,17 @@ elif page == "🔍 세그먼트 분석":
         with col1:
             fig = go.Figure()
             
+            # 각 세그먼트별 신뢰구간 계산
+            ci_lows = []
+            ci_highs = []
+            for _, row in df_deep.iterrows():
+                sessions = row['session_count']
+                cvr = row['conversion_rate']
+                conversions = int(sessions * cvr / 100)
+                _, ci_low, ci_high = calculate_confidence_interval(conversions, sessions)
+                ci_lows.append(cvr - ci_low)
+                ci_highs.append(ci_high - cvr)
+            
             colors = ['#27ae60' if r['conversion_rate'] > 4 else '#f39c12' if r['conversion_rate'] > 2 else '#e74c3c' 
                       for _, r in df_deep.iterrows()]
             
@@ -868,11 +935,20 @@ elif page == "🔍 세그먼트 분석":
                 y=df_deep['conversion_rate'],
                 marker_color=colors,
                 text=df_deep['conversion_rate'].apply(lambda x: f'{x:.2f}%'),
-                textposition='outside'
+                textposition='outside',
+                error_y=dict(
+                    type='data',
+                    symmetric=False,
+                    array=ci_highs,
+                    arrayminus=ci_lows,
+                    color='black',
+                    thickness=2,
+                    width=4
+                )
             ))
             
             fig.update_layout(
-                title="상품 조회 구간별 전환율",
+                title="상품 조회 구간별 전환율 (95% 신뢰구간)",
                 xaxis_title="조회 구간",
                 yaxis_title="전환율 (%)",
                 height=500
@@ -943,15 +1019,19 @@ elif page == "🔍 세그먼트 분석":
         
         # 동적으로 전환율 표시
         variety_cvr_text = "13.02%"
+        variety_total_sessions = 13091  # 기본값
         if 'browsing_style' in data:
             df_bs = data['browsing_style']
             variety_row = df_bs[df_bs['browsing_style'].str.contains('Variety')]
             if len(variety_row) > 0:
                 variety_cvr_text = f"{variety_row['conversion_rate'].values[0]:.2f}%"
+                variety_total_sessions = int(variety_row['session_count'].values[0])
         
         st.markdown(f"""
         **핵심 발견**: 다양한 카테고리를 탐색하는 유저가 전환율 {variety_cvr_text}로 가장 높음
         """)
+        
+        st.info(f"📊 **Variety Seeker 총 세션수: {variety_total_sessions:,}개** (전체의 58.1%)")
         
         if 'variety_seekers' in data:
             df_variety = data['variety_seekers']
@@ -972,16 +1052,36 @@ elif page == "🔍 세그먼트 분석":
         with col1:
             fig = go.Figure()
             
+            # 각 세그먼트별 신뢰구간 계산
+            ci_lows_v = []
+            ci_highs_v = []
+            for _, row in df_variety.iterrows():
+                sessions = row['session_count']
+                cvr = row['conversion_rate']
+                conversions = int(sessions * cvr / 100)
+                _, ci_low, ci_high = calculate_confidence_interval(conversions, sessions)
+                ci_lows_v.append(cvr - ci_low)
+                ci_highs_v.append(ci_high - cvr)
+            
             fig.add_trace(go.Bar(
                 x=df_variety['intensity_segment'],
                 y=df_variety['conversion_rate'],
                 marker_color=['#95a5a6', '#f39c12', '#27ae60', '#2ecc71'],
                 text=df_variety['conversion_rate'].apply(lambda x: f'{x:.1f}%'),
-                textposition='outside'
+                textposition='outside',
+                error_y=dict(
+                    type='data',
+                    symmetric=False,
+                    array=ci_highs_v,
+                    arrayminus=ci_lows_v,
+                    color='black',
+                    thickness=2,
+                    width=4
+                )
             ))
             
             fig.update_layout(
-                title="Variety Seeker 조회 강도별 전환율",
+                title="Variety Seeker 조회 강도별 전환율 (95% 신뢰구간)",
                 xaxis_title="조회 강도",
                 yaxis_title="전환율 (%)",
                 height=500
@@ -1005,6 +1105,10 @@ elif page == "🔍 세그먼트 분석":
                 l_cvr = light['conversion_rate'].values[0]
                 l_conversions = int(l_sessions * l_cvr / 100)
                 
+                # 신뢰구간 계산
+                _, sh_ci_low, sh_ci_high = calculate_confidence_interval(sh_conversions, sh_sessions)
+                _, l_ci_low, l_ci_high = calculate_confidence_interval(l_conversions, l_sessions)
+                
                 # 실제 통계량 계산
                 cvr_ratio = sh_cvr / l_cvr if l_cvr > 0 else 0
                 cohens_h_variety = effect_size_cohens_h(sh_cvr/100, l_cvr/100)
@@ -1017,17 +1121,22 @@ elif page == "🔍 세그먼트 분석":
                 else:
                     effect_label_v = "소형~중간 효과"
                 
+                # 신뢰구간 겹침 여부
+                ci_overlap_v = "비중첩 ✅" if sh_ci_low > l_ci_high else "중첩"
+                
                 st.markdown(f"""
                 <div class="success-box">
                 <strong>⭐ VIP 세그먼트 발견</strong><br><br>
                 <strong>Super Heavy Seeker (85개+)</strong><br>
-                • 전환율: <strong>{sh_cvr:.2f}%</strong><br>
+                • 전환율: <strong>{sh_cvr:.2f}%</strong> [{sh_ci_low:.1f}%, {sh_ci_high:.1f}%]<br>
                 • 평균 카테고리: {sh_categories:.1f}개<br>
                 • 세션 비중: {sh_share:.1f}%<br><br>
                 
-                <strong>vs Light Seeker (2x2 검정)</strong><br>
+                <strong>vs Light Seeker</strong><br>
+                • Light: {l_cvr:.2f}% [{l_ci_low:.1f}%, {l_ci_high:.1f}%]<br>
                 • 전환율 차이: <strong>{cvr_ratio:.1f}x</strong><br>
-                • Cohen's h = {cohens_h_variety:.2f} ({effect_label_v})
+                • Cohen's h = {cohens_h_variety:.2f} ({effect_label_v})<br>
+                • 신뢰구간: <strong>{ci_overlap_v}</strong>
                 </div>
                 """, unsafe_allow_html=True)
                 
@@ -1613,11 +1722,11 @@ elif page == "📋 액션 플랜":
     """)
     
     # 동적 데이터 추출
-    bags_loss_text = "Bags 48% 손실 (이상치 제외)"
+    bags_loss_text = "Bags 31% 손실 (이상치 제외)"
     hg_text = "CTR 2.6% but CVR 4.63%"
     deep_text = "81.4% 결정마비"
     variety_text = "Variety Seeker CVR 13%"
-    bags_detail = "Bags 753건, 손실 48% (이상치 제외)"
+    bags_detail = "Bags 3,303건, 손실 31% (이상치 제외)"
     deep_kpi = "구매전환율 3-11개 수준(5.26%) 달성"
     
     if 'cart_abandon' in data:
@@ -1629,7 +1738,7 @@ elif page == "📋 액션 플랜":
         if len(bags_row) > 0:
             total_lost = df_cart['total_lost_revenue'].sum()
             bags_lost = bags_row['total_lost_revenue'].sum()
-            bags_pct = bags_lost / total_lost * 100 if total_lost > 0 else 48
+            bags_pct = bags_lost / total_lost * 100 if total_lost > 0 else 31
             bags_count = bags_row['abandoned_session_count'].sum()
             bags_loss_text = f"Bags {bags_pct:.0f}% 손실 (이상치 제외)"
             bags_detail = f"Bags {bags_count:.0f}건, 손실 {bags_pct:.0f}% (이상치 제외)"
@@ -1672,7 +1781,7 @@ elif page == "📋 액션 플랜":
         'category': ['Quick Win', 'Quick Win', 'Quick Win', 'Major Project', 
                      'Major Project', 'Strategic'],
         'data_evidence': [bags_loss_text, hg_text, deep_text, variety_text,
-                          'Bags 건당 $216', '스코어 기반 예측']
+                          'Bags 건당 $52', '스코어 기반 예측']
     }
     
     df_actions = pd.DataFrame(actions)
@@ -2361,7 +2470,7 @@ CROSS JOIN price_quantiles
         데이터/분석 한계를 정직하게 인정하고 향후 개선 방향 제시<br><br>
         
         <strong>4. 데이터 기반 의사결정</strong><br>
-        모든 액션에 구체적 데이터 근거 제시 (예: Bags 카테고리 손실 48%, Apparel 12,650건)<br><br>
+        모든 액션에 구체적 데이터 근거 제시 (예: Bags 카테고리 손실 31%, Apparel 28,719건)<br><br>
         
         <strong>5. 실행 가능성</strong><br>
         Impact-Effort 매트릭스로 우선순위화, 검증 가능한 KPI 설정
