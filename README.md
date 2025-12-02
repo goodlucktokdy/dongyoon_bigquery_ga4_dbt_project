@@ -5,7 +5,7 @@
 Google Analytics 4 이커머스 데이터를 활용한 전환율 최적화 분석 프로젝트입니다.  
 단순 EDA가 아닌, **통계적 검증 기반의 가설-검증-액션** 프레임워크를 적용했습니다.
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)][(https://your-app-url.streamlit.app)](https://dongyoon-ga4.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://dongyoon-ga4.streamlit.app/)
 
 ---
 
