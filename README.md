@@ -46,24 +46,28 @@ Google Analytics 4 이커머스 데이터를 활용한 전환율 최적화 분�
 카테고리별 손실 비중:
 ├── Bags: 31% ($173K) - 3,303건, 건당 $52
 ├── Apparel: 25% ($141K) - 28,719건, 건당 $4
-├── Accessories: 25% ($141K)
-└── Other: 19%
+
 ```
 
 - **핵심 발견**: 건당 손실과 이탈 건수는 **음의 상관관계**
 - Bags: 고가 상품 (건당 $52) → 결제 금액 부담으로 이탈
 - Apparel: 저가 상품 (건당 $5) → 대량 이탈 (28,719건)
 
-### 3. 디바이스별 전환율
+### 3. 프로모션 효과분석 (Hidden Gem 발견)
 
-| 디바이스 | 세션 수 | 전환율 | View→Cart |
-|----------|---------|--------|-----------|
-| Desktop | 77,488 | 1.58% | 29.7% |
-| Mobile | 52,900 | 1.61% | 30.9% |
-| Tablet | 2,980 | 1.44% | 30.7% |
+프로모션을 **CTR(클릭률)** 과 **클릭 유저의 Engagement Score(구매 가능성)** 로 4분면 분류:
 
-- 디바이스 간 전환율 차이는 크지 않음 (1.44% ~ 1.61%)
-- Mobile의 View→Cart 전환율이 가장 높음 (30.9%)
+| 분류 | CTR | 유저 품질 | 의미 |
+|------|-----|----------|------|
+| ⭐ **Star** | 높음 | 높음 | 최고 성과 프로모션 |
+| 💎 **Hidden Gem** | 낮음 | 높음 | 숨은 보석 (배너 개선 필요) |
+| 🎭 Crowd Pleaser | 높음 | 낮음 | 클릭만 많고 구매 없음 |
+| ❌ Underperformer | 낮음 | 낮음 | 개선 또는 중단 |
+
+**핵심 발견: Hidden Gem 프로모션**
+- CTR: 2.6% (낮음) → 배너가 눈에 안 띔
+- 클릭한 유저의 CVR: **4.63%** (전체 1.59% 대비 **2.9배**)
+- **액션**: 배너 디자인/위치 A/B 테스트로 CTR 개선 시 높은 ROI 기대
 
 ---
 
@@ -74,11 +78,11 @@ Google Analytics 4 이커머스 데이터를 활용한 전환율 최적화 분�
 │  Data Source                                            │
 │  └── BigQuery: ga4_obfuscated_sample_ecommerce         │
 ├─────────────────────────────────────────────────────────┤
-│  Data Transformation                                    │
-│  └── dbt (Data Build Tool)                             │
-│      ├── Staging Layer (stg_events)                    │
-│      ├── Intermediate Layer (int_session_stats, etc.)  │
-│      └── Mart Layer (mart_funnel_*, mart_segment_*)    │
+│  Data Transformation (dbt)                              │
+│  ├── Staging: stg_events                               │
+│  ├── Intermediate: int_browsing_style, int_lift_weight │
+│  └── Mart: mart_browsing_style, mart_cart_abandon,     │
+│            mart_promo_quality, mart_funnel_overall     │
 ├─────────────────────────────────────────────────────────┤
 │  Analysis & Visualization                               │
 │  ├── Python (pandas, scipy, numpy)                     │
@@ -134,13 +138,13 @@ ga4-ecommerce-analysis/
 │   │   │   └── stg_events.sql
 │   │   ├── intermediate/
 │   │   │   ├── int_session_stats.sql
-│   │   │   ├── int_price_tier.sql
-│   │   │   └── int_user_journey.sql
+│   │   │   ├── int_browsing_style.sql
+│   │   │   └── int_promo_performance.sql
 │   │   └── marts/
 │   │       ├── mart_funnel_overall.sql
 │   │       ├── mart_browsing_style.sql
-│   │       ├── mart_device_friction.sql
-│   │       └── mart_cart_abandon.sql
+│   │       ├── mart_cart_abandon.sql
+│   │       └── mart_promo_quality.sql
 │   └── dbt_project.yml
 ├── dashboard/
 │   ├── ga4_analysis_dashboard.py
@@ -148,18 +152,26 @@ ga4-ecommerce-analysis/
 ├── mart_tables/           # dbt 실행 결과 CSV
 └── README.md
 ```
-
 ---
 
 ## 📋 액션 플랜 (Impact-Effort Matrix)
 
+### 🎯 Quick Win (1-2주)
 | 우선순위 | 액션 | 데이터 근거 | Effort |
 |----------|------|-------------|--------|
-| 🔴 P0 | Bags 카테고리 분할결제 도입 | $173K 손실, 건당 $52 | Medium |
-| 🔴 P0 | Apparel 장바구니 리마인더 | 28,719건 대량 이탈 | Low |
-| 🟡 P1 | Variety Seeker 타겟 캠페인 | CVR 13.0% (전체 대비 8x) | Medium |
-| 🟡 P1 | 60분+ 체류 유저 전용 프로모션 | 고관여 유저 전환 유도 | Low |
-| 🟢 P2 | Cross-category 추천 강화 | Variety Seeker 육성 | High |
+| 🥇 1 | 장바구니 리마케팅 (Bags) | 31% 손실, 3,303건, 건당 $52 | Low |
+| 🥇 1 | Hidden Gem 프로모션 배너 A/B 테스트 | CTR 2.6% but CVR 4.63% | Low |
+
+### 📊 Major Project (1-2개월)
+| 우선순위 | 액션 | 데이터 근거 | Effort |
+|----------|------|-------------|--------|
+| 🥈 2 | Deep Specialist 비교표 제공 | 81.4%가 12-24개 조회 구간에서 결정마비 | Medium |
+| 🥈 2 | VIP 세그먼트 (Variety Seeker) 타겟팅 | CVR 13.02% (전체 대비 8x) | Medium |
+
+### 🎯 Strategic (3-6개월)
+| 우선순위 | 액션 | 데이터 근거 | Effort |
+|----------|------|-------------|--------|
+| 🥉 3 | 실시간 세션 스코어링 (ML) | Lift 기반 구매 확률 예측 | High |
 
 ---
 
@@ -192,9 +204,5 @@ ga4-ecommerce-analysis/
 **김동윤**
 
 - GitHub: [@goodlucktokdy](https://github.com/goodlucktokdy)
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- Tableau Public: [Portfolio](https://public.tableau.com/app/profile/dongyoon.kim/vizzes)
+- Email: kd01051@naver.com
