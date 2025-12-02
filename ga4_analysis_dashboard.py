@@ -660,6 +660,20 @@ elif page == "🔍 세그먼트 분석":
     각 세그먼트별 전환율과 특성을 분석했습니다.
     """)
     
+    # 세그먼트 대상 세션수 동적 계산
+    segment_total_sessions = 22521  # 기본값
+    total_all_sessions = 133368  # 기본값
+    if 'browsing_style' in data:
+        segment_total_sessions = int(data['browsing_style']['session_count'].sum())
+    if 'funnel_overall' in data:
+        total_all_sessions = int(data['funnel_overall']['total_sessions'].values[0])
+    segment_pct = segment_total_sessions / total_all_sessions * 100
+    
+    st.warning(f"""
+    ⚠️ **분석 대상**: `view_item` 이벤트를 **1회 이상** 발생시킨 세션만 세그먼트 분류 대상입니다.  
+    (전체 {total_all_sessions:,} 세션 중 {segment_total_sessions:,} 세션 = {segment_pct:.1f}%)
+    """)
+    
     tab1, tab2, tab3 = st.tabs(["📊 세그먼트 분류", "🔴 Deep Specialist 분석", "🟢 Variety Seeker 분석"])
     
     with tab1:
