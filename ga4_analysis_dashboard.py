@@ -780,6 +780,8 @@ elif page == "🔍 세그먼트 분석":
             
             segment_data = {
                 '세그먼트': ['Light Browser', 'Deep Specialist', 'Variety Seeker'],
+                '카테고리 수': ['1개', '1개', '2개 이상'],
+                'view_item 횟수': ['1~2회', '3회 이상', '3회 이상'],
                 '세션수': [f"{light_sessions:,}", f"{deep_sessions:,}", f"{variety_sessions:,}"],
                 '비중': [light_share, deep_share, variety_share],
                 'CVR': [light_cvr, deep_cvr, variety_cvr],
