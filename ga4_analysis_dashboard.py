@@ -885,12 +885,13 @@ elif page == "🔍 세그먼트 분석":
                     
                     st.markdown(f"""
                     <div class="stat-significant">
-                    <strong>통계적 유의성 검정</strong><br><br>
+                    <strong>통계적 유의성 검정 (Variety Seeker vs Deep Specialist)</strong><br>
+                    <small><em>※ Light Browser는 표본 수가 적어(n=532) 대표적인 두 집단만 비교</em></small><br><br>
                     <strong>95% 신뢰구간 (Wilson Score)</strong><br>
                     • Variety: {v_cvr:.2f}% [{v_ci_low:.1f}%, {v_ci_high:.1f}%]<br>
                     • Deep: {d_cvr:.2f}% [{d_ci_low:.1f}%, {d_ci_high:.1f}%]<br>
                     • 신뢰구간: <strong>{ci_overlap}</strong><br><br>
-                    <strong>검정 결과</strong><br>
+                    <strong>χ² 검정 결과 (2x2 분할표)</strong><br>
                     • <strong>χ² = {chi2:.2f}, p-value: {p_display}</strong><br>
                     • Cohen's h = {cohens_h:.2f} ({effect_label})<br><br>
                     <em>→ 두 그룹 간 유의미한 차이 확인</em>
