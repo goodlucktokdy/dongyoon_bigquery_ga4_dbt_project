@@ -913,7 +913,7 @@ elif page == "🔍 세그먼트 분석":
             if len(deep_row) > 0:
                 deep_total_sessions = int(deep_row['session_count'].values[0])
         
-        st.info(f"📊 **Deep Specialist 총 세션수: {deep_total_sessions:,}개** (전체의 39.5%)")
+        st.info(f"📊 **Deep Specialist 총 세션수: {deep_total_sessions:,}개**")
         
         if 'deep_specialists' in data:
             df_deep = data['deep_specialists']
@@ -1048,7 +1048,7 @@ elif page == "🔍 세그먼트 분석":
         **핵심 발견**: 다양한 카테고리를 탐색하는 유저가 전환율 {variety_cvr_text}로 가장 높음
         """)
         
-        st.info(f"📊 **Variety Seeker 총 세션수: {variety_total_sessions:,}개** (전체의 58.1%)")
+        st.info(f"📊 **Variety Seeker 총 세션수: {variety_total_sessions:,}개**")
         
         if 'variety_seekers' in data:
             df_variety = data['variety_seekers']
